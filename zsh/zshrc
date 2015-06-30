@@ -1,3 +1,16 @@
+
+export DOTFILES=$HOME/.dotfiles
+export ZSH=$HOME/.oh-my-zsh
+ZSH_THEME="robbyrussell"
+
+source $ZSH/oh-my-zsh.sh
+
 if [ -n "$PS1"   ]; then 
     eval "$(~/.dotfiles/base16-shell/profile_helper.sh)" 
+fi
+
+# rbenv setup
+export PATH="$HOME/.rbenv/bin:$PATH"
+if [ $? -eq 0  ]; then
+    eval "$(rbenv init -)"
 fi
