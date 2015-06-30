@@ -1,3 +1,5 @@
 [user]
     email = arjanfrans.com@gmail.com
     name = Arjan Frans
+[push]
+    git config --global push.default simple
