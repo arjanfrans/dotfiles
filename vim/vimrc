@@ -1,5 +1,9 @@
+set nocompatible
+set t_Co=256
+
 runtime bundle/vim-pathogen/autoload/pathogen.vim
 call pathogen#infect()
+call pathogen#helptags()
 
 " Pretty colors
 if filereadable(expand("~/.vimrc_background"))
@@ -7,22 +11,76 @@ if filereadable(expand("~/.vimrc_background"))
     source ~/.vimrc_background
 endif
 
+filetype indent plugin on
 
 syntax on
+set showmatch
+
+set number
 set encoding=utf-8
 set noshowmode
 set hidden
+set mouse=a
+
+set hlsearch
+set incsearch
+
+set expandtab
+set tabstop=4
+set shiftwidth=4
+set softtabstop=4
+set ignorecase
+set smartcase
+set autochdir
+
+set autoindent
+
+set novisualbell
+set noerrorbells
+
+set ruler
+set laststatus=2
+
+set timeout timeoutlen=1000 ttimeoutlen=100 " fix slow O inserts
+
+let mapleader = ","
+
+map <C-n> :NERDTreeTabsToggle<CR>
+let NERDTreeShowHidden=1
 
 let g:airline#extensions#tabline#enabled = 0
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts=1
 
+
+" open new split panes to right and bottom, which feels more natural
+set splitbelow
+set splitright
+
+" ctrlp
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_show_hidden = 1
+
+" Window navigation
 map <C-h> <C-w>h
 map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
 
+set history=5000
+set undolevels=5000
+
 set nobackup
 " Swap files out of the project root
-set backupdir=~/.vim/.backup//
-set directory=~/.vim/.swap//
+set backupdir=~/.vim/backup/
+set directory=~/.vim/swap/
+
+" disable arrow keys
+nnoremap <Left> :echoe "Use h"<CR>
+nnoremap <Right> :echoe "Use l"<CR>
+nnoremap <Up> :echoe "Use k"<CR>
+nnoremap <Down> :echoe "Use j"<CR>
+
+" Autofix typo's
+iabbr ture true
+iabbr flase false

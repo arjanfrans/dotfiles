@@ -19,3 +19,12 @@
 [submodule "zsh/oh-my-zsh"]
 	path = zsh/oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh
+[submodule "vim/vim/bundle/nerdtree"]
+	path = vim/vim/bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree
+[submodule "vim/vim/bundle/vim-nerdtree-tabs"]
+	path = vim/vim/bundle/vim-nerdtree-tabs
+	url = https://github.com/jistr/vim-nerdtree-tabs
+[submodule "vim/vim/bundle/ctrlp.vim"]
+	path = vim/vim/bundle/ctrlp.vim
+	url = https://github.com/ctrlpvim/ctrlp.vim
