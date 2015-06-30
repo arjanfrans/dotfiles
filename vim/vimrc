@@ -1,0 +1,28 @@
+runtime bundle/vim-pathogen/autoload/pathogen.vim
+call pathogen#infect()
+
+" Pretty colors
+if filereadable(expand("~/.vimrc_background"))
+    let base16colorspace=256
+    source ~/.vimrc_background
+endif
+
+
+syntax on
+set encoding=utf-8
+set noshowmode
+set hidden
+
+let g:airline#extensions#tabline#enabled = 0
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline_powerline_fonts=1
+
+map <C-h> <C-w>h
+map <C-j> <C-w>j
+map <C-k> <C-w>k
+map <C-l> <C-w>l
+
+set nobackup
+" Swap files out of the project root
+set backupdir=~/.vim/.backup//
+set directory=~/.vim/.swap//

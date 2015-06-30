@@ -1,0 +1,18 @@
+[submodule "dotbot"]
+	path = dotbot
+	url = https://github.com/anishathalye/dotbot
+[submodule "fonts/powerline"]
+	path = fonts/powerline
+	url = https://github.com/powerline/fonts
+[submodule "vim/vim/bundle/vim-airline"]
+	path = vim/vim/bundle/vim-airline
+	url = https://github.com/bling/vim-airline
+[submodule "vim/vim/bundle/vim-pathogen"]
+	path = vim/vim/bundle/vim-pathogen
+	url = https://github.com/tpope/vim-pathogen
+[submodule "base16-shell"]
+	path = base16-shell
+	url = https://github.com/JohnMorales/base16-shell
+[submodule "vim/vim/bundle/base16-vim"]
+	path = vim/vim/bundle/base16-vim
+	url = https://github.com/chriskempson/base16-vim
