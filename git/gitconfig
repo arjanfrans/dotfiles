@@ -1,5 +1,23 @@
+[hub]
+    protocol = https
 [user]
     email = arjanfrans.com@gmail.com
     name = Arjan Frans
 [push]
-    git config --global push.default simple
+    default = simple
+[color]
+    diff = auto
+    status = auto
+    branch = auto
+    ui = auto
+[core]
+    excludesfile = ~/.dotfiles/git/global_gitignore
+    editor = vim
+[apply]
+    whitespace = nowarn
+[mergetool]
+    keepBackup = false
+[difftool]
+    prompt = false
+[help]
+    autocorrect = 1
