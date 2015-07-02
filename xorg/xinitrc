@@ -1,0 +1,4 @@
+xmodmap ~/.dotfiles/xorg/esc_to_caps
+
+# Keyboard speed <delay> <rate>
+xset r rate 185 50
