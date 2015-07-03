@@ -72,8 +72,8 @@ set undolevels=5000
 
 set nobackup
 " Swap files out of the project root
-set backupdir=~/.vim/backup/
-set directory=~/.vim/swap/
+set backupdir=~/.vim/backup
+set directory=~/.vim/swap
 
 " disable arrow keys
 nnoremap <Left> :echoe "Use h"<CR>

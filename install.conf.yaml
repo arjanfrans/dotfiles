@@ -1,6 +1,6 @@
 - clean: ['~']
 - link:
-    ~/.dotfiles: ''
+    #    ~/.dotfiles: ''
     ~/.gitconfig: git/gitconfig
     ~/.vim: vim/vim/
     ~/.vimrc: vim/vimrc
