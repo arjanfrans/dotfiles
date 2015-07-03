@@ -15,7 +15,7 @@ source $DOTFILES/zsh/functions.zsh
 source $HOME/.xinitrc
 
 if [ -n "$PS1"   ]; then 
-    eval "$(~/.dotfiles/base16-shell/profile_helper.sh)" 
+    eval "$(~/.dotfiles/colorschemes/base16-builder/profile_helper.sh)" 
 fi
 
 source $DOTFILES/zsh/environment.zsh

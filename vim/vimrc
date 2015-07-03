@@ -6,9 +6,9 @@ call pathogen#infect()
 call pathogen#helptags()
 
 " Pretty colors
-if filereadable(expand("~/.vimrc_background"))
+if filereadable(expand("~/.dotfiles/colorschemes/vimrc_background"))
     let base16colorspace=256
-    source ~/.vimrc_background
+    source ~/.dotfiles/colorschemes/vimrc_background
 endif
 
 filetype indent plugin on
