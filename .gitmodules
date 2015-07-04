@@ -25,3 +25,9 @@
 [submodule "colorschemes/base16-builder"]
 	path = colorschemes/base16-builder
 	url = https://github.com/ArjanFrans/base16-builder
+[submodule "vim/vim/bundle/tcomment_vim"]
+	path = vim/vim/bundle/tcomment_vim
+	url = https://github.com/tomtom/tcomment_vim
+[submodule "vim/vim/bundle/syntastic"]
+	path = vim/vim/bundle/syntastic
+	url = https://github.com/scrooloose/syntastic.git

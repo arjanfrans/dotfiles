@@ -3,7 +3,9 @@
     ~/.dotfiles: ''
     ~/.gitconfig: git/gitconfig
     ~/.vim: vim/vim/
+    ~/.nvim: vim/vim/
     ~/.vimrc: vim/vimrc
+    ~/.nvimrc: vim/vimrc
     ~/.zshrc: zsh/zshrc
     ~/.oh-my-zsh: zsh/oh-my-zsh/
     ~/.fonts: fonts/
