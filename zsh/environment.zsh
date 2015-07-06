@@ -10,3 +10,11 @@ nvm_dir="$HOME/.nvm"
 if [ -d "$nvm_dir" ]; then
     source "$nvm_dir/nvm.sh"
 fi
+
+type clang > /dev/null
+if [ $? -eq 0 ]; then
+    export CC=clang
+    export CXX=clang++
+fi
+
+
