@@ -82,6 +82,10 @@ let g:syntastic_cpp_compiler_options = ' -std=c++11'
 
 let g:ycm_global_ycm_extra_conf = '~/.dotfiles/vim/vim/.ycm_extra_conf.py'
 
+autocmd FileType javascript let b:syntastic_checkers = findfile('.jscsrc', '.;') != '' ? ['jscs'] : ['jshint']
+
+noremap <C-f> :Autoformat<CR>
+
 set history=5000
 set undolevels=5000
 
