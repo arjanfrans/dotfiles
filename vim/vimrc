@@ -68,6 +68,7 @@ map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
 
+
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -112,4 +113,18 @@ augroup line_return
         \     execute 'normal! g`"zvzz' |
         \ endif
 augroup END
+
+nnoremap <Leader>f :CtrlPFunky<Cr>
+" Narrow the list down with a word under cursor
+nnoremap <Leader>F :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
+
+" see: https//robots.thoughtbot.com/faster-grepping-in-vim
+" The Silver Searcher
+if executable('ag')
+    " Use ag over grep
+    set grepprg=ag\ --nogroup\ --nocolor
+    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
+    " ag is fast enough that CtrlP doesn't need to cache
+    let g:ctrlp_use_caching = 0
+endif
 
