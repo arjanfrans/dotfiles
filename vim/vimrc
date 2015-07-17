@@ -26,7 +26,7 @@ set mouse=a
 set hlsearch
 set incsearch
 
-set expandtab
+set noexpandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
@@ -101,6 +101,13 @@ nnoremap <Right> :echoe "Use l"<CR>
 nnoremap <Up> :echoe "Use k"<CR>
 nnoremap <Down> :echoe "Use j"<CR>
 
+" Auto center on G
+nmap G Gzz
+nmap n nzz
+nmap N Nzz
+nmap } }zz
+nmap { {zz}
+
 " Autofix typo's
 iabbr ture true
 iabbr flase false
@@ -127,4 +134,16 @@ if executable('ag')
     " ag is fast enough that CtrlP doesn't need to cache
     let g:ctrlp_use_caching = 0
 endif
+
+" Tired of clearing highlighted searches?
+nmap <silent> , / :nohlsearch<CR>
+
+let g:loaded_matchparen=1
+highlight MatchParen ctermbg=4 
+
+nmap <silent> <leader>t :TestNearest<CR>
+nmap <silent> <leader>T :TestFile<CR>
+nmap <silent> <leader>a :TestSuite<CR>
+nmap <silent> <leader>l :TestLast<CR>
+nmap <silent> <leader>g :TestVisit<CR>
 
