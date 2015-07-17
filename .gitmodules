@@ -43,3 +43,9 @@
 [submodule "vim/vim/bundle/vim-gitgutter"]
 	path = vim/vim/bundle/vim-gitgutter
 	url = https://github.com/airblade/vim-gitgutter
+[submodule "vim/vim/bundle/vim-fugitive"]
+	path = vim/vim/bundle/vim-fugitive
+	url = https://github.com/tpope/vim-fugitive
+[submodule "vim/vim/bundle/vim-mocha"]
+	path = vim/vim/bundle/vim-mocha
+	url = https://github.com/geekjuice/vim-mocha

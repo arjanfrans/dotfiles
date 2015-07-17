@@ -140,10 +140,14 @@ nmap <silent> , / :nohlsearch<CR>
 
 let g:loaded_matchparen=1
 highlight MatchParen ctermbg=4 
+"
+" nmap <silent> <leader>t :TestNearest<CR>
+" nmap <silent> <leader>T :TestFile<CR>
+" nmap <silent> <leader>a :TestSuite<CR>
+" nmap <silent> <leader>l :TestLast<CR>
+" nmap <silent> <leader>g :TestVisit<CR>
 
-nmap <silent> <leader>t :TestNearest<CR>
-nmap <silent> <leader>T :TestFile<CR>
-nmap <silent> <leader>a :TestSuite<CR>
-nmap <silent> <leader>l :TestLast<CR>
-nmap <silent> <leader>g :TestVisit<CR>
-
+map <Leader>t :call RunCurrentSpecFile()<CR>
+map <Leader>s :call RunNearestSpec()<CR>
+map <Leader>l :call RunLastSpec()<CR>
+map <Leader>a :call RunAllSpecs()<CR>
