@@ -1,4 +1,6 @@
-xmodmap ~/.dotfiles/xorg/esc_to_caps
+# xmodmap ~/.dotfiles/xorg/esc_to_caps
 
 # Keyboard speed <delay> <rate>
-xset r rate 185 50
+# xset r rate 185 50
+
+setxkbmap -option caps:swapescape

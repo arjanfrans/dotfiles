@@ -11,12 +11,12 @@ if [ -d "$nvm_dir" ]; then
     source "$nvm_dir/nvm.sh"
 fi
 
-# type clang > /dev/null
-# if [ $? -eq 0 ]; then
-#     export CC=clang
-#     export CXX=clang++
-# fi
-#
+type clang > /dev/null
+if [ $? -eq 0 ]; then
+    export CC=clang
+    export CXX=clang++
+fi
 
-export CC=gcc
-export CXX=g++
+#
+# export CC=gcc
+# export CXX=g++
