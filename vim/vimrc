@@ -53,7 +53,6 @@ let g:airline#extensions#tabline#enabled = 0
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline_powerline_fonts=1
 
-
 " open new split panes to right and bottom, which feels more natural
 set splitbelow
 set splitright
@@ -61,6 +60,10 @@ set splitright
 " ctrlp
 let g:ctrlp_switch_buffer = 0
 let g:ctrlp_show_hidden = 1
+let g:ctrlp_clear_cache_on_exit = 0
+" let g:ctrlp_cmd = 'CtrlPMRU'
+let g:ctrlp_cache_dir = '~/.vim/ctrlpcache' 
+let g:ctrlp_working_path_mode = 'ra'
 
 " Window navigation
 map <C-h> <C-w>h
@@ -140,14 +143,37 @@ nmap <silent> , / :nohlsearch<CR>
 
 let g:loaded_matchparen=1
 highlight MatchParen ctermbg=4 
-"
-" nmap <silent> <leader>t :TestNearest<CR>
-" nmap <silent> <leader>T :TestFile<CR>
-" nmap <silent> <leader>a :TestSuite<CR>
-" nmap <silent> <leader>l :TestLast<CR>
-" nmap <silent> <leader>g :TestVisit<CR>
 
-map <Leader>t :call RunCurrentSpecFile()<CR>
-map <Leader>s :call RunNearestSpec()<CR>
-map <Leader>l :call RunLastSpec()<CR>
-map <Leader>a :call RunAllSpecs()<CR>
+" vim-test
+nmap <silent> <leader>t :TestNearest<CR>
+nmap <silent> <leader>T :TestFile<CR>
+nmap <silent> <leader>a :TestSuite<CR>
+nmap <silent> <leader>l :TestLast<CR>
+nmap <silent> <leader>g :TestVisit<CR>
+
+map <C-I> :bn<CR>
+
+let test#strategy = "dispatch"
+" vim-mocha
+" map <Leader>t :call RunCurrentSpecFile()<CR>
+" map <Leader>s :call RunNearestSpec()<CR>
+" map <Leader>l :call RunLastSpec()<CR>
+" map <Leader>a :call RunAllSpecs()<CR>
+"
+"
+set wildignore+=*.so,*.swp,*.zip     " MacOSX/Linux
+set wildignore+=*.swp,*.zip,*.exe  " Windows
+
+" Save undo history
+if has('persistent_undo')      "check if your vim version supports it
+	set undofile                 "turn on the feature  
+	set undodir=/tmp/vim/undo  "directory where the undo files will be stored
+endif    
+
+" Vim easytags
+let g:easytags_async = 1
+let g:easytags_file = '~/.vim/vimtags/tags'
+
+nmap <silent> <C-i> :BufSurfBack<CR>
+nmap <silent> <C-o> :BufSurfForward<CR>
+

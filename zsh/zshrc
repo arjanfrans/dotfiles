@@ -22,3 +22,4 @@ if [ -n "$PS1"   ]; then
 fi
 
 source $DOTFILES/zsh/environment.zsh
+
