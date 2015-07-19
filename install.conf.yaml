@@ -10,5 +10,6 @@
     ~/.oh-my-zsh: zsh/oh-my-zsh/
     ~/.fonts: fonts/
     ~/.xinitrc: xorg/xinitrc
+    ~/.vim/colors: colorschemes/base16-builder/output/vim
 - shell:
     - [git submodule update --init --recursive, Installing submodules]

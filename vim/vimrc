@@ -13,6 +13,7 @@ call plug#begin('~/.vim/plugged')
 
 Plug 'https://github.com/bling/vim-airline'
 Plug 'https://github.com/scrooloose/nerdtree' 
+Plug 'https://github.com/jistr/vim-nerdtree-tabs'
 Plug 'https://github.com/ctrlpvim/ctrlp.vim'
 Plug 'https://github.com/tomtom/tcomment_vim'
 Plug 'https://github.com/scrooloose/syntastic.git'

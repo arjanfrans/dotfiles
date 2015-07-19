@@ -17,9 +17,10 @@ source $DOTFILES/zsh/aliases.zsh
 
 source $HOME/.xinitrc
 
-if [ -n "$PS1"   ]; then 
-    eval "$(~/.dotfiles/colorschemes/base16-builder/profile_helper.sh)" 
-fi
+# if [ -n "$PS1"   ]; then 
+#     eval "$(~/.dotfiles/colorschemes/base16-builder/profile_helper.sh)" 
+# fi
+source ~/.base16_theme
 
 source $DOTFILES/zsh/environment.zsh
 

@@ -10,6 +10,3 @@
 [submodule "colorschemes/base16-builder"]
 	path = colorschemes/base16-builder
 	url = https://github.com/ArjanFrans/base16-builder
-[submodule "vim/vim/autoload/plug.vim"]
-	path = vim/vim/autoload/plug.vim
-	url = https://github.com/junegunn/vim-plug
