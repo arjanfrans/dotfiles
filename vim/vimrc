@@ -21,7 +21,7 @@ Plug 'https://github.com/Valloric/YouCompleteMe', { 'do': './install.sh' }
 Plug 'https://github.com/Chiel92/vim-autoformat'
 Plug 'https://github.com/airblade/vim-gitgutter'
 Plug 'https://github.com/tpope/vim-fugitive'
-Plug 'https://github.com/tpope/vim-dispatch'
+" Plug 'https://github.com/tpope/vim-dispatch'
 Plug 'https://github.com/xolox/vim-easytags'
 Plug 'https://github.com/xolox/vim-misc'
 Plug 'https://github.com/janko-m/vim-test'
@@ -161,10 +161,6 @@ augroup END
 " Remember info about open buffers on close
 set viminfo^=%
 
-nnoremap <Leader>f :CtrlPFunky<Cr>
-" Narrow the list down with a word under cursor
-nnoremap <Leader>F :execute 'CtrlPFunky ' . expand('<cword>')<Cr>
-
 " see: https//robots.thoughtbot.com/faster-grepping-in-vim
 " The Silver Searcher
 if executable('ag')
@@ -190,16 +186,11 @@ nmap <silent> <leader>g :TestVisit<CR>
 
 map <C-I> :bn<CR>
 
-let test#strategy = "dispatch"
-" vim-mocha
-" map <Leader>t :call RunCurrentSpecFile()<CR>
-" map <Leader>s :call RunNearestSpec()<CR>
-" map <Leader>l :call RunLastSpec()<CR>
-" map <Leader>a :call RunAllSpecs()<CR>
-"
-"
-" set wildignore+=*.so,*.swp,*.zip     " MacOSX/Linux
-" set wildignore+=*.swp,*.zip,*.exe  " Windows
+" let test#strategy = "dispatch"
+let test#javascript#mocha#options = '--colors'
+
+set wildignore+=*.so,*.swp,*.zip     " MacOSX/Linux
+set wildignore+=*.swp,*.zip,*.exe  " Windows
 
 " Save undo history
 if has('persistent_undo')      "check if your vim version supports it
@@ -210,4 +201,8 @@ endif
 " Vim easytags
 let g:easytags_async = 1
 let g:easytags_file = '~/.vim/vimtags/tags'
+let g:easytags_by_filetype = 1
+let g:ctrlp_show_hidden = 0
+
+set tags+=$HOME/code
 
