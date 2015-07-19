@@ -4,60 +4,12 @@
 [submodule "fonts/powerline"]
 	path = fonts/powerline
 	url = https://github.com/powerline/fonts
-[submodule "vim/vim/bundle/vim-airline"]
-	path = vim/vim/bundle/vim-airline
-	url = https://github.com/bling/vim-airline
-[submodule "vim/vim/bundle/vim-pathogen"]
-	path = vim/vim/bundle/vim-pathogen
-	url = https://github.com/tpope/vim-pathogen
 [submodule "zsh/oh-my-zsh"]
 	path = zsh/oh-my-zsh
 	url = https://github.com/robbyrussell/oh-my-zsh
-[submodule "vim/vim/bundle/nerdtree"]
-	path = vim/vim/bundle/nerdtree
-	url = https://github.com/scrooloose/nerdtree
-[submodule "vim/vim/bundle/vim-nerdtree-tabs"]
-	path = vim/vim/bundle/vim-nerdtree-tabs
-	url = https://github.com/jistr/vim-nerdtree-tabs
-[submodule "vim/vim/bundle/ctrlp.vim"]
-	path = vim/vim/bundle/ctrlp.vim
-	url = https://github.com/ctrlpvim/ctrlp.vim
 [submodule "colorschemes/base16-builder"]
 	path = colorschemes/base16-builder
 	url = https://github.com/ArjanFrans/base16-builder
-[submodule "vim/vim/bundle/tcomment_vim"]
-	path = vim/vim/bundle/tcomment_vim
-	url = https://github.com/tomtom/tcomment_vim
-[submodule "vim/vim/bundle/syntastic"]
-	path = vim/vim/bundle/syntastic
-	url = https://github.com/scrooloose/syntastic.git
-[submodule "vim/vim/bundle/YouCompleteMe"]
-	path = vim/vim/bundle/YouCompleteMe
-	url = https://github.com/Valloric/YouCompleteMe
-[submodule "vim/vim/bundle/vim-autoformat"]
-	path = vim/vim/bundle/vim-autoformat
-	url = https://github.com/Chiel92/vim-autoformat
-[submodule "vim/vim/bundle/vim-gitgutter"]
-	path = vim/vim/bundle/vim-gitgutter
-	url = https://github.com/airblade/vim-gitgutter
-[submodule "vim/vim/bundle/vim-fugitive"]
-	path = vim/vim/bundle/vim-fugitive
-	url = https://github.com/tpope/vim-fugitive
-[submodule "vim/vim/bundle/vim-mocha"]
-	path = vim/vim/bundle/vim-mocha
-	url = https://github.com/geekjuice/vim-mocha
-[submodule "vim/vim/bundle/vim-dispatch"]
-	path = vim/vim/bundle/vim-dispatch
-	url = https://github.com/tpope/vim-dispatch
-[submodule "vim/vim/bundle/vim-easytags"]
-	path = vim/vim/bundle/vim-easytags
-	url = https://github.com/xolox/vim-easytags
-[submodule "vim/vim/bundle/vim-misc"]
-	path = vim/vim/bundle/vim-misc
-	url = https://github.com/xolox/vim-misc/
-[submodule "vim/vim/bundle/vim-test"]
-	path = vim/vim/bundle/vim-test
-	url = https://github.com/janko-m/vim-test
 [submodule "vim/vim/autoload/plug.vim"]
 	path = vim/vim/autoload/plug.vim
 	url = https://github.com/junegunn/vim-plug
