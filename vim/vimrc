@@ -1,9 +1,32 @@
 set nocompatible
 set t_Co=256
+"
+" runtime bundle/vim-pathogen/autoload/pathogen.vim
+" call pathogen#infect()
+" call pathogen#helptags()
+"
 
-runtime bundle/vim-pathogen/autoload/pathogen.vim
-call pathogen#infect()
-call pathogen#helptags()
+" ------------
+"  Plugins
+"  ----------
+call plug#begin('~/.vim/plugged')
+
+Plug 'https://github.com/bling/vim-airline'
+Plug 'https://github.com/scrooloose/nerdtree' 
+Plug 'https://github.com/ctrlpvim/ctrlp.vim'
+Plug 'https://github.com/tomtom/tcomment_vim'
+Plug 'https://github.com/scrooloose/syntastic.git'
+Plug 'https://github.com/Valloric/YouCompleteMe', { 'do': './install.sh' }
+Plug 'https://github.com/Chiel92/vim-autoformat'
+Plug 'https://github.com/airblade/vim-gitgutter'
+Plug 'https://github.com/tpope/vim-fugitive'
+Plug 'https://github.com/tpope/vim-dispatch'
+Plug 'https://github.com/xolox/vim-easytags'
+Plug 'https://github.com/xolox/vim-misc'
+Plug 'https://github.com/janko-m/vim-test'
+
+call plug#end()
+
 
 " Pretty colors
 if filereadable(expand("~/.vimrc_background"))
@@ -24,7 +47,7 @@ set hidden
 set mouse=a
 
 set hlsearch
-set incsearch
+" set incsearch
 
 set noexpandtab
 set tabstop=4
@@ -32,7 +55,6 @@ set shiftwidth=4
 set softtabstop=4
 set ignorecase
 set smartcase
-set autochdir
 
 set autoindent
 
@@ -111,9 +133,20 @@ nmap N Nzz
 nmap } }zz
 nmap { {zz}
 
+" Remap VIM 0 to first non-blank character
+map 0 ^
+
 " Autofix typo's
 iabbr ture true
 iabbr flase false
+
+" Delete trailing white space on save, useful for Python and CoffeeScript ;)
+func! DeleteTrailingWS()
+  exe "normal mz"
+  %s/\s\+$//ge
+  exe "normal `z"
+endfunc
+autocmd BufWrite *.js :call DeleteTrailingWS()
 
 " Go to the same line after reopening a file
 augroup line_return
@@ -123,6 +156,9 @@ augroup line_return
         \     execute 'normal! g`"zvzz' |
         \ endif
 augroup END
+
+" Remember info about open buffers on close
+set viminfo^=%
 
 nnoremap <Leader>f :CtrlPFunky<Cr>
 " Narrow the list down with a word under cursor
@@ -161,8 +197,8 @@ let test#strategy = "dispatch"
 " map <Leader>a :call RunAllSpecs()<CR>
 "
 "
-set wildignore+=*.so,*.swp,*.zip     " MacOSX/Linux
-set wildignore+=*.swp,*.zip,*.exe  " Windows
+" set wildignore+=*.so,*.swp,*.zip     " MacOSX/Linux
+" set wildignore+=*.swp,*.zip,*.exe  " Windows
 
 " Save undo history
 if has('persistent_undo')      "check if your vim version supports it
@@ -173,5 +209,4 @@ endif
 " Vim easytags
 let g:easytags_async = 1
 let g:easytags_file = '~/.vim/vimtags/tags'
-
 
