@@ -106,7 +106,7 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 let g:syntastic_cpp_compiler = 'clang++'
-let g:syntastic_cpp_compiler_options = ' -std=c++14'
+let g:syntastic_cpp_compiler_options = ' -std=c++11'
 
 let g:ycm_global_ycm_extra_conf = '~/.dotfiles/vim/vim/.ycm_extra_conf.py'
 let g:ycm_show_diagnostics_ui = 1
@@ -205,6 +205,7 @@ let g:easytags_async = 1
 let g:easytags_file = '~/.vim/vimtags/tags'
 let g:easytags_by_filetype = 1
 let g:ctrlp_show_hidden = 0
+let g:easytags_updatetime_min = 20000
 
 set tags+=$HOME/code
 
