@@ -17,7 +17,7 @@ Plug 'https://github.com/jistr/vim-nerdtree-tabs'
 Plug 'https://github.com/ctrlpvim/ctrlp.vim'
 Plug 'https://github.com/tomtom/tcomment_vim'
 Plug 'https://github.com/scrooloose/syntastic.git'
-Plug 'https://github.com/Valloric/YouCompleteMe', { 'do': './install.sh' }
+Plug 'https://github.com/Valloric/YouCompleteMe', { 'do': './install.sh --clang-completer' }
 Plug 'https://github.com/Chiel92/vim-autoformat'
 Plug 'https://github.com/airblade/vim-gitgutter'
 Plug 'https://github.com/tpope/vim-fugitive'
@@ -25,6 +25,7 @@ Plug 'https://github.com/tpope/vim-fugitive'
 Plug 'https://github.com/xolox/vim-easytags'
 Plug 'https://github.com/xolox/vim-misc'
 Plug 'https://github.com/janko-m/vim-test'
+Plug 'https://github.com/ton/vim-bufsurf'
 
 call plug#end()
 
@@ -105,9 +106,10 @@ let g:syntastic_check_on_open = 1
 let g:syntastic_check_on_wq = 0
 
 let g:syntastic_cpp_compiler = 'clang++'
-let g:syntastic_cpp_compiler_options = ' -std=c++11'
+let g:syntastic_cpp_compiler_options = ' -std=c++14'
 
 let g:ycm_global_ycm_extra_conf = '~/.dotfiles/vim/vim/.ycm_extra_conf.py'
+let g:ycm_show_diagnostics_ui = 1
 
 autocmd FileType javascript let b:syntastic_checkers = findfile('.jscsrc', '.;') != '' ? ['jscs'] : ['jshint']
 
@@ -206,3 +208,5 @@ let g:ctrlp_show_hidden = 0
 
 set tags+=$HOME/code
 
+nmap <silent> <C-i> :BufSurfBack<CR>
+nmap <silent> <C-o> :BufSurfForward<CR>
