@@ -22,10 +22,12 @@ Plug 'https://github.com/Chiel92/vim-autoformat'
 Plug 'https://github.com/airblade/vim-gitgutter'
 Plug 'https://github.com/tpope/vim-fugitive'
 " Plug 'https://github.com/tpope/vim-dispatch'
-Plug 'https://github.com/xolox/vim-easytags'
+" Plug 'https://github.com/xolox/vim-easytags'
 Plug 'https://github.com/xolox/vim-misc'
 Plug 'https://github.com/janko-m/vim-test'
 Plug 'https://github.com/ton/vim-bufsurf'
+Plug 'https://github.com/Raimondi/delimitMate'
+Plug 'https://github.com/easymotion/vim-easymotion'
 
 call plug#end()
 
@@ -84,18 +86,14 @@ set splitright
 " ctrlp
 let g:ctrlp_switch_buffer = 0
 let g:ctrlp_show_hidden = 1
-let g:ctrlp_clear_cache_on_exit = 0
-" let g:ctrlp_cmd = 'CtrlPMRU'
-let g:ctrlp_cache_dir = '~/.vim/ctrlpcache' 
+" let g:ctrlp_clear_cache_on_exit = 0
+" let g:ctrlp_cache_dir = '~/.vim/ctrlpcache' 
 let g:ctrlp_working_path_mode = 'ra'
 
 " Window navigation
 map <C-h> <C-w>h
 map <C-j> <C-w>j
-map <C-k> <C-w>k
-map <C-l> <C-w>l
-
-
+map <C-k> <C-w>k map <C-l> <C-w>l 
 set statusline+=%#warningmsg#
 set statusline+=%{SyntasticStatuslineFlag()}
 set statusline+=%*
@@ -107,9 +105,13 @@ let g:syntastic_check_on_wq = 0
 
 let g:syntastic_cpp_compiler = 'clang++'
 let g:syntastic_cpp_compiler_options = ' -std=c++11'
+let g:syntastic_cpp_checkers = ['clang_check', 'gcc']
 
 let g:ycm_global_ycm_extra_conf = '~/.dotfiles/vim/vim/.ycm_extra_conf.py'
 let g:ycm_show_diagnostics_ui = 1
+
+" clang format
+let g:formatdef_clangformat_objc = '"clang-format -style=file"'
 
 autocmd FileType javascript let b:syntastic_checkers = findfile('.jscsrc', '.;') != '' ? ['jscs'] : ['jshint']
 
@@ -174,7 +176,7 @@ if executable('ag')
 endif
 
 " Tired of clearing highlighted searches?
-nmap <silent> , / :nohlsearch<CR>
+nmap <silent> <leader>/ :nohlsearch<CR>
 
 let g:loaded_matchparen=1
 highlight MatchParen ctermbg=4 
@@ -201,12 +203,12 @@ if has('persistent_undo')      "check if your vim version supports it
 endif    
 
 " Vim easytags
-let g:easytags_async = 1
-let g:easytags_file = '~/.vim/vimtags/tags'
-let g:easytags_by_filetype = 1
-let g:ctrlp_show_hidden = 0
-let g:easytags_updatetime_min = 20000
-
+" let g:easytags_async = 1
+" let g:easytags_file = '~/.vim/vimtags/tags'
+" let g:easytags_by_filetype = 1
+" let g:ctrlp_show_hidden = 0
+" let g:easytags_updatetime_min = 20000
+"
 set tags+=$HOME/code
 
 nmap <silent> <C-i> :BufSurfBack<CR>
