@@ -9,4 +9,4 @@
 	url = https://github.com/robbyrussell/oh-my-zsh
 [submodule "colorschemes/base16-builder"]
 	path = colorschemes/base16-builder
-	url = https://github.com/ArjanFrans/base16-builder
+	url = https://github.com/arjanfrans/base16-builder
