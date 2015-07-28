@@ -8,6 +8,10 @@
 
 **Ctrl+p**: Search recent buffer or files.
 
+**<Leader>+1**: Open locationlist.
+
+**<Leader>+2**: Open quickfix list.
+
 **gcc**: Comment / uncomment 
 
 **,/**: Clear search highlight 

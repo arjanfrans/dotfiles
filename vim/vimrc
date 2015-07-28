@@ -16,11 +16,12 @@ Plug 'https://github.com/scrooloose/nerdtree'
 Plug 'https://github.com/jistr/vim-nerdtree-tabs'
 Plug 'https://github.com/ctrlpvim/ctrlp.vim'
 Plug 'https://github.com/tomtom/tcomment_vim'
-Plug 'https://github.com/scrooloose/syntastic.git'
-Plug 'https://github.com/Valloric/YouCompleteMe', { 'do': './install.sh --clang-completer' }
+Plug 'scrooloose/syntastic'
+Plug 'Valloric/YouCompleteMe', { 'do': './install.sh --clang-completer' }
 Plug 'https://github.com/Chiel92/vim-autoformat'
 Plug 'https://github.com/airblade/vim-gitgutter'
 Plug 'https://github.com/tpope/vim-fugitive'
+Plug 'Valloric/ListToggle'
 " Plug 'https://github.com/tpope/vim-dispatch'
 " Plug 'https://github.com/xolox/vim-easytags'
 Plug 'https://github.com/xolox/vim-misc'
@@ -53,7 +54,8 @@ set mouse=a
 set hlsearch
 " set incsearch
 
-set noexpandtab
+set expandtab
+" set noexpandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
@@ -93,25 +95,24 @@ let g:ctrlp_working_path_mode = 'ra'
 " Window navigation
 map <C-h> <C-w>h
 map <C-j> <C-w>j
-map <C-k> <C-w>k map <C-l> <C-w>l 
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
+map <C-k> <C-w>k 
+map <C-l> <C-w>l 
 
-let g:syntastic_always_populate_loc_list = 1
-let g:syntastic_auto_loc_list = 1
-let g:syntastic_check_on_open = 1
-let g:syntastic_check_on_wq = 0
-
-let g:syntastic_cpp_compiler = 'clang++'
-let g:syntastic_cpp_compiler_options = ' -std=c++11'
-let g:syntastic_cpp_checkers = ['clang_check', 'gcc']
+" Listtoggle
 
 let g:ycm_global_ycm_extra_conf = '~/.dotfiles/vim/vim/.ycm_extra_conf.py'
 let g:ycm_show_diagnostics_ui = 1
+let g:ycm_always_populate_location_list = 1
 
 " clang format
 let g:formatdef_clangformat_objc = '"clang-format -style=file"'
+
+let g:lt_location_list_toggle_map = '<leader>1'
+let g:lt_quickfix_list_toggle_map = '<leader>2'
+" Syntastic
+
+" Disable cpp, since it uses YCM
+let g:syntastic_cpp_checkers = []
 
 autocmd FileType javascript let b:syntastic_checkers = findfile('.jscsrc', '.;') != '' ? ['jscs'] : ['jshint']
 
@@ -120,6 +121,7 @@ noremap <C-f> :Autoformat<CR>
 set history=5000
 set undolevels=5000
 
+set noswapfile
 set nobackup
 " Swap files out of the project root
 set backupdir=~/.vim/backup
@@ -141,10 +143,6 @@ nmap { {zz}
 " Remap VIM 0 to first non-blank character
 map 0 ^
 
-" Autofix typo's
-iabbr ture true
-iabbr flase false
-
 " Delete trailing white space on save, useful for Python and CoffeeScript ;)
 func! DeleteTrailingWS()
   exe "normal mz"
@@ -165,21 +163,10 @@ augroup END
 " Remember info about open buffers on close
 set viminfo^=%
 
-" see: https//robots.thoughtbot.com/faster-grepping-in-vim
-" The Silver Searcher
-if executable('ag')
-    " Use ag over grep
-    set grepprg=ag\ --nogroup\ --nocolor
-    let g:ctrlp_user_command = 'ag %s -l --nocolor -g ""'
-    " ag is fast enough that CtrlP doesn't need to cache
-    let g:ctrlp_use_caching = 0
-endif
-
 " Tired of clearing highlighted searches?
 nmap <silent> <leader>/ :nohlsearch<CR>
 
 let g:loaded_matchparen=1
-highlight MatchParen ctermbg=4 
 
 " vim-test
 nmap <silent> <leader>t :TestNearest<CR>
@@ -197,10 +184,10 @@ set wildignore+=*.so,*.swp,*.zip     " MacOSX/Linux
 set wildignore+=*.swp,*.zip,*.exe  " Windows
 
 " Save undo history
-if has('persistent_undo')      "check if your vim version supports it
-	set undofile                 "turn on the feature  
-	set undodir=/tmp/vim/undo  "directory where the undo files will be stored
-endif    
+" if has('persistent_undo')      "check if your vim version supports it
+" 	set undofile                 "turn on the feature  
+" 	set undodir=~/.vim/undo  "directory where the undo files will be stored
+" endif    
 
 " Vim easytags
 " let g:easytags_async = 1
@@ -213,3 +200,5 @@ set tags+=$HOME/code
 
 nmap <silent> <C-i> :BufSurfBack<CR>
 nmap <silent> <C-o> :BufSurfForward<CR>
+
+
