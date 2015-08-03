@@ -4,11 +4,6 @@ set t_Co=256
 " runtime bundle/vim-pathogen/autoload/pathogen.vim
 " call pathogen#infect()
 " call pathogen#helptags()
-"
-
-" ------------
-"  Plugins
-"  ----------
 call plug#begin('~/.vim/plugged')
 
 Plug 'https://github.com/bling/vim-airline'
@@ -23,12 +18,14 @@ Plug 'https://github.com/airblade/vim-gitgutter'
 Plug 'https://github.com/tpope/vim-fugitive'
 Plug 'Valloric/ListToggle'
 " Plug 'https://github.com/tpope/vim-dispatch'
-" Plug 'https://github.com/xolox/vim-easytags'
+Plug 'https://github.com/xolox/vim-easytags'
 Plug 'https://github.com/xolox/vim-misc'
 Plug 'https://github.com/janko-m/vim-test'
 Plug 'https://github.com/ton/vim-bufsurf'
-Plug 'https://github.com/Raimondi/delimitMate'
+" Plug 'https://github.com/Raimondi/delimitMate'
 Plug 'https://github.com/easymotion/vim-easymotion'
+Plug 'terryma/vim-multiple-cursors'
+Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
 
 call plug#end()
 
@@ -52,7 +49,7 @@ set hidden
 set mouse=a
 
 set hlsearch
-" set incsearch
+set incsearch
 
 set expandtab
 " set noexpandtab
@@ -74,6 +71,14 @@ set timeout timeoutlen=1000 ttimeoutlen=100 " fix slow O inserts
 
 let mapleader = ","
 
+let g:multi_cursor_use_default_mapping=0
+
+" Default mapping
+let g:multi_cursor_next_key='<C-m>'
+let g:multi_cursor_prev_key='<C-b>'
+let g:multi_cursor_skip_key='<C-x>'
+let g:multi_cursor_quit_key='<Esc>'
+
 map <C-n> :NERDTreeTabsToggle<CR>
 let NERDTreeShowHidden=1
 
@@ -84,6 +89,11 @@ let g:airline_powerline_fonts=1
 " open new split panes to right and bottom, which feels more natural
 set splitbelow
 set splitright
+
+let delimitMate_expand_cr=1
+
+noremap j gj
+noremap k gk
 
 " ctrlp
 let g:ctrlp_switch_buffer = 0
@@ -104,8 +114,11 @@ let g:ycm_global_ycm_extra_conf = '~/.dotfiles/vim/vim/.ycm_extra_conf.py'
 let g:ycm_show_diagnostics_ui = 1
 let g:ycm_always_populate_location_list = 1
 
+let g:ycm_confirm_extra_conf = 0
+
 " clang format
-let g:formatdef_clangformat_objc = '"clang-format -style=file"'
+let g:formatdef_myclangformat = '"clang-format -style=file"'
+let g:formatters_cpp = ['myclangformat']
 
 let g:lt_location_list_toggle_map = '<leader>1'
 let g:lt_quickfix_list_toggle_map = '<leader>2'
@@ -190,8 +203,8 @@ set wildignore+=*.swp,*.zip,*.exe  " Windows
 " endif    
 
 " Vim easytags
-" let g:easytags_async = 1
-" let g:easytags_file = '~/.vim/vimtags/tags'
+let g:easytags_async = 1
+let g:easytags_file = '~/.vim/vimtags/tags'
 " let g:easytags_by_filetype = 1
 " let g:ctrlp_show_hidden = 0
 " let g:easytags_updatetime_min = 20000

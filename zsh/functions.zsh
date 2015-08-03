@@ -36,6 +36,11 @@ stheme() {
 	echo -e "set background=$variation\ncolorscheme base16-$theme\n" > ~/.vimrc_background
 }
 
+ramdir() {
+    real="$(readlink -m $1)"
+    echo $real
+    sudo mount -t tmpfs -o size=100m tmpfs $real
+}
 
 ramdisk() {
     sudo mkdir -p /mnt/ramdisk
