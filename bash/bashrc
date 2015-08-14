@@ -1,4 +1,0 @@
-# Base16 Shell
-if [ -n "$PS1"   ]; then 
-    eval "$(~/.dotfiles/base16-shell/profile_helper.sh)" 
-fi
