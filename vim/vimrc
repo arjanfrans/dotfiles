@@ -18,7 +18,7 @@ Plug 'https://github.com/airblade/vim-gitgutter'
 Plug 'https://github.com/tpope/vim-fugitive'
 Plug 'Valloric/ListToggle'
 " Plug 'https://github.com/tpope/vim-dispatch'
-Plug 'https://github.com/xolox/vim-easytags'
+" Plug 'https://github.com/xolox/vim-easytags'
 Plug 'https://github.com/xolox/vim-misc'
 Plug 'https://github.com/janko-m/vim-test'
 Plug 'https://github.com/ton/vim-bufsurf'
@@ -69,6 +69,8 @@ set laststatus=2
 
 set timeout timeoutlen=1000 ttimeoutlen=100 " fix slow O inserts
 " disable preview window
+set completeopt-=preview
+
 set completeopt-=preview
 
 let mapleader = ","
