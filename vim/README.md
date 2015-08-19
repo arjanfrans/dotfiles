@@ -19,3 +19,10 @@
 **Ctrl+]**: Open tag / definition. (Ctags)
 
 **Ctrl+f**: Autoformat to codestyle if available. Otherwise, default indent fix.
+
+
+## CtrlP
+
+**Ctrl+v**: Open vertical split.
+
+**Ctrl+x**: Open horizontal split.

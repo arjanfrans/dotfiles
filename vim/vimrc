@@ -68,8 +68,11 @@ set ruler
 set laststatus=2
 
 set timeout timeoutlen=1000 ttimeoutlen=100 " fix slow O inserts
+" disable preview window
+set completeopt-=preview
 
 let mapleader = ","
+
 
 let g:multi_cursor_use_default_mapping=0
 
