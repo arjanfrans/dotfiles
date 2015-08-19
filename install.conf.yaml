@@ -11,7 +11,6 @@
     ~/.oh-my-zsh: zsh/oh-my-zsh/
     ~/.fonts: fonts/
     ~/.xinitrc: xorg/xinitrc
-    ~/.ctags: vim/ctags
     ~/.vim/colors: colorschemes/base16-builder/output/vim
     ~/.vimrc_background: colorschemes/vimrc_background
 - shell:
