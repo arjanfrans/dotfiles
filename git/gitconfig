@@ -22,7 +22,8 @@
 [help]
     autocorrect = 1
 [credential]
-    helper = cache --timeout=3600
+    helper = cache --timeout=7200
 [alias]
     onelog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
-    
+[pull]
+	rebase = true
