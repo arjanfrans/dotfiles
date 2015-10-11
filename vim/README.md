@@ -1,4 +1,4 @@
-
+## General
 
 **Ctrl+i**: Backward through previously used buffers.
 
@@ -20,9 +20,22 @@
 
 **Ctrl+f**: Autoformat to codestyle if available. Otherwise, default indent fix.
 
+**gf**: Open file/path/dir that is under the cursor.
+
+## Multicursor
+
+**Ctrl+m**: Go to next cursor. 
+
+**Ctrl+b**: Go to previous cursor. 
+
+**Ctrl+x**: Skip current cursor. 
 
 ## CtrlP
 
 **Ctrl+v**: Open vertical split.
 
 **Ctrl+x**: Open horizontal split.
+
+## Undotree
+
+**<Leader>+3**: Open Undotree
