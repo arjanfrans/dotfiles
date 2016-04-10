@@ -19,7 +19,7 @@ Plug 'https://github.com/tpope/vim-fugitive'
 Plug 'Valloric/ListToggle'
 " Plug 'https://github.com/tpope/vim-dispatch'
 " Plug 'https://github.com/xolox/vim-easytags'
-Plug 'https://github.com/xolox/vim-misc'
+" Plug 'xolox/vim-misc'
 Plug 'janko-m/vim-test'
 Plug 'mxw/vim-jsx'
 Plug 'https://github.com/ton/vim-bufsurf'
@@ -66,8 +66,8 @@ set mouse=a
 set hlsearch
 set incsearch
 
-" set expandtab
-set noexpandtab
+set expandtab
+" set noexpandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4

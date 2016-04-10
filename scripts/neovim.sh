@@ -1,5 +1,9 @@
-sudo apt-get install python-dev python-pip python3-dev python3-pip
+sudo apt-get install python-software-properties
+sudo apt-get install software-properties-common
 sudo add-apt-repository ppa:neovim-ppa/unstable
 sudo apt-get update
 sudo apt-get install neovim
-sudo pip2 install neovim
+
+
+pip2 install --user neovim
+pip3 install --user neovim
