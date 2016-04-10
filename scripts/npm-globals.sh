@@ -1,1 +1,1 @@
-npm install -g eslint mocha
+npm install -g eslint mocha tern
