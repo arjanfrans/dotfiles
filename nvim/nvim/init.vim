@@ -103,6 +103,9 @@ map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
 
+" Move out of terminal with esc
+tnoremap <Esc> <C-\><C-n>
+
 "Presistent undo
 if has("persistent_undo")
 	set undodir='~/.config/nvim/'
