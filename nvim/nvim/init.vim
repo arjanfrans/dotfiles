@@ -10,16 +10,18 @@ Plug 'carlitux/deoplete-ternjs'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
+" git integration
+Plug 'airblade/vim-gitgutter'
+
+" syntax checker
+"Plug 'scrooloose/syntastic'
+
 " Add plugins to &runtimepath
 call plug#end()
 
-" Use deoplete.
-let g:deoplete#enable_at_startup = 1
-
-" Let <Tab> also do completion
-inoremap <silent><expr> <Tab>
-\ pumvisible() ? "\<C-n>" :
-\ deoplete#mappings#manual_complete()
+source ~/.config/nvim/config/themes.vim
+source ~/.config/nvim/config/syntax.vim
+"source ~/.config/nvim/config/autocomplete.vim
 
 " disable preview window
 set completeopt-=preview
