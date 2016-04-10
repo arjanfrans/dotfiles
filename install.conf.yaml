@@ -7,7 +7,9 @@
     ~/.dotfiles: ''
     ~/.config/nvim: nvim/nvim
     ~/.gitconfig: git/gitconfig
-    ~/.base16_theme: colorschemes/base16_theme
+    ~/.base16_theme:
+        force: true
+        path: colorschemes/base16_theme
     ~/.vim: vim/vim/
     ~/.vimrc: vim/vimrc
     ~/.zshrc: zsh/zshrc
@@ -15,8 +17,14 @@
     ~/.fonts: fonts/
     ~/.xinitrc: xorg/xinitrc
     ~/.tmux.conf: tmux/tmux.conf
-    ~/.vim/colors: colorschemes/base16-builder/output/vim
-    ~/.config/nvim/colors: colorschemes/base16-builder/output/vim
-    ~/.vimrc_background: colorschemes/vimrc_background
+    ~/.vim/colors:
+        force: true
+        path: colorschemes/base16-builder/output/vim
+    ~/.config/nvim/colors:
+        force: true
+        path: colorschemes/base16-builder/output/vim
+    ~/.vimrc_background:
+        force: true
+        path: colorschemes/vimrc_background
 - shell:
     - [git submodule update --init --recursive, Installing submodules]
