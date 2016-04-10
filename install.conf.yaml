@@ -15,7 +15,7 @@
     ~/.vimrc: vim/vimrc
     ~/.zshrc: zsh/zshrc
     ~/.oh-my-zsh: zsh/oh-my-zsh/
-    ~/.fonts: fonts/
+    ~/.loca/share/fonts: fonts
     ~/.xinitrc: xorg/xinitrc
     ~/.tmux.conf: tmux/tmux.conf
     ~/.vim/colors:
@@ -28,4 +28,4 @@
         force: true
         path: colorschemes/vimrc_background
 - shell:
-    - [git submodule update --init --recursive, Installing submodules]
+    - [git submodule update --init --recursive --depth 1, Installing submodules]

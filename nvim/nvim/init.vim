@@ -1,3 +1,5 @@
+set nocompatible
+set t_Co=256
 
 call plug#begin('~/.config/nvim/plugged')
 
@@ -22,6 +24,18 @@ Plug 'ctrlpvim/ctrlp.vim'
 " Faster matcher for ctrlp
 Plug 'FelikZ/ctrlp-py-matcher'
 
+" Comments
+Plug 'tomtom/tcomment_vim'
+
+" Toggle quickfix and location list
+Plug 'Valloric/ListToggle'
+
+" Multiple cursors
+Plug 'terryma/vim-multiple-cursors'
+
+" Auto complete quotes
+Plug 'Raimondi/delimitMate'
+
 " Nerdtree
 Plug 'scrooloose/nerdtree'
 
@@ -35,6 +49,8 @@ source ~/.config/nvim/config/themes.vim
 source ~/.config/nvim/config/syntax.vim
 source ~/.config/nvim/config/autocomplete.vim
 source ~/.config/nvim/config/ctrlp.vim
+source ~/.config/nvim/config/nerdtree.vim
+source ~/.config/nvim/config/multicursor.vim
 
 " disable preview window
 set completeopt-=preview
@@ -89,7 +105,7 @@ map <C-l> <C-w>l
 
 "Presistent undo
 if has("persistent_undo")
-	set undodir='~/.vim/undo/'
+	set undodir='~/.config/nvim/'
 	set undofile
 	set undolevels=200
 endif
@@ -123,3 +139,6 @@ nmap <silent> <leader>/ :nohlsearch<CR>
 
 set wildignore+=*.so,*.swp,*.zip     " MacOSX/Linux
 set wildignore+=*.swp,*.zip,*.exe  " Windows
+
+" Remap VIM 0 to first non-blank character
+map 0 ^
