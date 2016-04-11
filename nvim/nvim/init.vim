@@ -149,50 +149,27 @@ set wildignore+=*.swp,*.zip,*.exe  " Windows
 " Remap VIM 0 to first non-blank character
 map 0 ^
 
-" Close quickfix list if it is the last
-" au BufEnter * call MyLastWindow()
-" function! MyLastWindow()
-"   " if the window is quickfix go on
-"   if &buftype=="quickfix" || &buftype=="terminal"
-"     " if this window is last on screen quit without warning
-"     if winbufnr(2) == -1
-"         if neoterm#tab_has_neoterm()
-"             call neoterm#close()
-"         endif
-"       quit!
-"     endif
-"   endif
-" endfunction
-"
-" function! CloseIfNoFiles()
-"     let l:out_list = []
-"
-"     let l:i = 1
-"     let l:file_count = 0
-"     let l:not_count = 0
-"     let l:total = bufnr("$")
-"
-"     while i <= winnr("$")
-"         let l:btype = getbufvar(i, "&buftype")
-"         let l:bhidden = bufwinnr(i) 
-"
-"        call add(out_list, btype)
-"        " call add(out_list, getbufvar(i, "&mod"))
-"        " call add(out_list, winbufnr(i))
-"         if btype != "nofile" && btype != "terminal" && btype != "quickfix"
-"            let l:file_count = file_count + 1 
-"         endif
-"
-"         let l:i = i + 1
-"     endwhile
-"
-"     " return [file_count, out_list]
-"     if file_count == 0 
-"         " echo file_count
-"         " return file_count
-"         q
-"     endif
-"
-"     return out_list
-" endfunction
-"
+" Close any windows that are not file windows
+function! CheckLeftBuffers()
+  if tabpagenr('$') == 1
+    let i = 1
+    while i <= winnr('$')
+      if getbufvar(winbufnr(i), '&buftype') == 'help' ||
+          \ getbufvar(winbufnr(i), '&buftype') == 'terminal' ||
+          \ getbufvar(winbufnr(i), '&buftype') == 'quickfix' ||
+          \ exists('t:NERDTreeBufName') &&
+          \   bufname(winbufnr(i)) == t:NERDTreeBufName ||
+          \ bufname(winbufnr(i)) == '__Tag_List__'
+        let i += 1
+      else
+        break
+      endif
+    endwhile
+    if i == winnr('$') + 1
+      qall
+    endif
+    unlet i
+  endif
+endfunction
+autocmd BufEnter * call CheckLeftBuffers()
+
