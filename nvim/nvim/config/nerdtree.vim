@@ -1,7 +1,6 @@
 " Open Nerdtree when no file is specified
 " autocmd StdinReadPre * let s:std_in=1
-
-autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
+" autocmd VimEnter * if argc() == 0 && !exists("s:std_in") | NERDTree | endif
 
 " Map Nerdtree to Ctrl+n
 map <C-n> :NERDTreeToggle<CR>
