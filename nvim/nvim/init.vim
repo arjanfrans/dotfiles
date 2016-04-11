@@ -148,3 +148,15 @@ set wildignore+=*.swp,*.zip,*.exe  " Windows
 
 " Remap VIM 0 to first non-blank character
 map 0 ^
+
+" Close quickfix list if it is the last
+au BufEnter * call MyLastWindow()
+function! MyLastWindow()
+  " if the window is quickfix go on
+  if &buftype=="quickfix"
+    " if this window is last on screen quit without warning
+    if winbufnr(2) == -1
+      quit!
+    endif
+  endif
+endfunction
