@@ -15,7 +15,7 @@
     ~/.vimrc: vim/vimrc
     ~/.zshrc: zsh/zshrc
     ~/.oh-my-zsh: zsh/oh-my-zsh/
-    ~/.loca/share/fonts: fonts
+    ~/.local/share/fonts: fonts
     ~/.xinitrc: xorg/xinitrc
     ~/.tmux.conf: tmux/tmux.conf
     ~/.vim/colors:
