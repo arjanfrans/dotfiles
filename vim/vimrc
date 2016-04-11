@@ -51,6 +51,9 @@ endif
 
 filetype indent plugin on
 
+" Hide matching parenthesis
+let g:loaded_matchparen=1
+
 syntax on
 set showmatch
 
@@ -178,6 +181,11 @@ set directory=~/.vim/swap
 " nnoremap <Right> :echoe "Use l"<CR>
 " nnoremap <Up> :echoe "Use k"<CR>
 " nnoremap <Down> :echoe "Use j"<CR>
+
+
+" Cycle through buffers
+map <c-i> :bprevious<CR>
+map <c-o> :bnext<CR>
 
 " Auto center on G
 nmap G Gzz

@@ -1,6 +1,3 @@
-set nocompatible
-set t_Co=256
-
 call plug#begin('~/.config/nvim/plugged')
 
 " Make sure you use single quotes
@@ -42,6 +39,8 @@ Plug 'scrooloose/nerdtree'
 " syntax checker
 Plug 'benekastah/neomake'
 
+Plug 'kassio/neoterm'
+
 " Add plugins to &runtimepath
 call plug#end()
 
@@ -51,6 +50,10 @@ source ~/.config/nvim/config/autocomplete.vim
 source ~/.config/nvim/config/ctrlp.vim
 source ~/.config/nvim/config/nerdtree.vim
 source ~/.config/nvim/config/multicursor.vim
+source ~/.config/nvim/config/neoterm.vim
+
+" hide matching parenthesis
+let g:loaded_matchparen=1
 
 " disable preview window
 set completeopt-=preview
