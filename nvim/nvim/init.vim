@@ -71,6 +71,10 @@ set cursorline
 set nowrap
 set number
 
+syntax on
+filetype plugin indent on
+set autoindent
+
 " Hide current mode in the default status bar. Use airline instead
 set noshowmode
 
