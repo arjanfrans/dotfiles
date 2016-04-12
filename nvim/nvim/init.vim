@@ -12,8 +12,11 @@ Plug 'ervandew/supertab'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-" git integration
+" show git diff signs
 Plug 'airblade/vim-gitgutter'
+
+" git wrapper
+Plug 'tpope/vim-fugitive'
 
 " File search
 Plug 'ctrlpvim/ctrlp.vim'
@@ -32,6 +35,8 @@ Plug 'terryma/vim-multiple-cursors'
 
 " Auto complete quotes
 Plug 'Raimondi/delimitMate'
+
+Plug 'tacahiroy/ctrlp-funky'
 
 " Nerdtree
 Plug 'scrooloose/nerdtree'
@@ -149,27 +154,23 @@ set wildignore+=*.swp,*.zip,*.exe  " Windows
 " Remap VIM 0 to first non-blank character
 map 0 ^
 
-" Close any windows that are not file windows
-function! CheckLeftBuffers()
-  if tabpagenr('$') == 1
-    let i = 1
-    while i <= winnr('$')
-      if getbufvar(winbufnr(i), '&buftype') == 'help' ||
-          \ getbufvar(winbufnr(i), '&buftype') == 'terminal' ||
-          \ getbufvar(winbufnr(i), '&buftype') == 'quickfix' ||
-          \ exists('t:NERDTreeBufName') &&
-          \   bufname(winbufnr(i)) == t:NERDTreeBufName ||
-          \ bufname(winbufnr(i)) == '__Tag_List__'
-        let i += 1
-      else
-        break
-      endif
-    endwhile
-    if i == winnr('$') + 1
-      qall
-    endif
-    unlet i
-  endif
-endfunction
-autocmd BufEnter * call CheckLeftBuffers()
+" Cycle through buffers
+map <c-i> :bprevious<CR>
+map <c-o> :bnext<CR>
+
+" Delete trailing white space on save, useful for Python and CoffeeScript ;)
+func! DeleteTrailingWS()
+	exe "normal mz"
+	%s/\s\+$//ge
+	exe "normal `z"
+endfunc
+autocmd BufWrite *.js :call DeleteTrailingWS()
+
+" Auto center on G
+nmap G Gzz
+nmap n nzz
+nmap N Nzz
+nmap } }zz
+nmap { {zz}
+
 
