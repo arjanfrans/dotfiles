@@ -1,3 +1,4 @@
+let g:neoterm_size = 80
 let g:neoterm_position = 'horizontal'
 let g:neoterm_automap_keys = ',tt'
 
