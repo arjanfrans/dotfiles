@@ -46,6 +46,8 @@ Plug 'benekastah/neomake'
 
 Plug 'kassio/neoterm'
 
+Plug 'ton/vim-bufsurf'
+
 " Add plugins to &runtimepath
 call plug#end()
 
@@ -155,8 +157,11 @@ set wildignore+=*.swp,*.zip,*.exe  " Windows
 map 0 ^
 
 " Cycle through buffers
-map <c-i> :bprevious<CR>
-map <c-o> :bnext<CR>
+" map <c-i> :bprevious<CR>
+" map <c-o> :bnext<CR>
+
+nmap <silent> <C-i> :BufSurfBack<CR>
+nmap <silent> <C-o> :BufSurfForward<CR>
 
 " Delete trailing white space on save, useful for Python and CoffeeScript ;)
 func! DeleteTrailingWS()
