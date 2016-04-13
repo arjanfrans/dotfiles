@@ -6,6 +6,8 @@ Plug 'Shougo/deoplete.nvim'
 " Javascript completion
 Plug 'carlitux/deoplete-ternjs'
 
+Plug 'isRuslan/vim-es6'
+
 " Allow normal tab when autocomplete key is tab
 Plug 'ervandew/supertab'
 
