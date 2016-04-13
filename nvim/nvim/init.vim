@@ -6,6 +6,7 @@ Plug 'Shougo/deoplete.nvim'
 " Javascript completion
 Plug 'carlitux/deoplete-ternjs'
 
+" Javascript syntax highlighting
 Plug 'isRuslan/vim-es6'
 
 " Allow normal tab when autocomplete key is tab
@@ -183,5 +184,3 @@ nmap n nzz
 nmap N Nzz
 nmap } }zz
 nmap { {zz}
-
-

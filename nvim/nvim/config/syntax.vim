@@ -1,8 +1,3 @@
-" syntastic settings
-set statusline+=%#warningmsg#
-set statusline+=%{SyntasticStatuslineFlag()}
-set statusline+=%*
-
 " Check syntax on save
 autocmd! BufWritePost * Neomake
 
@@ -18,3 +13,4 @@ let g:neomake_error_sign = {
   \ }
 
 let g:neomake_open_list = 2
+let g:neomake_list_height = 5
