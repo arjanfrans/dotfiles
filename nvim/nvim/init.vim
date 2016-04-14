@@ -142,7 +142,7 @@ tnoremap <Esc> <C-\><C-n>
 
 "Presistent undo
 if has("persistent_undo")
-	set undodir='~/.config/nvim/undo'
+	set undodir=~/.config/nvim/undo
 	set undofile
 	set undolevels=200
 endif
