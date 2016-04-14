@@ -12,7 +12,7 @@
     ui = auto
 [core]
     excludesfile = ~/.dotfiles/git/global_gitignore
-    editor = vim
+    editor = nvim
 [apply]
     whitespace = nowarn
 [mergetool]
