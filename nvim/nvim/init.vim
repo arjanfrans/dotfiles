@@ -159,6 +159,9 @@ set nobackup
 set backupdir=~/.config/nvim/backup
 set directory=~/.config/nvim/swap
 
+" Console log from insert mode; Puts focus inside parentheses
+autocmd FileType javascript imap cll console.log();<Esc>==f(a
+
 " Go to the same line after reopening a file
 augroup line_return
 	au!
