@@ -214,3 +214,5 @@ autocmd WinLeave    * set nocursorline
 set scrolloff=10                 " Minimum lines to keep above and below cursor    
 
 
+" Set terminal window to fixed width (does not fully work)
+autocmd TermOpen * setlocal wfw 
