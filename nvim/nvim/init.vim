@@ -37,12 +37,19 @@ Plug 'Valloric/ListToggle'
 Plug 'terryma/vim-multiple-cursors'
 
 " Auto complete quotes
-Plug 'Raimondi/delimitMate'
+Plug 'jiangmiao/auto-pairs'
 
 Plug 'tacahiroy/ctrlp-funky'
 
+" Highlight git conflict markers
+Plug 'rhysd/conflict-marker.vim'
+
+" Undotree
+Plug 'mbbill/undotree'
+
 " Nerdtree
 Plug 'scrooloose/nerdtree'
+Plug 'Xuyuanp/nerdtree-git-plugin'
 
 " syntax checker
 Plug 'benekastah/neomake'
@@ -50,6 +57,9 @@ Plug 'benekastah/neomake'
 Plug 'kassio/neoterm'
 
 Plug 'ton/vim-bufsurf'
+
+" Rainbow parenthesis
+Plug 'luochen1990/rainbow'
 
 " Add plugins to &runtimepath
 call plug#end()
@@ -68,48 +78,55 @@ let g:loaded_matchparen=1
 " disable preview window
 set completeopt-=preview
 
-" Line highlight that moves with the cursor
-set cursorline
-
 set nowrap
 set number
 
-syntax on
-filetype plugin indent on
-set autoindent
+filetype plugin indent on  " Load plugins according to detected filetype.
+syntax on                  " Enable syntax highlighting.
 
-" Hide current mode in the default status bar. Use airline instead
-set noshowmode
+set autoindent             " Indent according to previous line.
+set expandtab              " Use spaces instead of tabs.
+set tabstop=4
+set softtabstop=4          " Tab key indents by 4 spaces.
+set shiftwidth=4           " >> indents by 4 spaces.
+set shiftround             " >> indents to next multiple of 'shiftwidth'.
+
+set hidden                 " Switch between buffers without having to save first.<Paste>
+set laststatus=2           " Always show statusline."
+set display=lastline       " Show as much as possible of the last line."
+
+set noshowmode             " Hide current mode in the default status bar. Use airline instead
+
+set incsearch              " Highlight while searching with / or ?.
+set hlsearch               " Keep matches highlighted.
+set wrapscan               " Searches wrap around end-of-file.
+set ignorecase             " Case insensitive search
+set smartcase              " Case sensitive when uc present
+
+set splitbelow             " Open new windows below the current window.
+set splitright             " Open new windows right of the current window.
+set cursorline             " Find the current line quickly.
+set synmaxcol=200          " Only highlight the first 200 columns.
 
 set encoding=utf-8
 
-" Keep unsaved buffers open
-set hidden
+set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
 
 " Enable mouse
 set mouse=a
 
-" Highlight search
-set hlsearch
-
-" Search incremental
-set incsearch
-
-" Use softtabs
-set expandtab
-
-set tabstop=4
-set shiftwidth=4
-set softtabstop=4
-
-set ignorecase
-set smartcase
-
 set novisualbell
 set noerrorbells
 
-" Always show status line
-set laststatus=2
+let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
+
+" The direction of n and N depends on whether / or ? was used for searching forward or backward respectively.
+" If you want n to always search forward and N backward, use this:
+nnoremap <expr> n  'Nn'[v:searchforward]
+nnoremap <expr> N  'nN'[v:searchforward]
+
+" Undo tree toggle
+nnoremap <leader>3 :UndotreeToggle<cr>
 
 " Leader key
 let mapleader = ","
@@ -125,7 +142,7 @@ tnoremap <Esc> <C-\><C-n>
 
 "Presistent undo
 if has("persistent_undo")
-	set undodir='~/.config/nvim/'
+	set undodir='~/.config/nvim/undo'
 	set undofile
 	set undolevels=200
 endif
@@ -184,3 +201,11 @@ nmap n nzz
 nmap N Nzz
 nmap } }zz
 nmap { {zz}
+
+" Cursorline only in current window
+autocmd WinEnter    * set cursorline
+autocmd WinLeave    * set nocursorline
+
+set scrolloff=10                 " Minimum lines to keep above and below cursor    
+
+
