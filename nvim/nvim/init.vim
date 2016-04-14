@@ -108,6 +108,8 @@ set splitright             " Open new windows right of the current window.
 set cursorline             " Find the current line quickly.
 set synmaxcol=200          " Only highlight the first 200 columns.
 
+set nostartofline " When off the cursor is kept in the same column (if possible)
+
 set encoding=utf-8
 
 set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
