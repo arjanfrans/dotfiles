@@ -15,7 +15,7 @@ gtheme() {
 
 # Change the shell theme along with vim colorscheme
 stheme() {
-	if [ $1 == "list" ]; then
+	if [ "$1" = "list" ]; then
 		ls $HOME/.dotfiles/colorschemes/base16-builder/output/shell;
 		return
 	fi

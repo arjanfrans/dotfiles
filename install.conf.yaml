@@ -9,7 +9,6 @@
     ~/.config/nvim: nvim/nvim
     ~/.gitconfig: git/gitconfig
     ~/.base16_theme:
-        force: true
         path: colorschemes/base16_theme
     ~/.vim: vim/vim/
     ~/.vimrc: vim/vimrc
