@@ -1,1 +1,1 @@
-npm install -g eslint mocha tern
+npm install -g eslint mocha tern pm2
