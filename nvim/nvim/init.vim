@@ -37,7 +37,7 @@ Plug 'Valloric/ListToggle'
 Plug 'terryma/vim-multiple-cursors'
 
 " Auto complete quotes
-Plug 'jiangmiao/auto-pairs'
+Plug 'Raimondi/delimitMate'
 
 Plug 'tacahiroy/ctrlp-funky'
 
@@ -213,3 +213,6 @@ set scrolloff=10                 " Minimum lines to keep above and below cursor
 
 " Set terminal window to fixed width (does not fully work)
 autocmd TermOpen * setlocal wfw 
+
+let g:delimitMate_expand_cr = 1
+let g:delimitMate_expand_space = 1
