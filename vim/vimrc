@@ -1,47 +1,5 @@
 set nocompatible
 set t_Co=256
-"
-" runtime bundle/vim-pathogen/autoload/pathogen.vim
-" call pathogen#infect()
-" call pathogen#helptags()
-call plug#begin('~/.vim/plugged')
-
-Plug 'https://github.com/bling/vim-airline'
-Plug 'https://github.com/scrooloose/nerdtree' 
-Plug 'https://github.com/jistr/vim-nerdtree-tabs'
-Plug 'https://github.com/ctrlpvim/ctrlp.vim'
-Plug 'https://github.com/tomtom/tcomment_vim'
-Plug 'scrooloose/syntastic'
-Plug 'Valloric/YouCompleteMe', { 'do': './install.sh --clang-completer' }
-Plug 'https://github.com/Chiel92/vim-autoformat'
-Plug 'https://github.com/airblade/vim-gitgutter'
-Plug 'https://github.com/tpope/vim-fugitive'
-Plug 'Valloric/ListToggle'
-" Plug 'https://github.com/tpope/vim-dispatch'
-" Plug 'https://github.com/xolox/vim-easytags'
-" Plug 'xolox/vim-misc'
-Plug 'janko-m/vim-test'
-Plug 'mxw/vim-jsx'
-Plug 'https://github.com/ton/vim-bufsurf'
-Plug 'https://github.com/Raimondi/delimitMate'
-Plug 'https://github.com/easymotion/vim-easymotion'
-Plug 'terryma/vim-multiple-cursors'
-Plug 'rdnetto/YCM-Generator', { 'branch': 'stable' }
-Plug 'mbbill/undotree'
-
-" Warn about whitespace
-Plug 'ntpeters/vim-better-whitespace'
-
-" Highlight current cursor line
-Plug 'ntpeters/vim-airline-colornum'
-
-" Show indentations (works for spaces)
-Plug 'Yggdroot/indentLine'
-
-" Tools for node
-Plug 'moll/vim-node'
-
-call plug#end()
 
 " Pretty colors
 if filereadable(expand("~/.vimrc_background"))
@@ -70,7 +28,6 @@ set hlsearch
 set incsearch
 
 set expandtab
-" set noexpandtab
 set tabstop=4
 set shiftwidth=4
 set softtabstop=4
@@ -91,29 +48,6 @@ set completeopt-=preview
 
 let mapleader = ","
 
-"----
-" indentLine
-"---
-
-" show tab indentations
-set list lcs=tab:\¦\  " there is a space here
-
-" Multicursor
-let g:multi_cursor_use_default_mapping=0
-let g:multi_cursor_next_key='<C-m>'
-let g:multi_cursor_prev_key='<C-b>'
-let g:multi_cursor_skip_key='<C-x>'
-let g:multi_cursor_quit_key='<Esc>'
-
-" NERDTree
-map <C-n> :NERDTreeTabsToggle<CR>
-let NERDTreeShowHidden=1
-
-" Airline
-let g:airline#extensions#tabline#enabled = 0
-let g:airline#extensions#tabline#fnamemod = ':t'
-let g:airline_powerline_fonts=1
-
 " open new split panes to right and bottom, which feels more natural
 set splitbelow
 set splitright
@@ -122,77 +56,17 @@ let delimitMate_expand_cr=1
 noremap j gj
 noremap k gk
 
-" Undotree
-nnoremap <leader>3 :UndotreeToggle<cr>
-
-" ctrlp
-let g:ctrlp_switch_buffer = 0
-let g:ctrlp_show_hidden = 1
-" let g:ctrlp_clear_cache_on_exit = 0
-" let g:ctrlp_cache_dir = '~/.vim/ctrlpcache' 
-let g:ctrlp_working_path_mode = 'ra'
-
 " Window navigation
 map <C-h> <C-w>h
 map <C-j> <C-w>j
 map <C-k> <C-w>k 
 map <C-l> <C-w>l 
 
-"Presistent undo
-if has("persistent_undo")
-	set undodir='~/.vim/undo/'
-	set undofile
-	set undolevels=200
-endif
-
-let g:ycm_global_ycm_extra_conf = '~/.dotfiles/vim/vim/.ycm_extra_conf.py'
-let g:ycm_show_diagnostics_ui = 1
-let g:ycm_always_populate_location_list = 1
-
-let g:ycm_confirm_extra_conf = 0
-
-" clang format
-let g:formatdef_myclangformat = '"clang-format -style=file"'
-let g:formatters_cpp = ['myclangformat']
-
-" List toggles
-let g:lt_location_list_toggle_map = '<leader>1'
-let g:lt_quickfix_list_toggle_map = '<leader>2'
-
-" Disable cpp, since it uses YCM
-let g:syntastic_cpp_checkers = []
-
-" Eslint
-let g:syntastic_javascript_checkers = ['eslint']
-
-noremap <C-f> :Autoformat<CR>
-
-set history=5000
-set undolevels=5000
-
 set noswapfile
 set nobackup
 " Swap files out of the project root
 set backupdir=~/.vim/backup
 set directory=~/.vim/swap
-
-" disable arrow keys
-" nnoremap <Left> :echoe "Use h"<CR>
-" nnoremap <Right> :echoe "Use l"<CR>
-" nnoremap <Up> :echoe "Use k"<CR>
-" nnoremap <Down> :echoe "Use j"<CR>
-
-
-" Cycle through buffers
-map <c-i> :bprevious<CR>
-map <c-o> :bnext<CR>
-
-" Auto center on G
-nmap G Gzz
-nmap n nzz
-nmap N Nzz
-nmap } }zz
-nmap { {zz}
 
 " Remap VIM 0 to first non-blank character
 map 0 ^
@@ -220,39 +94,5 @@ set viminfo^=%
 " Tired of clearing highlighted searches?
 nmap <silent> <leader>/ :nohlsearch<CR>
 
-let g:loaded_matchparen=1
-
-" vim-test
-nmap <silent> <leader>t :TestNearest<CR>
-nmap <silent> <leader>T :TestFile<CR>
-nmap <silent> <leader>a :TestSuite<CR>
-nmap <silent> <leader>l :TestLast<CR>
-nmap <silent> <leader>g :TestVisit<CR>
-
-map <C-I> :bn<CR>
-
-" let test#strategy = "dispatch"
-let test#javascript#mocha#options = '--colors --recursive'
-
 set wildignore+=*.so,*.swp,*.zip     " MacOSX/Linux
 set wildignore+=*.swp,*.zip,*.exe  " Windows
-
-" Save undo history
-if has('persistent_undo')      "check if your vim version supports it
-	set undofile                 "turn on the feature  
-	set undodir=~/.vim/undo  "directory where the undo files will be stored
-endif    
-
-" Vim easytags
-let g:easytags_async = 1
-let g:easytags_file = '~/.vim/vimtags/tags'
-" let g:easytags_by_filetype = 1
-" let g:ctrlp_show_hidden = 0
-" let g:easytags_updatetime_min = 20000
-"
-set tags+=$HOME/code
-
-nmap <silent> <C-i> :BufSurfBack<CR>
-nmap <silent> <C-o> :BufSurfForward<CR>
-
-
