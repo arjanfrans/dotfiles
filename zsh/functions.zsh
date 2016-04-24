@@ -13,6 +13,22 @@ gtheme() {
 	source "$HOME/.dotfiles/colorschemes/base16-builder/output/gnome-terminal/$1.sh"
 }
 
+svimtabs () {
+    if [ "$1" = "tabs" ]; then
+        [ -f ~/.vimrc_tabs ] && rm ~/.vimrc_tabs
+        echo -e "set set noexpandtab\n" > ~/.vimrc_tabs
+        echo "Use hard tabs in vim:"
+        cat ~/.vimrc_tabs
+    elif [ "$1" = "spaces" ]; then
+        [ -f ~/.vimrc_tabs ] && rm ~/.vimrc_tabs
+        echo -e "set set expandtab\n" > ~/.vimrc_tabs
+        echo "Use soft tabs in vim:"
+        cat ~/.vimrc_tabs
+    else
+        echo "'tabs' or 'spaces'"
+    fi
+}
+
 # Change the shell theme along with vim colorscheme
 stheme() {
 	if [ "$1" = "list" ]; then

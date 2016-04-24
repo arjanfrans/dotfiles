@@ -85,8 +85,14 @@ set relativenumber
 filetype plugin indent on  " Load plugins according to detected filetype.
 syntax on                  " Enable syntax highlighting.
 
+" Set tabs based on .vimrc_tabs config
+if filereadable(expand("~/.vimrc_tabs"))
+	source ~/.vimrc_tabs
+else
+    set expandtab              " Use spaces instead of tabs.
+endif
+
 set autoindent             " Indent according to previous line.
-set expandtab              " Use spaces instead of tabs.
 set tabstop=4
 set softtabstop=4          " Tab key indents by 4 spaces.
 set shiftwidth=4           " >> indents by 4 spaces.
@@ -213,7 +219,12 @@ set scrolloff=10                 " Minimum lines to keep above and below cursor
 
 
 " Set terminal window to fixed width (does not fully work)
-autocmd TermOpen * setlocal wfw 
+autocmd TermOpen * call SetTermLocals() 
+
+function SetTermLocals()
+    setlocal wfw 
+    setlocal relativenumber
+endfunction
 
 let g:delimitMate_expand_cr = 1
 let g:delimitMate_expand_space = 1
