@@ -80,6 +80,7 @@ set completeopt-=preview
 
 set nowrap
 set number
+set relativenumber
 
 filetype plugin indent on  " Load plugins according to detected filetype.
 syntax on                  " Enable syntax highlighting.

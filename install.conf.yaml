@@ -16,7 +16,6 @@
     ~/.oh-my-zsh: zsh/oh-my-zsh/
     ~/.local/share/fonts: fonts
     ~/.xinitrc: xorg/xinitrc
-    ~/.tmux.conf: tmux/tmux.conf
     ~/.vim/colors:
         force: true
         path: colorschemes/base16-builder/output/vim
