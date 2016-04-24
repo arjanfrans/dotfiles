@@ -7,6 +7,13 @@ if filereadable(expand("~/.vimrc_background"))
 	source ~/.vimrc_background
 endif
 
+" Set tabs based on .vimrc_tabs config
+if filereadable(expand("~/.vimrc_tabs"))
+	source ~/.vimrc_tabs
+else
+    set expandtab              " Use spaces instead of tabs.
+endif
+
 filetype indent plugin on
 
 " Hide matching parenthesis

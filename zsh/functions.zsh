@@ -16,12 +16,12 @@ gtheme() {
 svimtabs () {
     if [ "$1" = "tabs" ]; then
         [ -f ~/.vimrc_tabs ] && rm ~/.vimrc_tabs
-        echo -e "set set noexpandtab\n" > ~/.vimrc_tabs
+        echo -e "set noexpandtab\n" > ~/.vimrc_tabs
         echo "Use hard tabs in vim:"
         cat ~/.vimrc_tabs
     elif [ "$1" = "spaces" ]; then
         [ -f ~/.vimrc_tabs ] && rm ~/.vimrc_tabs
-        echo -e "set set expandtab\n" > ~/.vimrc_tabs
+        echo -e "set expandtab\n" > ~/.vimrc_tabs
         echo "Use soft tabs in vim:"
         cat ~/.vimrc_tabs
     else
