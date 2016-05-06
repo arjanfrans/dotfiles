@@ -8,6 +8,7 @@ Plug 'carlitux/deoplete-ternjs'
 
 " Javascript syntax highlighting
 Plug 'isRuslan/vim-es6'
+Plug 'mxw/vim-jsx'
 
 " Allow normal tab when autocomplete key is tab
 Plug 'ervandew/supertab'
@@ -71,6 +72,9 @@ source ~/.config/nvim/config/ctrlp.vim
 source ~/.config/nvim/config/nerdtree.vim
 source ~/.config/nvim/config/multicursor.vim
 source ~/.config/nvim/config/neoterm.vim
+
+" Do not require .jsx extension
+let g:jsx_ext_required = 0
 
 " hide matching parenthesis
 let g:loaded_matchparen=1
