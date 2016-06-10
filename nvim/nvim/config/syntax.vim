@@ -3,6 +3,8 @@ autocmd! BufWritePost * Neomake
 
 let g:neomake_javascript_enabled_makers = ['eslint']
 
+let g:neomake_cpp_enabled_makers = []
+
 let g:neomake_warning_sign = {
   \ 'text': 'W',
   \ 'texthl': 'WarningMsg',
