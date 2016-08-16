@@ -3,6 +3,7 @@ autocmd! BufWritePost * Neomake
 
 let g:neomake_javascript_enabled_makers = ['eslint']
 
+" Disable for c++
 let g:neomake_cpp_enabled_makers = []
 
 let g:neomake_warning_sign = {

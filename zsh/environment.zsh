@@ -20,3 +20,10 @@ fi
 #
 # export CC=gcc
 # export CXX=g++
+#
+mongodir="$HOME/software/mongodb"
+if [ -d "$mongodir" ]; then
+    export PATH=$HOME/software/mongodb/bin:$PATH
+fi
+
+
