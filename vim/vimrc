@@ -16,6 +16,9 @@ endif
 
 filetype indent plugin on
 
+" Format json
+com! FormatJSON %!python -m json.tool
+
 " Hide matching parenthesis
 let g:loaded_matchparen=1
 

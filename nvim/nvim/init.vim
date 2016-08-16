@@ -150,6 +150,9 @@ map <C-j> <C-w>j
 map <C-k> <C-w>k
 map <C-l> <C-w>l
 
+" Format json
+com! FormatJSON %!python -m json.tool
+
 " Move out of terminal with esc
 tnoremap <Esc> <C-\><C-n>
 
