@@ -6,6 +6,9 @@ Plug 'Shougo/deoplete.nvim'
 " Javascript completion
 Plug 'carlitux/deoplete-ternjs'
 
+" Use local eslint
+Plug 'benjie/neomake-local-eslint.vim'
+
 " Javascript syntax highlighting
 Plug 'isRuslan/vim-es6'
 Plug 'mxw/vim-jsx'
