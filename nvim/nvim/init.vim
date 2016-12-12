@@ -238,3 +238,6 @@ endfunction
 
 let g:delimitMate_expand_cr = 1
 let g:delimitMate_expand_space = 1
+
+autocmd BufEnter * let &titlestring = ' ' . expand("%:t")             
+set title
