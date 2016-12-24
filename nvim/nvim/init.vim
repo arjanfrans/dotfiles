@@ -3,6 +3,9 @@ call plug#begin('~/.config/nvim/plugged')
 " Make sure you use single quotes
 Plug 'Shougo/deoplete.nvim'
 
+" PHP
+Plug 'StanAngeloff/php.vim'
+
 " Javascript completion
 Plug 'carlitux/deoplete-ternjs'
 
