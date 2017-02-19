@@ -1,10 +1,6 @@
-" Use deoplete.
-let g:deoplete#enable_at_startup = 1
+inoremap <expr> <Tab> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+set shortmess+=c
 
-" Let <Tab> also do completion
-inoremap <silent><expr> <Tab>
-\ pumvisible() ? "\<C-n>" :
-\ deoplete#mappings#manual_complete()
-
-" Super tab (cycle forward) (default is <c-p), which is backward)
+" Supertab top to bottom instead of bottom to top 
 let g:SuperTabDefaultCompletionType = "<c-n>"

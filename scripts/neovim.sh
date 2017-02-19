@@ -4,6 +4,5 @@ sudo add-apt-repository ppa:neovim-ppa/unstable
 sudo apt-get update
 sudo apt-get install neovim
 
-
-pip2 install --user neovim
-pip3 install --user neovim
+pip2 install --user neovim 
+pip3 install --user neovim jedi mistune psutil setproctitle

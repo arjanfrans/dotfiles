@@ -1,18 +1,23 @@
 call plug#begin('~/.config/nvim/plugged')
 
-" Make sure you use single quotes
-Plug 'Shougo/deoplete.nvim'
+Plug 'janko-m/vim-test'
+Plug 'roxma/nvim-completion-manager'
 
 " PHP
+"   Syntax checker
 Plug 'StanAngeloff/php.vim'
 
-" Javascript completion
-Plug 'carlitux/deoplete-ternjs'
+"   Completion
+Plug 'roxma/nvim-cm-php-language-server',  { 'do': 'composer install && composer run-script parse-stubs' }
 
-" Use local eslint
+" Javascript
+"   Completion
+Plug 'roxma/nvim-completion-manager', { 'do': 'npm install' }
+
+"   Use local eslint
 Plug 'benjie/neomake-local-eslint.vim'
 
-" Javascript syntax highlighting
+"  Syntax highlighting
 Plug 'isRuslan/vim-es6'
 Plug 'mxw/vim-jsx'
 
@@ -34,6 +39,9 @@ Plug 'ctrlpvim/ctrlp.vim'
 " Faster matcher for ctrlp
 Plug 'FelikZ/ctrlp-py-matcher'
 
+" Search functions in file (without ctags)
+Plug 'tacahiroy/ctrlp-funky'
+
 " Comments
 Plug 'tomtom/tcomment_vim'
 
@@ -46,13 +54,8 @@ Plug 'terryma/vim-multiple-cursors'
 " Auto complete quotes
 Plug 'Raimondi/delimitMate'
 
-Plug 'tacahiroy/ctrlp-funky'
-
 " Highlight git conflict markers
 Plug 'rhysd/conflict-marker.vim'
-
-" Undotree
-Plug 'mbbill/undotree'
 
 " Nerdtree
 Plug 'scrooloose/nerdtree'
@@ -78,6 +81,7 @@ source ~/.config/nvim/config/ctrlp.vim
 source ~/.config/nvim/config/nerdtree.vim
 source ~/.config/nvim/config/multicursor.vim
 source ~/.config/nvim/config/neoterm.vim
+source ~/.config/nvim/config/vim-test.vim
 
 " Do not require .jsx extension
 let g:jsx_ext_required = 0
