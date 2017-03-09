@@ -12,6 +12,7 @@
         path: colorschemes/base16_theme
     ~/.vim: vim/vim/
     ~/.vimrc: vim/vimrc
+    ~/.ideavimrc: idea/vimrc
     ~/.zshrc: zsh/zshrc
     ~/.oh-my-zsh: zsh/oh-my-zsh/
     ~/.local/share/fonts: fonts
