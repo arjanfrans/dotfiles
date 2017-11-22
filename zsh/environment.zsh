@@ -29,6 +29,7 @@ if [ -d "$mongodir" ]; then
     export PATH=$HOME/software/mongodb/bin:$PATH
 fi
 
+
 # Android SDK
 androiddir="$HOME/Android/Sdk"
 
@@ -38,4 +39,5 @@ if [ -d "$androiddir" ]; then
     export PATH=${PATH}:${ANDROID_HOME}/platform-tools
 fi
 
-
+# PHP Composer
+export PATH=~/.config/composer/vendor/bin:$PATH

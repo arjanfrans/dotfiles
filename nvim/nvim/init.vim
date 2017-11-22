@@ -1,18 +1,15 @@
 call plug#begin('~/.config/nvim/plugged')
 
 Plug 'janko-m/vim-test'
-Plug 'roxma/nvim-completion-manager'
 
 " PHP
 "   Syntax checker
 Plug 'StanAngeloff/php.vim'
-
-"   Completion
-Plug 'roxma/nvim-cm-php-language-server',  { 'do': 'composer install && composer run-script parse-stubs' }
+Plug '2072/vim-syntax-for-PHP'
 
 " Javascript
 "   Completion
-Plug 'roxma/nvim-completion-manager', { 'do': 'npm install' }
+" Plug 'roxma/nvim-completion-manager', { 'do': 'npm install' }
 
 "   Use local eslint
 Plug 'benjie/neomake-local-eslint.vim'
@@ -27,10 +24,11 @@ Plug 'ervandew/supertab'
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
-" show git diff signs
+" Git
+"   show git diff signs
 Plug 'airblade/vim-gitgutter'
 
-" git wrapper
+"   Git wrapper
 Plug 'tpope/vim-fugitive'
 
 " File search
@@ -53,6 +51,8 @@ Plug 'terryma/vim-multiple-cursors'
 
 " Auto complete quotes
 Plug 'Raimondi/delimitMate'
+
+Plug 'captbaritone/better-indent-support-for-php-with-html'
 
 " Highlight git conflict markers
 Plug 'rhysd/conflict-marker.vim'
@@ -148,9 +148,6 @@ let g:rainbow_active = 1 "0 if you want to enable it later via :RainbowToggle
 nnoremap <expr> n  'Nn'[v:searchforward]
 nnoremap <expr> N  'nN'[v:searchforward]
 
-" Undo tree toggle
-nnoremap <leader>3 :UndotreeToggle<cr>
-
 " Leader key
 let mapleader = ","
 
@@ -207,19 +204,17 @@ set wildignore+=*.swp,*.zip,*.exe  " Windows
 map 0 ^
 
 " Cycle through buffers
-" map <c-i> :bprevious<CR>
-" map <c-o> :bnext<CR>
-
 nmap <silent> <C-i> :BufSurfBack<CR>
 nmap <silent> <C-o> :BufSurfForward<CR>
 
-" Delete trailing white space on save, useful for Python and CoffeeScript ;)
+" Delete trailing white space on save
 func! DeleteTrailingWS()
 	exe "normal mz"
 	%s/\s\+$//ge
 	exe "normal `z"
 endfunc
 autocmd BufWrite *.js :call DeleteTrailingWS()
+autocmd BufWrite *.php :call DeleteTrailingWS()
 
 " Auto center on G
 nmap G Gzz
@@ -232,8 +227,8 @@ nmap { {zz}
 autocmd WinEnter    * set cursorline
 autocmd WinLeave    * set nocursorline
 
-set scrolloff=10                 " Minimum lines to keep above and below cursor    
-
+" Minimum lines to keep above and below cursor     
+set scrolloff=10 
 
 " Set terminal window to fixed width (does not fully work)
 autocmd TermOpen * call SetTermLocals() 
@@ -246,5 +241,6 @@ endfunction
 let g:delimitMate_expand_cr = 1
 let g:delimitMate_expand_space = 1
 
+" Set terminal title to filename
 autocmd BufEnter * let &titlestring = ' ' . expand("%:t")             
 set title
