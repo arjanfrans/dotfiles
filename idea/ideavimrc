@@ -1,0 +1,25 @@
+" Auto center on G
+nmap G Gzz
+nmap n nzz
+nmap N Nzz
+nmap } }zz
+nmap { {zz}
+
+set nostartofline " When off the cursor is kept in the same column (if possible)
+
+set nowrap
+set number
+set relativenumber
+
+set novisualbell
+set noerrorbells
+
+nnoremap <expr> n  'Nn'[v:searchforward]
+nnoremap <expr> N  'nN'[v:searchforward]
+
+set scrolloff=10 
+
+" Remap VIM 0 to first non-blank character
+map 0 ^
+
+com! FormatJSON %!python -m json.tool
