@@ -11,7 +11,7 @@ set nowrap
 set number
 set relativenumber
 
-set novisualbell
+set visualbell
 set noerrorbells
 
 nnoremap <expr> n  'Nn'[v:searchforward]

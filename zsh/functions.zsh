@@ -32,3 +32,7 @@ ramdisk() {
     sudo mkdir -p /mnt/ramdisk
     sudo mount -t tmpfs -o size=$1 tmpfs /mnt/ramdisk
 }
+
+gitclean() {
+    git fetch -p && for branch in `git branch -vv | grep ': gone]' | awk '{print $1}'`; do git branch -D $branch; done
+}
