@@ -1,5 +1,6 @@
 # Install
 sudo apt-get update -y
+sudo apt install -y curl
 ./scripts/zsh.sh 
 ./scripts/nvim.sh 
 
