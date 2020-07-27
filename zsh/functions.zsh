@@ -36,3 +36,11 @@ ramdisk() {
 gitclean() {
     git fetch -p && for branch in `git branch -vv | grep ': gone]' | awk '{print $1}'`; do git branch -D $branch; done
 }
+
+ec2() {
+    mssh ubuntu@$1 -o "IdentitiesOnly=yes"
+}
+
+git-reset-fmode() {
+    git diff -p -R --no-ext-diff --no-color | grep -E "^(diff|(old|new) mode)" --color=never | git apply
+}
