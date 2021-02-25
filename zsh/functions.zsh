@@ -38,7 +38,12 @@ gitclean() {
 }
 
 ec2() {
+    export AWS_DEFAULT_REGION=eu-central-1 
     mssh ubuntu@$1 -o "IdentitiesOnly=yes"
+}
+
+enter_image() {
+    docker run -it --entrypoint "/bin/bash" $1
 }
 
 git-reset-fmode() {
