@@ -49,3 +49,5 @@ enter_image() {
 git-reset-fmode() {
     git diff -p -R --no-ext-diff --no-color | grep -E "^(diff|(old|new) mode)" --color=never | git apply
 }
+
+
