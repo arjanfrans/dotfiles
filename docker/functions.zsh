@@ -3,7 +3,7 @@ docker_node() {
         -p "${1}:${1}" \
         --workdir /usr/app \
         --volume "${PWD}":"/usr/app" \
-    node:10 \
+    node:16 \
         /bin/bash
 }
 
@@ -20,4 +20,8 @@ docker_php() {
         -w /app \
         --entrypoint \
         /bin/bash arjan-php-cli
+}
+
+i_own_this() {
+    sudo chown -R `whoami`:`whoami` .
 }
