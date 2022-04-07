@@ -14,8 +14,8 @@ set relativenumber
 set visualbell
 set noerrorbells
 
-nnoremap <expr> n  'Nn'[v:searchforward]
-nnoremap <expr> N  'nN'[v:searchforward]
+"nnoremap <expr> n  'Nn'[v:searchforward]
+"nnoremap <expr> N  'nN'[v:searchforward]
 
 set scrolloff=10 
 

@@ -3,7 +3,16 @@ docker_node() {
         -p "${1}:${1}" \
         --workdir /usr/app \
         --volume "${PWD}":"/usr/app" \
-    node:16 \
+        node:16 \
+        /bin/bash
+}
+
+docker_php() {
+    docker run --rm -it \
+        -p "${1}:${1}" \
+        --workdir /usr/app \
+        --volume "${PWD}":"/usr/app" \
+        php:8.0-cli \
         /bin/bash
 }
 

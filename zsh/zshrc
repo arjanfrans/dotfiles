@@ -108,3 +108,4 @@ export NVM_DIR="$HOME/.nvm"
 
 export PATH=~/.local/bin:$PATH
 
+export DOCKER_BUILDKIT=1
