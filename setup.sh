@@ -1,5 +1,8 @@
 #!/bin/bash -e
 
+# Switch caps lock and escape
+dconf write "/org/gnome/desktop/input-sources/xkb-options" "['caps:swapescape']"
+
 # Install
 sudo apt-get update -y
 sudo apt install -y curl
