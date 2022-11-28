@@ -9,6 +9,8 @@ sudo apt install -y curl
 ./scripts/python.sh 
 ./scripts/zsh.sh 
 ./scripts/nvim.sh 
+./scripts/mssh.sh 
+./scripts/docker.sh 
 
 # Cleanup
 rm -f ~/.gitconfig
