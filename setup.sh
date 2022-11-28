@@ -1,6 +1,9 @@
+#!/bin/bash -e
+
 # Install
 sudo apt-get update -y
 sudo apt install -y curl
+./scripts/python.sh 
 ./scripts/zsh.sh 
 ./scripts/nvim.sh 
 
