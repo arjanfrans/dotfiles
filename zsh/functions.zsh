@@ -43,7 +43,7 @@ ec2() {
 }
 
 enter_image() {
-    docker run -it --entrypoint "$1" $2
+    docker run -it -v "${PWD}:/app" -w "/app" --entrypoint "$1" $2
 }
 
 git-reset-fmode() {
