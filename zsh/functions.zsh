@@ -46,6 +46,10 @@ enter_image() {
     docker run -it -v "${PWD}:/app" -w "/app" --entrypoint "$1" $2
 }
 
+docker_exec() {
+    docker exec -it $(docker ps --filter="name=$1" -q) /bin/bash
+}
+
 git-reset-fmode() {
     git diff -p -R --no-ext-diff --no-color | grep -E "^(diff|(old|new) mode)" --color=never | git apply
 }
