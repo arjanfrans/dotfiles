@@ -57,3 +57,7 @@ git-reset-fmode() {
 repo_inspect() {
     docker run --rm -v ${PWD}:/repo felix/gitinspector:0.4.4 --format=html --grading > stats.html
 }
+
+str_remove_prefix() {
+    for file in $1*; do mv "$file" "${file#$1}"; done;
+}
