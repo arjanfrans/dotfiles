@@ -43,11 +43,15 @@ ec2() {
 }
 
 enter_image() {
-    docker run -it -v "${PWD}:/app" -w "/app" --entrypoint "$1" $2
+    docker run --rm -it -v "${PWD}:/app" -w "/app" --entrypoint "$1" $2
 }
 
 docker_exec() {
     docker exec -it $(docker ps --filter="name=$1" -q) /bin/bash
+}
+
+docker_logs() {
+    docker logs $(docker ps --filter="name=$1" -q) -f
 }
 
 git-reset-fmode() {
