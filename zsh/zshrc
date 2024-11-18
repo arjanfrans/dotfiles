@@ -109,3 +109,6 @@ export NVM_DIR="$HOME/.nvm"
 export PATH=~/.local/bin:$PATH
 
 export DOCKER_BUILDKIT=1
+
+export VIRTUAL_ENV_DISABLE_PROMPT=1
+source ~/py-venv/bin/activate

@@ -1,1 +1,1 @@
-pip install ec2instanceconnectcli
+pip3 install ec2instanceconnectcli

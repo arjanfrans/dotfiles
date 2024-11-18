@@ -1,6 +1,5 @@
-sudo apt-get install neovim
-sudo pip2 install neovim
-sudo pip3 install neovim
+sudo apt-get install neovim -y
+sudo apt-get install python3-neovim -y
 
 curl -fLo ~/.dotfiles/nvim/autoload/plug.vim --create-dirs \
     https://raw.githubusercontent.com/junegunn/vim-plug/master/plug.vim
