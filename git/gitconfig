@@ -24,5 +24,6 @@
 	rebase = true
 [alias]
 	onelog = log --graph --pretty=format:'%Cred%h%Creset -%C(yellow)%d%Creset %s %Cgreen(%cr) %C(bold blue)<%an>%Creset' --abbrev-commit
+    pbranch = "!~/.dotfiles/git/branches.sh"
 [user]
     name = Arjan Frans

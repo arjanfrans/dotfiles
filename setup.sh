@@ -6,6 +6,7 @@ dconf write "/org/gnome/desktop/input-sources/xkb-options" "['caps:swapescape']"
 # Install
 sudo apt-get update -y
 sudo apt install -y curl
+./scripts/remove-apache.sh 
 ./scripts/python.sh 
 ./scripts/zsh.sh 
 ./scripts/nvim.sh 
