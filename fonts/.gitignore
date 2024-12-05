@@ -1,0 +1,4 @@
+# Ignored generated font files
+*.otf
+*.ttf
+*.pcf.gz

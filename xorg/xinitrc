@@ -1,6 +1,12 @@
-# xmodmap ~/.dotfiles/xorg/esc_to_caps
+#!/bin/bash
 
-# Keyboard speed <delay> <rate>
-# xset r rate 185 50
-
-setxkbmap -option caps:swapescape
+# Check for the display server protocol
+if [ "$XDG_SESSION_TYPE" = "wayland" ]; then
+    # Apply Wayland-specific settings using gsettings
+    gsettings set org.gnome.desktop.input-sources xkb-options "['caps:swapescape']"
+    gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us+altgr-intl'), ('xkb', 'de')]"
+else
+    # Apply X11-specific settings using setxkbmap
+    setxkbmap -option caps:swapescape
+    setxkbmap -layout us -variant altgr-intl
+fi
