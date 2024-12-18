@@ -23,11 +23,13 @@ rm -f ~/.vimrc_background
 rm -f ~/.base16_theme
 rm -rf ~/.dotfiles/nvim/colors
 rm -rf ~/.ideavimrc
-sudo rm -rf /etc/sysctl.d/sysctl_idea.conf
+sudo rm -rf /etc/sysctl.d/99-sysctl_idea.conf
+sudo rm -rf /etc/sysctl.d/99-sysctl_elasticsearch.conf
 
 # Copy config files
 cp ~/.dotfiles/git/gitconfig ~/.gitconfig
-sudo cp ~/.dotfiles/idea/sysctl_idea.conf /etc/sysctl.d/sysctl_idea.conf
+sudo cp ~/.dotfiles/sysctl/99-sysctl_idea.conf /etc/sysctl.d/99-sysctl_idea.conf
+sudo cp ~/.dotfiles/sysctl/99-sysctl_elasticsearch.conf /etc/sysctl.d/99-sysctl_elasticsearch.conf
 
 # Symlinks
 ln -sf ~/.dotfiles/fonts ~/.local/share/fonts
