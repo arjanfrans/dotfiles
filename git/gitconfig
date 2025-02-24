@@ -1,7 +1,17 @@
+[column]
+    ui = auto
+[branch]
+    sort = -committerdate
+[tag]
+    sort = version:refname
+[init]
+    defaultBranch = main
 [hub]
     protocol = https
 [push]
     default = simple
+    autoSetupRemote = true
+    followTags = true
 [color]
     diff = auto
     status = auto
@@ -12,6 +22,11 @@
     editor = nvim
 [apply]
     whitespace = nowarn
+[diff]
+    algorithm = histogram
+    colorMoved = plain
+    mnemonicPrefix = true
+    renames = true
 [mergetool]
     keepBackup = false
 [difftool]
@@ -27,3 +42,7 @@
     pbranch = "!~/.dotfiles/git/branches.sh"
 [user]
     name = Arjan Frans
+[help]
+    autocorrect = prompt
+[commit]
+    verbose = true

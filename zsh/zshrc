@@ -98,6 +98,7 @@ source $HOME/.xinitrc
 source $HOME/.dotfiles/zsh/aliases.zsh
 source $HOME/.dotfiles/zsh/functions.zsh
 source $HOME/.dotfiles/zsh/theme.zsh
+source $HOME/.dotfiles/zsh/hackerman.zsh
 source $HOME/.dotfiles/docker/functions.zsh
 
 if [ -f $HOME/.base16_theme ]; then
