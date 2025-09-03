@@ -41,7 +41,7 @@ update_wallpaper() {
     if [[ -n "$album_url" ]]; then
         curl -s "$album_url" -o "$TMPDIR/album.png"
     else
-        convert -size 1920x1080 xc:#1e1e1e "$TMPDIR/album.png"
+        return
     fi
 
     # Create wallpaper: solid background, album art centered
