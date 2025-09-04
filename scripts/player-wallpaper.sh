@@ -7,11 +7,9 @@ echo "[*] Installing dependencies..."
 sudo apt update
 sudo apt install -y playerctl imagemagick curl
 
-# === Create scripts directory ===
 SCRIPTDIR="$HOME/.player-wallpaper"
 mkdir -p "$SCRIPTDIR"
 
-# === Write the Player wallpaper daemon script ===
 WALLSCRIPT="$SCRIPTDIR/player-wallpaper-daemon.sh"
 
 cat > "$WALLSCRIPT" <<'EOF'
@@ -22,7 +20,6 @@ TMPDIR="$HOME/.player-wallpaper"
 mkdir -p "$TMPDIR"
 IMG="$TMPDIR/wallpaper.png"
 
-# Last track to avoid unnecessary updates
 last_track=""
 
 update_wallpaper() {
@@ -37,22 +34,18 @@ update_wallpaper() {
     fi
     last_track="$track"
 
-    # Download album art or fallback blank
     if [[ -n "$album_url" ]]; then
         curl -s "$album_url" -o "$TMPDIR/album.png"
     else
         return
     fi
 
-    # Create wallpaper: solid background, album art centered
     convert -size 1920x1080 xc:#1e1e1e "$TMPDIR/album.png" -resize 120% -gravity center -composite "$TMPDIR/temp.png"
 
-    # Annotate track + artist below the image
     convert "$TMPDIR/temp.png" -gravity south \
         -background "#1e1e1e" -fill white -pointsize 34 \
         -splice 0x100 -annotate +0+260 "$artist - $track [$album]" "$IMG"
 
-    # Set wallpaper
     gsettings set org.gnome.desktop.background picture-uri "file://$IMG"
     gsettings set org.gnome.desktop.background picture-uri-dark "file://$IMG"
     gsettings set org.gnome.desktop.background picture-options "centered"
@@ -60,10 +53,8 @@ update_wallpaper() {
     gsettings set org.gnome.desktop.screensaver picture-options "centered"
 }
 
-# Initial run
 update_wallpaper
 
-# Update on track changes
 playerctl metadata --follow | while read -r _; do
     update_wallpaper
 done
