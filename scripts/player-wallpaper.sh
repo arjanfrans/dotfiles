@@ -14,19 +14,27 @@ WALLSCRIPT="$SCRIPTDIR/player-wallpaper-daemon.sh"
 
 cat > "$WALLSCRIPT" <<'EOF'
 #!/usr/bin/env bash
-set -euo pipefail
 
 TMPDIR="$HOME/.player-wallpaper"
 mkdir -p "$TMPDIR"
 IMG="$TMPDIR/wallpaper.png"
 
 last_track=""
+preferred_player="spotify"
 
 update_wallpaper() {
+    # Check if preferred player is running
+    if ! playerctl -l | grep -qx "$preferred_player"; then
+        return
+    fi
+
     track=$(playerctl metadata title 2>/dev/null || echo "")
     album=$(playerctl metadata album 2>/dev/null || echo "")
     artist=$(playerctl metadata artist 2>/dev/null || echo "")
     album_url=$(playerctl metadata mpris:artUrl 2>/dev/null || echo "")
+
+    # Skip if nothing playing
+    [[ -z "$track" ]] && return
 
     # Only update if track actually changed
     if [[ "$track" == "$last_track" ]]; then
@@ -35,16 +43,16 @@ update_wallpaper() {
     last_track="$track"
 
     if [[ -n "$album_url" ]]; then
-        curl -s "$album_url" -o "$TMPDIR/album.png"
+        curl -sL "$album_url" -o "$TMPDIR/album.png" || return
     else
         return
     fi
 
-    convert -size 1920x1080 xc:#1e1e1e "$TMPDIR/album.png" -resize 120% -gravity center -composite "$TMPDIR/temp.png"
+    convert -size 1920x1080 xc:#1e1e1e "$TMPDIR/album.png" -resize 130% -gravity center -composite "$TMPDIR/temp.png"
 
     convert "$TMPDIR/temp.png" -gravity south \
         -background "#1e1e1e" -fill white -pointsize 34 \
-        -splice 0x100 -annotate +0+260 "$artist - $track [$album]" "$IMG"
+        -splice 0x100 -annotate +0+300 "$artist - $track [$album]" "$IMG"
 
     gsettings set org.gnome.desktop.background picture-uri "file://$IMG"
     gsettings set org.gnome.desktop.background picture-uri-dark "file://$IMG"
@@ -53,10 +61,16 @@ update_wallpaper() {
     gsettings set org.gnome.desktop.screensaver picture-options "centered"
 }
 
+# Initial run (in case something is already playing)
 update_wallpaper
 
-playerctl metadata --follow | while read -r _; do
-    update_wallpaper
+# Resilient follow loop: restart if playerctl ends
+while true; do
+    playerctl -p "$preferred_player" metadata --follow | while read -r _; do
+        update_wallpaper
+    done
+    # If we get here, the follow stream ended (player stopped / crashed / switched)
+    sleep 10
 done
 EOF
 
