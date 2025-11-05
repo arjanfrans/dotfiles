@@ -1,1 +1,1 @@
-pip3 install ec2instanceconnectcli
+pipx install ec2instanceconnectcli

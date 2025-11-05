@@ -1,4 +1,4 @@
-#!/bin/bash -e
+#!/bin/bash
 
 # Switch caps lock and escape
 dconf write "/org/gnome/desktop/input-sources/xkb-options" "['caps:swapescape']"
@@ -6,12 +6,12 @@ dconf write "/org/gnome/desktop/input-sources/xkb-options" "['caps:swapescape']"
 # Install
 sudo apt-get update -y
 sudo apt install -y curl
-./scripts/remove-apache.sh 
-./scripts/python.sh 
-./scripts/zsh.sh 
-./scripts/nvim.sh 
-./scripts/mssh.sh 
-./scripts/docker.sh 
+./scripts/remove-apache.sh
+./scripts/python.sh
+./scripts/zsh.sh
+./scripts/nvim.sh
+./scripts/mssh.sh
+./scripts/docker.sh
 
 # Cleanup
 rm -f ~/.gitconfig
@@ -40,3 +40,7 @@ ln -sf ~/.dotfiles/idea/ideavimrc ~/.ideavimrc
 ln -sf ~/.dotfiles/colorschemes/base16-builder/output/vim ~/.dotfiles/nvim/colors
 
 touch ~/.vimrc_background
+
+# This changes the default shell for the *current* user
+chsh -s $(which zsh)
+
