@@ -4,8 +4,8 @@ set -euo pipefail
 echo "[*] Installing dependencies..."
 
 # Ubuntu dependencies
-sudo apt update
 sudo apt install -y playerctl imagemagick curl
+snap install spotify
 
 SCRIPTDIR="$HOME/.player-wallpaper"
 mkdir -p "$SCRIPTDIR"

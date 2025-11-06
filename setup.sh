@@ -3,15 +3,20 @@
 # Switch caps lock and escape
 dconf write "/org/gnome/desktop/input-sources/xkb-options" "['caps:swapescape']"
 
+# Update submodules
+git submodule update --init --recursive
+
 # Install
 sudo apt-get update -y
 sudo apt install -y curl
+./scripts/browsers.sh
 ./scripts/remove-apache.sh
 ./scripts/python.sh
 ./scripts/zsh.sh
 ./scripts/nvim.sh
 ./scripts/mssh.sh
 ./scripts/docker.sh
+./scripts/spotify.sh
 
 # Cleanup
 rm -f ~/.gitconfig
@@ -23,6 +28,7 @@ rm -f ~/.vimrc_background
 rm -f ~/.base16_theme
 rm -rf ~/.dotfiles/nvim/colors
 rm -rf ~/.ideavimrc
+rm -rf ~/.player-wallpaper
 sudo rm -rf /etc/sysctl.d/99-sysctl_idea.conf
 sudo rm -rf /etc/sysctl.d/99-sysctl_elasticsearch.conf
 
