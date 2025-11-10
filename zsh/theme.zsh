@@ -45,7 +45,7 @@ theme_random() {
         return 1
     fi
 
-    local excluded_themes=("greenscreen" "grayscale")
+    local excluded_themes=("greenscreen" "grayscale" "ashes")
     local themes_dir="$HOME/.dotfiles/colorschemes/base16-builder/output/shell"
 
     if [ ! -d "$themes_dir" ]; then

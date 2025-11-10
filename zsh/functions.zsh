@@ -21,7 +21,8 @@ ec2() {
 }
 
 enter_image() {
-    docker run --rm -it -v "${PWD}:/app" -w "/app" --entrypoint "$1" $2
+    echo "Usage: enter_image [command] [image]"
+    docker run --rm -it --network host -v "${PWD}:/app" -w "/app" --entrypoint "$1" $2
 }
 
 docker_exec() {

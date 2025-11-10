@@ -96,6 +96,7 @@ source $ZSH/oh-my-zsh.sh
 # alias ohmyzsh="mate ~/.oh-my-zsh"
 source $HOME/.xinitrc
 source $HOME/.dotfiles/zsh/aliases.zsh
+source $HOME/.dotfiles/private/zsh/aliases.zsh
 source $HOME/.dotfiles/zsh/functions.zsh
 source $HOME/.dotfiles/zsh/theme.zsh
 source $HOME/.dotfiles/zsh/hackerman.zsh

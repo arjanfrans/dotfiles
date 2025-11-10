@@ -8,7 +8,7 @@ git submodule update --init --recursive
 
 # Install
 sudo apt-get update -y
-sudo apt install -y curl
+sudo apt install -y curl git-lfs
 ./scripts/browsers.sh
 ./scripts/remove-apache.sh
 ./scripts/python.sh
