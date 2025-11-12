@@ -33,6 +33,10 @@ docker_logs() {
     docker logs $(docker ps --filter="name=$1" -q) -f
 }
 
+docker_rm_all() {
+    docker rm -f $(docker ps -aq)
+}
+
 git-reset-fmode() {
     git diff -p -R --no-ext-diff --no-color | grep -E "^(diff|(old|new) mode)" --color=never | git apply
 }
