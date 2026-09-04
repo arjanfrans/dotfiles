@@ -109,9 +109,14 @@ export NVM_DIR="$HOME/.nvm"
 [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
 [ -s "$NVM_DIR/bash_completion" ] && \. "$NVM_DIR/bash_completion"  # This loads nvm bash_completion
 
-export PATH=~/.local/bin:$PATH
+
+export ANDROID_HOME=~/Android/Sdk
+
+export PATH=~/.local/bin:$ANDROID_HOME/platform-tools:$ANDROID_HOME/emulator:$PATH
 
 export DOCKER_BUILDKIT=1
+
+export CAPACITOR_ANDROID_STUDIO_PATH=~/.local/android-studio/bin/studio.sh
 
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 source ~/py-venv/bin/activate

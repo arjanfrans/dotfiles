@@ -48,3 +48,27 @@ repo_inspect() {
 str_remove_prefix() {
     for file in $1*; do mv "$file" "${file#$1}"; done;
 }
+
+k_kustomize() {
+    rm -rf __kustomize
+
+    # prepare directory structure
+    for d in `find "$1" -type d`
+    do
+        mkdir -p "__kustomize/$d"
+    done
+
+    # copy substituted files
+    for f in `find "$1" -type f`
+    do 
+        envsubst < $f > "__kustomize/$f"
+    done
+
+    if [ -d "__kustomize/$1/overlays/${KUSTOMIZE_ENVIRONMENT}/" ]
+    then
+        kubectl kustomize "__kustomize/$1/overlays/${KUSTOMIZE_ENVIRONMENT}/" > "${2}"
+    else
+        kubectl kustomize "__kustomize/$1/" > "${2}"
+    fi
+}
+
