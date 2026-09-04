@@ -43,6 +43,8 @@ ln -sf ~/.dotfiles/xorg/xinitrc ~/.xinitrc
 ln -sf ~/.dotfiles/zsh/zshrc ~/.zshrc
 ln -sf ~/.dotfiles/nvim ~/.config/nvim
 ln -sf ~/.dotfiles/idea/ideavimrc ~/.ideavimrc
+mkdir -p ~/.claude
+ln -sf ~/.dotfiles/private/CLAUDE.md ~/.claude/CLAUDE.md
 ln -sf ~/.dotfiles/colorschemes/base16-builder/output/vim ~/.dotfiles/nvim/colors
 
 touch ~/.vimrc_background
