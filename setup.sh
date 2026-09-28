@@ -17,6 +17,7 @@ sudo apt install -y curl git-lfs
 ./scripts/mssh.sh
 ./scripts/docker.sh
 ./scripts/spotify.sh
+./scripts/claude.sh
 
 # Cleanup
 rm -f ~/.gitconfig
