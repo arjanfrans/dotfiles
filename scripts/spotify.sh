@@ -5,7 +5,7 @@ echo "[*] Installing dependencies..."
 
 # Ubuntu dependencies
 sudo apt install -y playerctl imagemagick curl
-snap install spotify
+sudo snap install spotify
 
 SCRIPTDIR="$HOME/.player-wallpaper"
 mkdir -p "$SCRIPTDIR"

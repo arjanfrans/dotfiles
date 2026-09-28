@@ -15,5 +15,5 @@ if [ -d "$OMZ_DIR" ]; then
 else
   echo "Oh My Zsh not found. Installing..."
   # 4. Install Oh My Zsh if it's not already there
-  sh -c "$(curl -fsSL https://raw.githubusercontent.com/robbyrussell/oh-my-zsh/master/tools/install.sh)"
+  sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended
 fi

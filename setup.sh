@@ -1,55 +1,75 @@
 #!/bin/bash
+set -uo pipefail
+
+DOTFILES="$HOME/.dotfiles"
+cd "$DOTFILES"
+
+FAILED=()
+
+run() {
+    echo "==> $*"
+    "$@" || FAILED+=("$*")
+}
+
+link() {
+    local src="$1" dest="$2"
+    mkdir -p "$(dirname "$dest")"
+    rm -rf "$dest"
+    ln -s "$src" "$dest"
+}
 
 # Switch caps lock and escape
 dconf write "/org/gnome/desktop/input-sources/xkb-options" "['caps:swapescape']"
 
 # Update submodules
-git submodule update --init --recursive
+run git submodule update --init --recursive
 
 # Install
-sudo apt-get update -y
-sudo apt install -y curl git-lfs
-./scripts/browsers.sh
-./scripts/remove-apache.sh
-./scripts/python.sh
-./scripts/zsh.sh
-./scripts/nvim.sh
-./scripts/mssh.sh
-./scripts/docker.sh
-./scripts/spotify.sh
-./scripts/claude.sh
-
-# Cleanup
-rm -f ~/.gitconfig
-rm -rf ~/.local/share/fonts
-rm -f ~/.xinitrc
-rm -f ~/.zshrc
-rm -rf ~/.config/nvim
-rm -f ~/.vimrc_background
-rm -f ~/.base16_theme
-rm -rf ~/.dotfiles/nvim/colors
-rm -rf ~/.ideavimrc
-rm -rf ~/.player-wallpaper
-sudo rm -rf /etc/sysctl.d/99-sysctl_idea.conf
-sudo rm -rf /etc/sysctl.d/99-sysctl_elasticsearch.conf
+run sudo apt-get update -y
+run sudo apt-get install -y curl git-lfs
+run ./scripts/browsers.sh
+run ./scripts/remove-apache.sh
+run ./scripts/python.sh
+run ./scripts/zsh.sh
+run ./scripts/nvim.sh
+run ./scripts/mssh.sh
+run ./scripts/docker.sh
+run ./scripts/spotify.sh
+run ./scripts/claude.sh
 
 # Copy config files
-cp ~/.dotfiles/git/gitconfig ~/.gitconfig
-sudo cp ~/.dotfiles/sysctl/99-sysctl_idea.conf /etc/sysctl.d/99-sysctl_idea.conf
-sudo cp ~/.dotfiles/sysctl/99-sysctl_elasticsearch.conf /etc/sysctl.d/99-sysctl_elasticsearch.conf
+cp "$DOTFILES/git/gitconfig" ~/.gitconfig
+sudo cp "$DOTFILES/sysctl/99-sysctl_idea.conf" /etc/sysctl.d/99-sysctl_idea.conf
+sudo cp "$DOTFILES/sysctl/99-sysctl_elasticsearch.conf" /etc/sysctl.d/99-sysctl_elasticsearch.conf
+run sudo sysctl --system
 
 # Symlinks
-ln -sf ~/.dotfiles/fonts ~/.local/share/fonts
-ln -sf ~/.dotfiles/xorg/xinitrc ~/.xinitrc
-ln -sf ~/.dotfiles/zsh/zshrc ~/.zshrc
-ln -sf ~/.dotfiles/nvim ~/.config/nvim
-ln -sf ~/.dotfiles/idea/ideavimrc ~/.ideavimrc
-mkdir -p ~/.claude
-ln -sf ~/.dotfiles/private/CLAUDE.md ~/.claude/CLAUDE.md
-ln -sf ~/.dotfiles/colorschemes/base16-builder/output/vim ~/.dotfiles/nvim/colors
+link "$DOTFILES/fonts" ~/.local/share/fonts
+link "$DOTFILES/xorg/xinitrc" ~/.xinitrc
+link "$DOTFILES/zsh/zshrc" ~/.zshrc
+link "$DOTFILES/nvim" ~/.config/nvim
+link "$DOTFILES/idea/ideavimrc" ~/.ideavimrc
+link "$DOTFILES/private/CLAUDE.md" ~/.claude/CLAUDE.md
+link "$DOTFILES/colorschemes/base16-builder/output/vim" "$DOTFILES/nvim/colors"
 
-touch ~/.vimrc_background
+rm -f ~/.base16_theme
+: > ~/.vimrc_background
+run fc-cache -f
+
+# Neovim plugins (needs ~/.config/nvim to be linked)
+run nvim --headless +PlugInstall +qall
 
 # This changes the default shell for the *current* user
-chsh -s $(which zsh)
+if [ "$(getent passwd "$USER" | cut -d: -f7)" != "$(which zsh)" ]; then
+    run chsh -s "$(which zsh)"
+fi
 
+if [ ${#FAILED[@]} -gt 0 ]; then
+    echo
+    echo "The following steps failed:"
+    printf '  - %s\n' "${FAILED[@]}"
+    exit 1
+fi
+
+echo
+echo "Done. Log out and back in for the shell and docker group changes to take effect."
