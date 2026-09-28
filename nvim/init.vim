@@ -77,7 +77,7 @@ set nostartofline " When off the cursor is kept in the same column (if possible)
 
 set encoding=utf-8
 
-set pastetoggle=<F12>           " pastetoggle (sane indentation on pastes)
+nnoremap <F12> :set paste!<CR>
 
 " Enable mouse
 set mouse=a

@@ -18,3 +18,22 @@ Signed-By: /etc/apt/keyrings/docker.asc
 EOF
 
 sudo apt update
+
+echo "--- Post-installation steps ---"
+
+# 6. Add current user to the docker group
+sudo usermod -aG docker $USER
+
+# 7. Set permissions for .docker directory (checking if it exists)
+if [ -d "$HOME/.docker" ]; then
+    sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
+    sudo chmod g+rwx "$HOME/.docker" -R
+fi
+
+# 8. Enable Docker services
+sudo systemctl enable docker.service
+sudo systemctl enable containerd.service
+
+echo -e "\n--- Docker Installation Complete ---"
+echo "IMPORTANT: Log out and log back in for group changes to take effect."
+
