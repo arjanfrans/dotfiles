@@ -1,0 +1,30 @@
+autoinstall:
+  version: 1
+
+  interactive-sections:
+    - identity
+    - storage
+
+  locale: en_US.UTF-8
+  keyboard:
+    layout: us
+    variant: altgr-intl
+  timezone: Europe/Vienna
+
+  codecs:
+    install: true
+  drivers:
+    install: true
+
+  late-commands:
+    - install -m 755 /cdrom/first-login.sh /target/usr/local/bin/dotfiles-first-login
+    - mkdir -p /target/etc/skel/.config/autostart
+    - touch /target/etc/skel/.config/gnome-initial-setup-done
+    - |
+      cat > /target/etc/skel/.config/autostart/dotfiles-setup.desktop <<EOF
+      [Desktop Entry]
+      Type=Application
+      Name=Dotfiles setup
+      Exec=ptyxis -- /usr/local/bin/dotfiles-first-login
+      X-GNOME-Autostart-enabled=true
+      EOF

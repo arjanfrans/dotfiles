@@ -33,6 +33,9 @@ else
     FAILED+=("git submodule update --init --recursive")
 fi
 
+# Keyboard layouts
+gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us+altgr-intl'), ('xkb', 'de')]"
+
 # Switch caps lock and escape
 dconf write "/org/gnome/desktop/input-sources/xkb-options" "['caps:swapescape']"
 
