@@ -38,7 +38,7 @@ dconf write "/org/gnome/desktop/input-sources/xkb-options" "['caps:swapescape']"
 
 # Key repeat
 gsettings set org.gnome.desktop.peripherals.keyboard repeat true
-gsettings set org.gnome.desktop.peripherals.keyboard delay 160
+gsettings set org.gnome.desktop.peripherals.keyboard delay 150
 gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 7
 
 # Natural scrolling
