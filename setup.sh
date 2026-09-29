@@ -46,14 +46,15 @@ gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll true
 gsettings set org.gnome.desktop.peripherals.mouse natural-scroll true
 
 # Pinned apps
-gsettings set org.gnome.shell favorite-apps "['google-chrome.desktop', 'brave-browser.desktop', 'org.gnome.Ptyxis.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Settings.desktop', 'spotify_spotify.desktop']"
+gsettings set org.gnome.shell favorite-apps "['google-chrome.desktop', 'brave-browser.desktop', 'org.gnome.Ptyxis.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Settings.desktop', 'screenshot.desktop', 'net.nokyan.Resources.desktop', 'spotify_spotify.desktop']"
 
-# Dock at the bottom, not stretched as a panel, auto-hide
+# Dock at the bottom, not stretched as a panel, auto-hide, on all monitors
 gsettings set org.gnome.shell.extensions.dash-to-dock dock-position BOTTOM
 gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
 gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed false
 gsettings set org.gnome.shell.extensions.dash-to-dock autohide true
 gsettings set org.gnome.shell.extensions.dash-to-dock intellihide false
+gsettings set org.gnome.shell.extensions.dash-to-dock multi-monitor true
 
 # Install
 run sudo apt-get update -y
@@ -80,6 +81,7 @@ run sudo sysctl --system
 # Symlinks
 link "$DOTFILES/fonts" ~/.local/share/fonts
 link "$DOTFILES/xorg/xinitrc" ~/.xinitrc
+link "$DOTFILES/applications/screenshot.desktop" ~/.local/share/applications/screenshot.desktop
 link "$DOTFILES/zsh/zshrc" ~/.zshrc
 link "$DOTFILES/nvim" ~/.config/nvim
 link "$DOTFILES/idea/ideavimrc" ~/.ideavimrc
