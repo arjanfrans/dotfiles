@@ -62,6 +62,7 @@ run sudo apt-get install -y curl git-lfs
 run ./scripts/browsers.sh
 run ./scripts/chrome-app.sh TEAMS https://teams.cloud.microsoft/
 [ -x ./private/slack.sh ] && run ./private/slack.sh
+[ -x ./private/timetracking.sh ] && run ./private/timetracking.sh
 run ./scripts/phpstorm.sh
 run ./scripts/remove-apache.sh
 run ./scripts/python.sh

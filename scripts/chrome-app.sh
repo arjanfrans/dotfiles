@@ -27,12 +27,4 @@ StartupWMClass=$WM_CLASS
 Terminal=false
 EOF
 
-FAVORITES="$(gsettings get org.gnome.shell favorite-apps)"
-if [[ "$FAVORITES" != *"'chrome-app-$ID.desktop'"* ]]; then
-    if [[ "$FAVORITES" == "@as []" || "$FAVORITES" == "[]" ]]; then
-        FAVORITES="['chrome-app-$ID.desktop']"
-    else
-        FAVORITES="${FAVORITES%]}, 'chrome-app-$ID.desktop']"
-    fi
-    gsettings set org.gnome.shell favorite-apps "$FAVORITES"
-fi
+"$(dirname "$0")/pin-app.sh" "chrome-app-$ID.desktop"
