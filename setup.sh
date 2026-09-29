@@ -18,6 +18,20 @@ link() {
     ln -s "$src" "$dest"
 }
 
+# GitHub CLI + login first, so the private repo can be cloned
+run ./scripts/gh.sh
+
+# Private submodule (needs an SSH key registered with GitHub)
+echo "==> git submodule update --init --recursive"
+if git submodule update --init --recursive; then
+    link "$DOTFILES/private/CLAUDE.md" ~/.claude/CLAUDE.md
+else
+    echo "Could not clone the private repo. Add your SSH key to GitHub, then run:"
+    echo "  git -C $DOTFILES submodule update --init --recursive"
+    echo "  ln -sfn $DOTFILES/private/CLAUDE.md ~/.claude/CLAUDE.md"
+    FAILED+=("git submodule update --init --recursive")
+fi
+
 # Switch caps lock and escape
 dconf write "/org/gnome/desktop/input-sources/xkb-options" "['caps:swapescape']"
 
@@ -30,13 +44,23 @@ gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 7
 gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll true
 gsettings set org.gnome.desktop.peripherals.mouse natural-scroll true
 
-# Update submodules
-run git submodule update --init --recursive
+# Pinned apps
+gsettings set org.gnome.shell favorite-apps "['google-chrome.desktop', 'brave-browser.desktop', 'org.gnome.Ptyxis.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Settings.desktop', 'spotify_spotify.desktop']"
+
+# Dock at the bottom, not stretched as a panel, auto-hide
+gsettings set org.gnome.shell.extensions.dash-to-dock dock-position BOTTOM
+gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
+gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed false
+gsettings set org.gnome.shell.extensions.dash-to-dock autohide true
+gsettings set org.gnome.shell.extensions.dash-to-dock intellihide false
 
 # Install
 run sudo apt-get update -y
 run sudo apt-get install -y curl git-lfs
 run ./scripts/browsers.sh
+run ./scripts/chrome-app.sh TEAMS https://teams.cloud.microsoft/
+[ -x ./private/slack.sh ] && run ./private/slack.sh
+run ./scripts/phpstorm.sh
 run ./scripts/remove-apache.sh
 run ./scripts/python.sh
 run ./scripts/zsh.sh
@@ -58,7 +82,6 @@ link "$DOTFILES/xorg/xinitrc" ~/.xinitrc
 link "$DOTFILES/zsh/zshrc" ~/.zshrc
 link "$DOTFILES/nvim" ~/.config/nvim
 link "$DOTFILES/idea/ideavimrc" ~/.ideavimrc
-link "$DOTFILES/private/CLAUDE.md" ~/.claude/CLAUDE.md
 link "$DOTFILES/colorschemes/base16-builder/output/vim" "$DOTFILES/nvim/colors"
 
 rm -f ~/.base16_theme
@@ -94,3 +117,7 @@ fi
 
 echo
 echo "Done. Log out and back in for the shell and docker group changes to take effect."
+read -rp "Log out now? [Y/n]: " input
+if [[ ! "$input" =~ ^[Nn] ]]; then
+    gnome-session-quit --logout --no-prompt
+fi
