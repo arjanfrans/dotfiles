@@ -21,6 +21,15 @@ link() {
 # Switch caps lock and escape
 dconf write "/org/gnome/desktop/input-sources/xkb-options" "['caps:swapescape']"
 
+# Key repeat
+gsettings set org.gnome.desktop.peripherals.keyboard repeat true
+gsettings set org.gnome.desktop.peripherals.keyboard delay 160
+gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 7
+
+# Natural scrolling
+gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll true
+gsettings set org.gnome.desktop.peripherals.mouse natural-scroll true
+
 # Update submodules
 run git submodule update --init --recursive
 
@@ -56,6 +65,10 @@ rm -f ~/.base16_theme
 : > ~/.vimrc_background
 run fc-cache -f
 
+# Terminal font (Ptyxis)
+gsettings set org.gnome.Ptyxis use-system-font false
+gsettings set org.gnome.Ptyxis font-name "Source Code Pro for Powerline Medium 11"
+
 # Neovim plugins (needs ~/.config/nvim to be linked)
 run nvim --headless +PlugInstall +qall
 
@@ -63,6 +76,14 @@ run nvim --headless +PlugInstall +qall
 if [ "$(getent passwd "$USER" | cut -d: -f7)" != "$(which zsh)" ]; then
     run chsh -s "$(which zsh)"
 fi
+
+# Git identity
+GIT_NAME="$(git config --global user.name)"
+GIT_EMAIL="$(git config --global user.email)"
+read -rp "Git name [$GIT_NAME]: " input && GIT_NAME="${input:-$GIT_NAME}"
+read -rp "Git email [$GIT_EMAIL]: " input && GIT_EMAIL="${input:-$GIT_EMAIL}"
+git config --global user.name "$GIT_NAME"
+git config --global user.email "$GIT_EMAIL"
 
 if [ ${#FAILED[@]} -gt 0 ]; then
     echo
