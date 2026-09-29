@@ -18,10 +18,16 @@ autoinstall:
 
   late-commands:
     - install -m 755 /cdrom/first-login.sh /target/usr/local/bin/dotfiles-first-login
-    - mkdir -p /target/etc/skel/.config/autostart
+    - mkdir -p /target/etc/skel/.config
     - touch /target/etc/skel/.config/gnome-initial-setup-done
     - |
-      cat > /target/etc/skel/.config/autostart/dotfiles-setup.desktop <<EOF
+      curtin in-target -- sh -c 'for h in /home/*/; do
+        u=$(stat -c %U "$h"); g=$(stat -c %G "$h")
+        install -d -o "$u" -g "$g" "$h.config"
+        install -m 644 -o "$u" -g "$g" /dev/null "$h.config/gnome-initial-setup-done"
+      done'
+    - |
+      cat > /target/etc/xdg/autostart/dotfiles-setup.desktop <<EOF
       [Desktop Entry]
       Type=Application
       Name=Dotfiles setup
