@@ -107,7 +107,7 @@ run nvim --headless +PlugInstall +qall
 
 # This changes the default shell for the *current* user
 if [ "$(getent passwd "$USER" | cut -d: -f7)" != "$(which zsh)" ]; then
-    run chsh -s "$(which zsh)"
+    run sudo chsh -s "$(which zsh)" "$USER"
 fi
 
 # Git identity

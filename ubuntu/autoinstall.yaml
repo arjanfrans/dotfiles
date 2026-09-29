@@ -23,6 +23,7 @@ autoinstall:
     - |
       curtin in-target -- sh -c 'for h in /home/*/; do
         u=$(stat -c %U "$h"); g=$(stat -c %G "$h")
+        usermod -s /bin/bash "$u"
         install -d -o "$u" -g "$g" "$h.config"
         install -m 644 -o "$u" -g "$g" /dev/null "$h.config/gnome-initial-setup-done"
       done'
