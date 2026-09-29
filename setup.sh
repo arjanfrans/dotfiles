@@ -20,6 +20,7 @@ link() {
 
 # GitHub CLI + login first, so the private repo can be cloned
 run ./scripts/gh.sh
+run ./scripts/glab.sh
 
 # Private submodule (needs an SSH key registered with GitHub)
 echo "==> git submodule update --init --recursive"

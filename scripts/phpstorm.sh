@@ -1,12 +1,14 @@
 ARCHIVE="phpstorm.tar.gz"
 INSTALL_DIR="$HOME/.local/phpstorm"
 
-curl -L "https://download.jetbrains.com/product?code=PS&latest&distribution=linux" -o "/tmp/${ARCHIVE}"
+if [ ! -x "$INSTALL_DIR/bin/phpstorm" ]; then
+    curl -L "https://download.jetbrains.com/product?code=PS&latest&distribution=linux" -o "/tmp/${ARCHIVE}"
+    mkdir -p "$INSTALL_DIR"
+    tar -xzf "/tmp/${ARCHIVE}" -C "$INSTALL_DIR" --strip-components=1
+    rm "/tmp/${ARCHIVE}"
+fi
 
-rm -rf "$INSTALL_DIR"
-mkdir -p "$INSTALL_DIR"
-tar -xzf "/tmp/${ARCHIVE}" -C "$INSTALL_DIR" --strip-components=1
-
+mkdir -p "$HOME/.local/bin"
 ln -sf "$INSTALL_DIR/bin/phpstorm" "$HOME/.local/bin/phpstorm"
 
 mkdir -p "$HOME/.local/share/applications"
@@ -23,8 +25,6 @@ Terminal=false
 StartupWMClass=jetbrains-phpstorm
 StartupNotify=true
 EOF
-
-rm "/tmp/${ARCHIVE}"
 
 FAVORITES=$(gsettings get org.gnome.shell favorite-apps)
 case "$FAVORITES" in
