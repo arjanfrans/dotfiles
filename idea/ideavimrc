@@ -3,7 +3,7 @@ nmap G Gzz
 nmap n nzz
 nmap N Nzz
 nmap } }zz
-nmap { {zz}
+nmap { {zz
 
 set nostartofline " When off the cursor is kept in the same column (if possible)
 
@@ -23,3 +23,11 @@ set scrolloff=10
 map 0 ^
 
 com! FormatJSON %!python -m json.tool
+
+" Let the IDE handle these shortcuts instead of IdeaVim
+sethandler <C-o> a:ide
+sethandler <C-c> a:ide
+sethandler <C-v> a:ide
+sethandler <C-x> a:ide
+sethandler <C-a> a:ide
+sethandler <C-r> a:ide

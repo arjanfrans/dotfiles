@@ -86,6 +86,9 @@ link "$DOTFILES/applications/screenshot.desktop" ~/.local/share/applications/scr
 link "$DOTFILES/zsh/zshrc" ~/.zshrc
 link "$DOTFILES/nvim" ~/.config/nvim
 link "$DOTFILES/idea/ideavimrc" ~/.ideavimrc
+for dir in ~/.config/JetBrains/PhpStorm*/; do
+    [ -d "$dir" ] && link "$DOTFILES/idea/keymaps/Dotfiles.xml" "$dir/keymaps/Dotfiles.xml"
+done
 link "$DOTFILES/colorschemes/base16-builder/output/vim" "$DOTFILES/nvim/colors"
 
 rm -f ~/.base16_theme
