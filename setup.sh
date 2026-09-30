@@ -92,18 +92,17 @@ link "$DOTFILES/idea/ideavimrc" ~/.ideavimrc
 for dir in ~/.config/JetBrains/PhpStorm*/; do
     [ -d "$dir" ] && link "$DOTFILES/idea/keymaps/Dotfiles.xml" "$dir/keymaps/Dotfiles.xml"
 done
-link "$DOTFILES/colorschemes/base16-builder/output/vim" "$DOTFILES/nvim/colors"
 
 rm -f ~/.base16_theme
-: > ~/.vimrc_background
 run fc-cache -f
 
 # Terminal font (Ptyxis)
 gsettings set org.gnome.Ptyxis use-system-font false
-gsettings set org.gnome.Ptyxis font-name "Source Code Pro for Powerline Medium 11"
+gsettings set org.gnome.Ptyxis font-name "SauceCodePro Nerd Font Medium 11"
+run ./scripts/ptyxis-palettes.sh
 
-# Neovim plugins (needs ~/.config/nvim to be linked)
-run nvim --headless +PlugInstall +qall
+# Neovim plugins and treesitter parsers (needs ~/.config/nvim to be linked)
+run nvim --headless +qall
 
 # This changes the default shell for the *current* user
 if [ "$(getent passwd "$USER" | cut -d: -f7)" != "$(which zsh)" ]; then

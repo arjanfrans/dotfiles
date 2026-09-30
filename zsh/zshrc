@@ -121,4 +121,4 @@ export CAPACITOR_ANDROID_STUDIO_PATH=~/.local/android-studio/bin/studio.sh
 export VIRTUAL_ENV_DISABLE_PROMPT=1
 source ~/py-venv/bin/activate
 
-theme_random dark
+theme_login dark

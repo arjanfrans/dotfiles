@@ -1,5 +1,1 @@
 .tmp
-autoload/plug.vim
-colors
-plugged
-.netrwhist

@@ -1,3 +1,12 @@
+# Ptyxis ignores background escape codes, so switch its palette for all windows instead
+ptyxis_palette() {
+    local uuid
+    for uuid in $(gsettings get org.gnome.Ptyxis profile-uuids | tr -d "[],'"); do
+        gsettings set "org.gnome.Ptyxis.Profile:/org/gnome/Ptyxis/Profiles/$uuid/" palette "$1"
+    done
+    gsettings set org.gnome.Ptyxis interface-style "$2"
+}
+
 # Load a specific theme
 theme() {
     if [ "$1" = "list" ]; then
@@ -25,7 +34,11 @@ theme() {
     local variation=${theme#*.}
     theme=${theme%.*}
 
-    source "$script"
+    if [ -n "$PTYXIS_VERSION" ]; then
+        ptyxis_palette "base16-$theme" "$variation"
+    else
+        source "$script"
+    fi
     ln -fs "$script" ~/.base16_theme
     export BASE16_THEME="base16-$theme"
     export BASE16_VARIATION="$variation"
@@ -33,9 +46,6 @@ theme() {
     if type "tmux_$variation" >/dev/null 2>&1; then
         "tmux_$variation"
     fi
-
-    [ -f ~/.vimrc_background ] && rm ~/.vimrc_background
-    echo -e "set background=$variation\ncolorscheme base16-$theme\n" > ~/.vimrc_background
 }
 
 # Load a random theme
@@ -80,3 +90,14 @@ theme_random() {
     theme "$random_theme.$1"
 }
 
+# Pick a random theme for the first shell after login, reuse it in later shells
+theme_login() {
+    local marker="${XDG_RUNTIME_DIR:-/tmp}/base16_theme_login"
+    local current="$(theme current)"
+
+    if [ -f "$marker" ] && [ -f ~/.base16_theme ]; then
+        theme "${current#base16-}"
+    else
+        theme_random "$1" && touch "$marker"
+    fi
+}
