@@ -1,0 +1,12 @@
+[Unit]
+Description=Cap built-in display resolution
+PartOf=graphical-session.target
+After=graphical-session.target
+
+[Service]
+ExecStart=%h/.dotfiles/gnome/cap-resolution.py --watch
+Restart=on-failure
+RestartSec=5
+
+[Install]
+WantedBy=graphical-session.target

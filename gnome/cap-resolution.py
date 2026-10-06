@@ -1,8 +1,11 @@
 #!/usr/bin/python3
+import sys
+
 from gi.repository import Gio, GLib
 
 MAX_WIDTH = 2000
 PERSISTENT = 2
+SETTLE_MS = 1000
 
 proxy = Gio.DBusProxy.new_for_bus_sync(
     Gio.BusType.SESSION, Gio.DBusProxyFlags.NONE, None,
@@ -11,9 +14,6 @@ proxy = Gio.DBusProxy.new_for_bus_sync(
     "org.gnome.Mutter.DisplayConfig",
     None,
 )
-serial, monitors, logical_monitors, _ = proxy.call_sync(
-    "GetCurrentState", None, Gio.DBusCallFlags.NONE, -1, None
-).unpack()
 
 
 def find_mode(modes, prop):
@@ -26,37 +26,71 @@ def best_fitting_mode(modes):
     return max(same_aspect, key=lambda m: (m[1], m[3]), default=None)
 
 
-modes_by_connector = {spec[0]: modes for spec, modes, _ in monitors}
-config = []
-resized = []
+def cap_resolution():
+    serial, monitors, logical_monitors, _ = proxy.call_sync(
+        "GetCurrentState", None, Gio.DBusCallFlags.NONE, -1, None
+    ).unpack()
 
-for x, y, scale, transform, primary, specs, _ in logical_monitors:
-    new_scale = scale
-    entries = []
-    for spec in specs:
-        modes = modes_by_connector[spec[0]]
-        mode = find_mode(modes, "is-current")
-        if spec[0].startswith("eDP") and mode[1] > MAX_WIDTH and (fitting := best_fitting_mode(modes)):
-            old_size = (round(mode[1] / scale), round(mode[2] / scale))
-            mode, new_scale = fitting, 1.0
-            new_size = (round(mode[1] / new_scale), round(mode[2] / new_scale))
-            resized.append((x, y, old_size, new_size))
-            print(f"{spec[0]}: {mode[0]} @ scale {new_scale:.2f}")
-        entries.append((spec[0], mode[0], {}))
-    config.append([x, y, new_scale, transform, primary, entries])
+    modes_by_connector = {spec[0]: modes for spec, modes, _ in monitors}
+    config = []
+    resized = []
 
-if not resized:
-    raise SystemExit(0)
+    for x, y, scale, transform, primary, specs, _ in logical_monitors:
+        new_scale = scale
+        entries = []
+        for spec in specs:
+            modes = modes_by_connector[spec[0]]
+            mode = find_mode(modes, "is-current")
+            if spec[0].startswith("eDP") and mode[1] > MAX_WIDTH and (fitting := best_fitting_mode(modes)):
+                old_size = (round(mode[1] / scale), round(mode[2] / scale))
+                mode, new_scale = fitting, 1.0
+                new_size = (round(mode[1] / new_scale), round(mode[2] / new_scale))
+                resized.append((x, y, old_size, new_size))
+                print(f"{spec[0]}: {mode[0]} @ scale {new_scale:.2f}", flush=True)
+            entries.append((spec[0], mode[0], {}))
+        config.append([x, y, new_scale, transform, primary, entries])
 
-for x0, y0, (old_w, old_h), (new_w, new_h) in resized:
-    for lm in config:
-        if lm[0] >= x0 + old_w:
-            lm[0] += new_w - old_w
-        if lm[1] >= y0 + old_h:
-            lm[1] += new_h - old_h
+    if not resized:
+        return
 
-proxy.call_sync(
-    "ApplyMonitorsConfig",
-    GLib.Variant("(uua(iiduba(ssa{sv}))a{sv})", (serial, PERSISTENT, [tuple(lm) for lm in config], {})),
-    Gio.DBusCallFlags.NONE, -1, None,
-)
+    for x0, y0, (old_w, old_h), (new_w, new_h) in resized:
+        for lm in config:
+            if lm[0] >= x0 + old_w:
+                lm[0] += new_w - old_w
+            if lm[1] >= y0 + old_h:
+                lm[1] += new_h - old_h
+
+    proxy.call_sync(
+        "ApplyMonitorsConfig",
+        GLib.Variant("(uua(iiduba(ssa{sv}))a{sv})", (serial, PERSISTENT, [tuple(lm) for lm in config], {})),
+        Gio.DBusCallFlags.NONE, -1, None,
+    )
+
+
+def watch():
+    pending = None
+
+    def run_settled():
+        nonlocal pending
+        pending = None
+        try:
+            cap_resolution()
+        except GLib.Error as e:
+            print(e.message, file=sys.stderr, flush=True)
+        return GLib.SOURCE_REMOVE
+
+    def on_signal(_proxy, _sender, signal, _params):
+        nonlocal pending
+        if signal != "MonitorsChanged":
+            return
+        if pending:
+            GLib.source_remove(pending)
+        pending = GLib.timeout_add(SETTLE_MS, run_settled)
+
+    proxy.connect("g-signal", on_signal)
+    GLib.MainLoop().run()
+
+
+cap_resolution()
+if "--watch" in sys.argv:
+    watch()

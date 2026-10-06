@@ -51,7 +51,10 @@ top_bar_on_all_monitors() {
 }
 
 cap_resolution() {
-    /usr/bin/python3 "$(dirname "$0")/cap-resolution.py"
+    mkdir -p ~/.config/systemd/user
+    ln -sfn "$(realpath "$(dirname "$0")")/cap-resolution.service" ~/.config/systemd/user/cap-resolution.service
+    systemctl --user daemon-reload
+    systemctl --user enable --now cap-resolution.service
 }
 
 terminal_font() {
