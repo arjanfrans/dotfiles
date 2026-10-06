@@ -5,9 +5,8 @@
 set -euo pipefail
 
 MODE="${1:-spanned}"
-TMPDIR="$HOME/.player-wallpaper"
-mkdir -p "$TMPDIR"
-IMG="$TMPDIR/wallpaper.jpg"
+CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/player-wallpaper"
+mkdir -p "$CACHE_DIR"
 BG="#1e1e1e"
 HISTORY_SIZE=5
 
@@ -48,25 +47,25 @@ fetch_album_art() {
 
 rotate_history() {
     for ((i = HISTORY_SIZE - 1; i > 0; i--)); do
-        if [[ -f "$TMPDIR/album-$((i - 1)).png" ]]; then
-            mv "$TMPDIR/album-$((i - 1)).png" "$TMPDIR/album-$i.png"
-            mv "$TMPDIR/caption-$((i - 1)).txt" "$TMPDIR/caption-$i.txt"
+        if [[ -f "$CACHE_DIR/album-$((i - 1)).png" ]]; then
+            mv "$CACHE_DIR/album-$((i - 1)).png" "$CACHE_DIR/album-$i.png"
+            mv "$CACHE_DIR/caption-$((i - 1)).txt" "$CACHE_DIR/caption-$i.txt"
         fi
     done
-    mv "$TMPDIR/album-new.png" "$TMPDIR/album-0.png"
-    printf '%s' "$1" > "$TMPDIR/caption-0.txt"
+    mv "$CACHE_DIR/album-new.png" "$CACHE_DIR/album-0.png"
+    printf '%s' "$1" > "$CACHE_DIR/caption-0.txt"
 }
 
 render_slide() {
     local slot=$1 width=$2 height=$3 out=$4
-    if [[ ! -f "$TMPDIR/album-$slot.png" ]]; then
-        convert -size "${width}x${height}" "xc:$BG" "$out"
+    if [[ ! -f "$CACHE_DIR/album-$slot.png" ]]; then
+        convert -size "${width}x${height}" "xc:$BG" -depth 8 "$out"
         return
     fi
     convert -size "${width}x$((height - 100))" "xc:$BG" \
-        \( "$TMPDIR/album-$slot.png" -resize 130% \) -gravity center -composite \
+        \( "$CACHE_DIR/album-$slot.png" -resize 130% \) -gravity center -composite \
         -gravity south -background "$BG" -fill white -pointsize 34 \
-        -splice 0x100 -annotate +0+150 "$(cat "$TMPDIR/caption-$slot.txt")" \
+        -splice 0x100 -annotate +0+150 "$(cat "$CACHE_DIR/caption-$slot.txt")" \
         -depth 8 "$out"
 }
 
@@ -85,8 +84,8 @@ render_spanned() {
     local slot=0
     for m in "${monitors[@]}"; do
         read -r x y w h <<< "$m"
-        render_slide "$slot" "$w" "$h" "$TMPDIR/slide-$slot.miff"
-        layers+=("$TMPDIR/slide-$slot.miff" -geometry "+$((x - min_x))+$((y - min_y))" -composite)
+        render_slide "$slot" "$w" "$h" "$CACHE_DIR/slide-$slot.miff"
+        layers+=("$CACHE_DIR/slide-$slot.miff" -geometry "+$((x - min_x))+$((y - min_y))" -composite)
         slot=$((slot + 1))
     done
 
@@ -96,8 +95,8 @@ render_spanned() {
 render_single() {
     local x y w h
     read -r x y w h <<< "$1"
-    render_slide 0 "$w" "$h" "$TMPDIR/slide-0.miff"
-    convert "$TMPDIR/slide-0.miff" -quality 92 "$IMG"
+    render_slide 0 "$w" "$h" "$CACHE_DIR/slide-0.miff"
+    convert "$CACHE_DIR/slide-0.miff" -quality 92 "$IMG"
 }
 
 apply_wallpaper() {
@@ -108,8 +107,8 @@ apply_wallpaper() {
 }
 
 apply_lockscreen() {
-    convert "$TMPDIR/slide-0.miff" -quality 92 "$TMPDIR/lockscreen.jpg"
-    gsettings set org.gnome.desktop.screensaver picture-uri "file://$TMPDIR/lockscreen.jpg"
+    convert "$CACHE_DIR/slide-0.miff" -quality 92 "$LOCKSCREEN"
+    gsettings set org.gnome.desktop.screensaver picture-uri "file://$LOCKSCREEN"
     gsettings set org.gnome.desktop.screensaver picture-options "centered"
 }
 
@@ -138,10 +137,10 @@ update_wallpaper() {
         echo "[!] No album art for $track"
         return
     fi
-    fetch_album_art "$album_url" "$TMPDIR/album-new.png" || { echo "[!] Failed to fetch album art"; return; }
+    fetch_album_art "$album_url" "$CACHE_DIR/album-new.png" || { echo "[!] Failed to fetch album art"; return; }
 
     caption="$artist - $track [$album]"
-    if [[ "$caption" != "$(cat "$TMPDIR/caption-0.txt" 2>/dev/null)" ]]; then
+    if [[ "$caption" != "$(cat "$CACHE_DIR/caption-0.txt" 2>/dev/null)" ]]; then
         rotate_history "$caption"
     fi
     refresh_wallpaper
@@ -149,12 +148,15 @@ update_wallpaper() {
 }
 
 refresh_wallpaper() {
-    [[ -f "$TMPDIR/album-0.png" ]] || return 0
+    [[ -f "$CACHE_DIR/album-0.png" ]] || return 0
     mapfile -t monitors < <(list_monitors)
     (( ${#monitors[@]} )) || { echo "[!] No monitors detected"; return; }
 
     (
         flock 9
+        stamp=$(date +%s%N)
+        IMG="$CACHE_DIR/wallpaper-$stamp.jpg"
+        LOCKSCREEN="$CACHE_DIR/lockscreen-$stamp.jpg"
         if [[ "$MODE" == "single" ]]; then
             render_single "${monitors[0]}"
             apply_wallpaper "centered"
@@ -163,7 +165,13 @@ refresh_wallpaper() {
             apply_wallpaper "spanned"
         fi
         apply_lockscreen
-    ) 9> "$TMPDIR/render.lock"
+        remove_stale_images "$stamp"
+    ) 9> "$CACHE_DIR/render.lock"
+}
+
+# Every render gets a new file name so GNOME always reloads it
+remove_stale_images() {
+    find "$CACHE_DIR" -maxdepth 1 \( -name 'wallpaper*.jpg' -o -name 'lockscreen*.jpg' \) ! -name "*-$1.jpg" -delete
 }
 
 watch_monitor_changes() {

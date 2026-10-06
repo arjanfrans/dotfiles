@@ -36,6 +36,8 @@ echo "[*] Installed systemd user service at $SERVICE_FILE"
 
 # === Enable and start the service at login ===
 systemctl --user daemon-reload
+systemctl --user stop player-wallpaper.service || true
+rm -rf "$HOME/.player-wallpaper" "${XDG_CACHE_HOME:-$HOME/.cache}/player-wallpaper"
 systemctl --user enable player-wallpaper.service
 systemctl --user restart player-wallpaper.service
 
