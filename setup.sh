@@ -33,31 +33,8 @@ else
     FAILED+=("git submodule update --init --recursive")
 fi
 
-# Keyboard layouts
-gsettings set org.gnome.desktop.input-sources sources "[('xkb', 'us+altgr-intl'), ('xkb', 'de')]"
-
-# Switch caps lock and escape
-dconf write "/org/gnome/desktop/input-sources/xkb-options" "['caps:swapescape']"
-
-# Key repeat
-gsettings set org.gnome.desktop.peripherals.keyboard repeat true
-gsettings set org.gnome.desktop.peripherals.keyboard delay 150
-gsettings set org.gnome.desktop.peripherals.keyboard repeat-interval 7
-
-# Natural scrolling
-gsettings set org.gnome.desktop.peripherals.touchpad natural-scroll true
-gsettings set org.gnome.desktop.peripherals.mouse natural-scroll true
-
-# Pinned apps
-gsettings set org.gnome.shell favorite-apps "['google-chrome.desktop', 'brave-browser.desktop', 'org.gnome.Ptyxis.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Settings.desktop', 'screenshot.desktop', 'net.nokyan.Resources.desktop', 'spotify_spotify.desktop']"
-
-# Dock at the bottom, not stretched as a panel, auto-hide, on all monitors
-gsettings set org.gnome.shell.extensions.dash-to-dock dock-position BOTTOM
-gsettings set org.gnome.shell.extensions.dash-to-dock extend-height false
-gsettings set org.gnome.shell.extensions.dash-to-dock dock-fixed false
-gsettings set org.gnome.shell.extensions.dash-to-dock autohide true
-gsettings set org.gnome.shell.extensions.dash-to-dock intellihide false
-gsettings set org.gnome.shell.extensions.dash-to-dock multi-monitor true
+# GNOME settings (before installs, which append to the pinned apps)
+run ./gnome/settings.sh
 
 # Install
 run sudo apt-get update -y
@@ -96,9 +73,7 @@ done
 rm -f ~/.base16_theme
 run fc-cache -f
 
-# Terminal font (Ptyxis)
-gsettings set org.gnome.Ptyxis use-system-font false
-gsettings set org.gnome.Ptyxis font-name "SauceCodePro Nerd Font Medium 11"
+# Terminal palettes (Ptyxis)
 run ./scripts/ptyxis-palettes.sh
 
 # Neovim plugins and treesitter parsers (needs ~/.config/nvim to be linked)

@@ -16,7 +16,6 @@ map('', '<C-l>', '<C-w>l')
 map('t', '<Esc>', '<C-\\><C-n>')
 
 map('n', '<leader>/', '<Cmd>nohlsearch<CR>', { silent = true })
-
 map('', '0', '^')
 
 map('n', '<C-i>', '<Cmd>BufSurfBack<CR>', { silent = true })

@@ -29,7 +29,7 @@ vim.opt.startofline = false
 vim.opt.scrolloff = 10
 vim.opt.signcolumn = 'yes'
 vim.opt.list = true
-vim.opt.listchars = { lead = '·', tab = '· ', nbsp = '+' }
+vim.opt.listchars = { tab = '· ', nbsp = '+' }
 
 vim.opt.undofile = true
 vim.opt.undodir = tmp
