@@ -1,0 +1,7 @@
+{
+  "uuid": "lockscreen-unblur@dotfiles",
+  "name": "Lock screen unblur",
+  "description": "Shows the wallpaper unblurred on the lock screen, with readable text.",
+  "shell-version": ["50"],
+  "session-modes": ["user", "unlock-dialog"]
+}

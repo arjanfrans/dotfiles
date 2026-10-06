@@ -35,19 +35,24 @@ dock() {
     gsettings set org.gnome.shell.extensions.dash-to-dock show-delay 0.0
 }
 
+enable_extension() {
+    local uuid=$1 enabled
+    enabled=$(gsettings get org.gnome.shell enabled-extensions)
+    if [[ "$enabled" != *"$uuid"* ]]; then
+        gsettings set org.gnome.shell enabled-extensions "${enabled%]*}, '${uuid}']"
+    fi
+}
+
 top_bar_on_all_monitors() {
     local uuid="multi-monitors-bar@frederykabryan"
-    local shell_version zip enabled
+    local shell_version zip
     shell_version=$(gnome-shell --version | grep -oP '\d+' | head -1)
     zip=$(mktemp --suffix=.zip)
     curl -fsSL -o "$zip" "https://extensions.gnome.org/download-extension/${uuid}.shell-extension.zip?shell_version=${shell_version}"
     gnome-extensions install --force "$zip"
     rm "$zip"
 
-    enabled=$(gsettings get org.gnome.shell enabled-extensions)
-    if [[ "$enabled" != *"$uuid"* ]]; then
-        gsettings set org.gnome.shell enabled-extensions "${enabled%]*}, '${uuid}']"
-    fi
+    enable_extension "$uuid"
 }
 
 cap_resolution() {
@@ -55,6 +60,13 @@ cap_resolution() {
     ln -sfn "$(realpath "$(dirname "$0")")/cap-resolution.service" ~/.config/systemd/user/cap-resolution.service
     systemctl --user daemon-reload
     systemctl --user enable --now cap-resolution.service
+}
+
+lockscreen_unblur() {
+    local uuid="lockscreen-unblur@dotfiles"
+    mkdir -p ~/.local/share/gnome-shell/extensions
+    ln -sfn "$(realpath "$(dirname "$0")")/extensions/$uuid" ~/.local/share/gnome-shell/extensions/$uuid
+    enable_extension "$uuid"
 }
 
 terminal_font() {
@@ -69,4 +81,5 @@ pinned_apps
 dock
 top_bar_on_all_monitors
 cap_resolution
+lockscreen_unblur
 terminal_font

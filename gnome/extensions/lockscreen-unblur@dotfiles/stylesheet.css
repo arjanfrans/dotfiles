@@ -1,0 +1,6 @@
+.unlock-dialog-clock,
+.unlock-dialog .login-dialog-prompt-layout {
+  padding: 24px 48px;
+  border-radius: 32px;
+  background-color: rgba(0, 0, 0, 0.4);
+}

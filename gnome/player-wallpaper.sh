@@ -106,12 +106,6 @@ apply_wallpaper() {
     gsettings set org.gnome.desktop.background picture-options "$options"
 }
 
-apply_lockscreen() {
-    convert "$CACHE_DIR/slide-0.miff" -quality 92 "$LOCKSCREEN"
-    gsettings set org.gnome.desktop.screensaver picture-uri "file://$LOCKSCREEN"
-    gsettings set org.gnome.desktop.screensaver picture-options "centered"
-}
-
 update_wallpaper() {
     # Check if preferred player is running
     if ! playerctl -l | grep -qx "$preferred_player"; then
@@ -156,7 +150,6 @@ refresh_wallpaper() {
         flock 9
         stamp=$(date +%s%N)
         IMG="$CACHE_DIR/wallpaper-$stamp.jpg"
-        LOCKSCREEN="$CACHE_DIR/lockscreen-$stamp.jpg"
         if [[ "$MODE" == "single" ]]; then
             render_single "${monitors[0]}"
             apply_wallpaper "centered"
@@ -164,14 +157,13 @@ refresh_wallpaper() {
             render_spanned "${monitors[@]}"
             apply_wallpaper "spanned"
         fi
-        apply_lockscreen
         remove_stale_images "$stamp"
     ) 9> "$CACHE_DIR/render.lock"
 }
 
 # Every render gets a new file name so GNOME always reloads it
 remove_stale_images() {
-    find "$CACHE_DIR" -maxdepth 1 \( -name 'wallpaper*.jpg' -o -name 'lockscreen*.jpg' \) ! -name "*-$1.jpg" -delete
+    find "$CACHE_DIR" -maxdepth 1 -name 'wallpaper*.jpg' ! -name "*-$1.jpg" -delete
 }
 
 watch_monitor_changes() {
