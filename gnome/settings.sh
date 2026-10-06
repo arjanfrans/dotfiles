@@ -35,6 +35,25 @@ dock() {
     gsettings set org.gnome.shell.extensions.dash-to-dock show-delay 0.0
 }
 
+top_bar_on_all_monitors() {
+    local uuid="multi-monitors-bar@frederykabryan"
+    local shell_version zip enabled
+    shell_version=$(gnome-shell --version | grep -oP '\d+' | head -1)
+    zip=$(mktemp --suffix=.zip)
+    curl -fsSL -o "$zip" "https://extensions.gnome.org/download-extension/${uuid}.shell-extension.zip?shell_version=${shell_version}"
+    gnome-extensions install --force "$zip"
+    rm "$zip"
+
+    enabled=$(gsettings get org.gnome.shell enabled-extensions)
+    if [[ "$enabled" != *"$uuid"* ]]; then
+        gsettings set org.gnome.shell enabled-extensions "${enabled%]*}, '${uuid}']"
+    fi
+}
+
+cap_resolution() {
+    /usr/bin/python3 "$(dirname "$0")/cap-resolution.py"
+}
+
 terminal_font() {
     gsettings set org.gnome.Ptyxis use-system-font false
     gsettings set org.gnome.Ptyxis font-name "SauceCodePro Nerd Font Medium 11"
@@ -45,4 +64,6 @@ natural_scrolling
 no_auto_dimming
 pinned_apps
 dock
+top_bar_on_all_monitors
+cap_resolution
 terminal_font
