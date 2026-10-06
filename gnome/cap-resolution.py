@@ -26,6 +26,17 @@ def best_fitting_mode(modes):
     return max(same_aspect, key=lambda m: (m[1], m[3]), default=None)
 
 
+def target_mode_and_scale(modes):
+    native = find_mode(modes, "is-preferred")
+    if native[1] <= MAX_WIDTH:
+        return None
+    integer_scales = [s for s in native[5] if s.is_integer() and native[1] / s <= MAX_WIDTH]
+    if integer_scales:
+        return native, min(integer_scales)
+    fitting = best_fitting_mode(modes)
+    return (fitting, 1.0) if fitting else None
+
+
 def cap_resolution():
     serial, monitors, logical_monitors, _ = proxy.call_sync(
         "GetCurrentState", None, Gio.DBusCallFlags.NONE, -1, None
@@ -41,9 +52,10 @@ def cap_resolution():
         for spec in specs:
             modes = modes_by_connector[spec[0]]
             mode = find_mode(modes, "is-current")
-            if spec[0].startswith("eDP") and mode[1] > MAX_WIDTH and (fitting := best_fitting_mode(modes)):
+            target = target_mode_and_scale(modes) if spec[0].startswith("eDP") else None
+            if target and (target[0][0], target[1]) != (mode[0], scale):
                 old_size = (round(mode[1] / scale), round(mode[2] / scale))
-                mode, new_scale = fitting, 1.0
+                mode, new_scale = target
                 new_size = (round(mode[1] / new_scale), round(mode[2] / new_scale))
                 resized.append((x, y, old_size, new_size))
                 print(f"{spec[0]}: {mode[0]} @ scale {new_scale:.2f}", flush=True)
