@@ -26,10 +26,12 @@ run ./scripts/glab.sh
 echo "==> git submodule update --init --recursive"
 if git submodule update --init --recursive; then
     link "$DOTFILES/private/CLAUDE.md" ~/.claude/CLAUDE.md
+    link "$DOTFILES/private/settings.json" ~/.claude/settings.json
 else
     echo "Could not clone the private repo. Add your SSH key to GitHub, then run:"
     echo "  git -C $DOTFILES submodule update --init --recursive"
     echo "  ln -sfn $DOTFILES/private/CLAUDE.md ~/.claude/CLAUDE.md"
+    echo "  ln -sfn $DOTFILES/private/settings.json ~/.claude/settings.json"
     FAILED+=("git submodule update --init --recursive")
 fi
 
@@ -54,7 +56,14 @@ run ./scripts/spotify.sh
 run ./scripts/claude.sh
 
 # Copy config files
-cp "$DOTFILES/git/gitconfig" ~/.gitconfig
+GIT_NAME="$(git config --global user.name)"
+GIT_EMAIL="$(git config --global user.email)"
+if [ -e ~/.gitconfig ]; then
+    read -rp "Overwrite ~/.gitconfig? [y/N]: " input
+    [[ "$input" =~ ^[Yy] ]] && cp "$DOTFILES/git/gitconfig" ~/.gitconfig
+else
+    cp "$DOTFILES/git/gitconfig" ~/.gitconfig
+fi
 sudo cp "$DOTFILES/sysctl/99-sysctl_idea.conf" /etc/sysctl.d/99-sysctl_idea.conf
 sudo cp "$DOTFILES/sysctl/99-sysctl_elasticsearch.conf" /etc/sysctl.d/99-sysctl_elasticsearch.conf
 run sudo sysctl --system
@@ -85,8 +94,6 @@ if [ "$(getent passwd "$USER" | cut -d: -f7)" != "$(which zsh)" ]; then
 fi
 
 # Git identity
-GIT_NAME="$(git config --global user.name)"
-GIT_EMAIL="$(git config --global user.email)"
 read -rp "Git name [$GIT_NAME]: " input && GIT_NAME="${input:-$GIT_NAME}"
 read -rp "Git email [$GIT_EMAIL]: " input && GIT_EMAIL="${input:-$GIT_EMAIL}"
 git config --global user.name "$GIT_NAME"

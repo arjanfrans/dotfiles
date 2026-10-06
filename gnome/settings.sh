@@ -31,6 +31,8 @@ dock() {
     gsettings set org.gnome.shell.extensions.dash-to-dock autohide true
     gsettings set org.gnome.shell.extensions.dash-to-dock intellihide false
     gsettings set org.gnome.shell.extensions.dash-to-dock multi-monitor true
+    gsettings set org.gnome.shell.extensions.dash-to-dock require-pressure-to-show false
+    gsettings set org.gnome.shell.extensions.dash-to-dock show-delay 0.0
 }
 
 terminal_font() {
