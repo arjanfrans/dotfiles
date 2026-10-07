@@ -2,10 +2,14 @@ import Clutter from 'gi://Clutter';
 import GObject from 'gi://GObject';
 import St from 'gi://St';
 import {AnimatedImage} from './animatedImage.js';
+import {ReactionPlayer} from './reactionPlayer.js';
 
-const SLIDE_UP_DURATION = 4500;
+export const SLIDE_UP_DURATION = 4500;
 const SLIDE_DOWN_DURATION = 400;
 const FINGER_HEIGHT_RATIO = 0.6;
+const REACTION_HEIGHT_RATIO = 0.22;
+const REACTION_MARGIN = 24;
+const REACTION_FADE_DURATION = 300;
 
 export const PrankScreen = GObject.registerClass(
 class PrankScreen extends St.Widget {
@@ -29,6 +33,16 @@ class PrankScreen extends St.Widget {
         this._finger.width = this._finger.height * this._finger.aspectRatio;
         this.add_child(this._finger);
         this._fingerShown = false;
+
+        this._reaction = new ReactionPlayer({
+            x_align: Clutter.ActorAlign.END,
+            y_align: Clutter.ActorAlign.START,
+            margin_top: REACTION_MARGIN,
+            margin_right: REACTION_MARGIN,
+            height: monitor.height * REACTION_HEIGHT_RATIO,
+            visible: false,
+        });
+        this.add_child(this._reaction);
     }
 
     showFinger() {
@@ -45,8 +59,21 @@ class PrankScreen extends St.Widget {
         });
     }
 
+    playReaction(frames) {
+        this._reaction.play(frames);
+        this._reaction.opacity = 0;
+        this._reaction.show();
+        this._reaction.ease({
+            opacity: 255,
+            duration: REACTION_FADE_DURATION,
+            mode: Clutter.AnimationMode.EASE_OUT_QUAD,
+        });
+    }
+
     hideFinger() {
         this._fingerShown = false;
+        this._reaction.stop();
+        this._reaction.hide();
         this._finger.ease({
             translation_y: this.height,
             duration: SLIDE_DOWN_DURATION,

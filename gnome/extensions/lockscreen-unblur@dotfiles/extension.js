@@ -1,6 +1,8 @@
 import Clutter from 'gi://Clutter';
+import Gio from 'gi://Gio';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
+import * as MessageTray from 'resource:///org/gnome/shell/ui/messageTray.js';
 import {UnlockDialog} from 'resource:///org/gnome/shell/ui/unlockDialog.js';
 
 const BRIGHTNESS = 0.65;
@@ -18,20 +20,15 @@ function removeBackdrop(dialog) {
     dialog._promptBox.y_align = Clutter.ActorAlign.FILL;
 }
 
-function disableFadeToBlack(screenShield) {
-    const original = Object.getPrototypeOf(screenShield)._lockScreenShown;
-    screenShield._lockScreenShown = function (params) {
-        original.call(this, {...params, fadeToBlack: false});
-    };
-}
-
-function restoreFadeToBlack(screenShield) {
-    delete screenShield._lockScreenShown;
+function showLockScreenWithoutBlanking(screenShield) {
+    screenShield._hidePointerUntilMotion();
+    screenShield._lockScreenState = MessageTray.State.SHOWN;
+    screenShield.emit('lock-screen-shown');
 }
 
 export default class LockscreenUnblurExtension extends Extension {
     enable() {
-        disableFadeToBlack(Main.screenShield);
+        this._delayScreenBlank(Main.screenShield);
         this._original = {
             updateBackgroundEffects: UnlockDialog.prototype._updateBackgroundEffects,
             showClock: UnlockDialog.prototype._showClock,
@@ -55,7 +52,7 @@ export default class LockscreenUnblurExtension extends Extension {
     }
 
     disable() {
-        restoreFadeToBlack(Main.screenShield);
+        this._restoreScreenBlank(Main.screenShield);
         UnlockDialog.prototype._updateBackgroundEffects = this._original.updateBackgroundEffects;
         UnlockDialog.prototype._showClock = this._original.showClock;
         this._original = null;
@@ -65,5 +62,40 @@ export default class LockscreenUnblurExtension extends Extension {
             dialog._updateBackgroundEffects();
             removeBackdrop(dialog);
         }
+    }
+
+    _delayScreenBlank(screenShield) {
+        screenShield._lockScreenShown = () => {
+            showLockScreenWithoutBlanking(screenShield);
+            this._blankWhenIdle(screenShield);
+        };
+        this._lockedId = screenShield.connect('locked-changed', () => {
+            if (!screenShield.locked)
+                this._removeBlankWatch(screenShield);
+        });
+    }
+
+    _restoreScreenBlank(screenShield) {
+        delete screenShield._lockScreenShown;
+        screenShield.disconnect(this._lockedId);
+        this._removeBlankWatch(screenShield);
+    }
+
+    _blankWhenIdle(screenShield) {
+        this._removeBlankWatch(screenShield);
+        const idleDelaySeconds = new Gio.Settings({schema_id: 'org.gnome.desktop.session'}).get_uint('idle-delay');
+        if (idleDelaySeconds === 0)
+            return;
+
+        this._blankWatchId = screenShield.idleMonitor.add_idle_watch(idleDelaySeconds * 1000, () => {
+            if (screenShield.locked)
+                screenShield._setActive(true);
+        });
+    }
+
+    _removeBlankWatch(screenShield) {
+        if (this._blankWatchId)
+            screenShield.idleMonitor.remove_watch(this._blankWatchId);
+        this._blankWatchId = 0;
     }
 }

@@ -78,6 +78,14 @@ lockscreen_prank() {
     install_local_extension "lockscreen-prank@dotfiles"
 }
 
+profile_picture() {
+    local avatar
+    avatar="$(realpath "$(dirname "$0")")/../private/avatar.png"
+    [[ -f "$avatar" ]] || return 0
+    busctl call org.freedesktop.Accounts "/org/freedesktop/Accounts/User$(id -u)" \
+        org.freedesktop.Accounts.User SetIconFile s "$(realpath "$avatar")"
+}
+
 terminal_font() {
     gsettings set org.gnome.Ptyxis use-system-font false
     gsettings set org.gnome.Ptyxis font-name "SauceCodePro Nerd Font Medium 11"
@@ -92,4 +100,5 @@ top_bar_on_all_monitors
 cap_resolution
 lockscreen_unblur
 lockscreen_prank
+profile_picture
 terminal_font

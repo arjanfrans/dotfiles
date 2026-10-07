@@ -1,9 +1,9 @@
 import Clutter from 'gi://Clutter';
-import Cogl from 'gi://Cogl';
 import GdkPixbuf from 'gi://GdkPixbuf';
 import GLib from 'gi://GLib';
 import GObject from 'gi://GObject';
 import St from 'gi://St';
+import {setContentPixbuf} from './pixbufContent.js';
 
 const MIN_FRAME_DELAY_MS = 20;
 
@@ -39,14 +39,7 @@ class AnimatedImage extends St.Widget {
     }
 
     _showCurrentFrame() {
-        const pixbuf = this._iter.get_pixbuf();
-        this._content.set_bytes(
-            global.stage.context.get_backend().get_cogl_context(),
-            pixbuf.read_pixel_bytes(),
-            pixbuf.has_alpha ? Cogl.PixelFormat.RGBA_8888 : Cogl.PixelFormat.RGB_888,
-            pixbuf.width,
-            pixbuf.height,
-            pixbuf.rowstride);
+        setContentPixbuf(this._content, this._iter.get_pixbuf());
 
         const delay = this._iter.get_delay_time();
         if (delay < 0)
