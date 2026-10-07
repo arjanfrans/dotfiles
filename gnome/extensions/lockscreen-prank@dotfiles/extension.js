@@ -37,6 +37,21 @@ function screenshotsByMonitorIndex() {
     return screenshots;
 }
 
+function keepScreenAwake(screenShield) {
+    const setActive = Object.getPrototypeOf(screenShield)._setActive;
+    screenShield._setActive = function () {
+        setActive.call(this, false);
+    };
+    screenShield._onStatusChanged = () => {};
+    screenShield._setActive(false);
+}
+
+function allowScreenBlank(screenShield) {
+    delete screenShield._setActive;
+    delete screenShield._onStatusChanged;
+    screenShield._setActive(screenShield.locked);
+}
+
 export default class LockscreenPrankExtension extends Extension {
     enable() {
         this._lockDialogGroup = Main.screenShield._lockDialogGroup;
@@ -79,10 +94,15 @@ export default class LockscreenPrankExtension extends Extension {
             coordinate: Clutter.BindCoordinate.SIZE,
         }));
         this._lockDialogGroup.add_child(this._overlay);
+        keepScreenAwake(Main.screenShield);
     }
 
     _stopPrank() {
-        this._overlay?.destroy();
+        if (!this._overlay)
+            return;
+
+        this._overlay.destroy();
         this._overlay = null;
+        allowScreenBlank(Main.screenShield);
     }
 }

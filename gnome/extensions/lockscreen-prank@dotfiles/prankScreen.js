@@ -3,7 +3,7 @@ import GObject from 'gi://GObject';
 import St from 'gi://St';
 import {AnimatedImage} from './animatedImage.js';
 
-const SLIDE_UP_DURATION = 2000;
+const SLIDE_UP_DURATION = 4500;
 const SLIDE_DOWN_DURATION = 400;
 const FINGER_HEIGHT_RATIO = 0.6;
 
@@ -41,7 +41,7 @@ class PrankScreen extends St.Widget {
         this._finger.ease({
             translation_y: 0,
             duration: SLIDE_UP_DURATION,
-            mode: Clutter.AnimationMode.EASE_OUT_BACK,
+            mode: Clutter.AnimationMode.EASE_IN_OUT_SINE,
         });
     }
 

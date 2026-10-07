@@ -4,7 +4,7 @@ import St from 'gi://St';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import {PrankScreen} from './prankScreen.js';
 
-const FINGER_VISIBLE_MS = 10000;
+const FINGER_VISIBLE_MS = 12500;
 const ARM_DELAY_MS = 2000;
 
 export const PrankOverlay = GObject.registerClass(

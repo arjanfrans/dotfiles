@@ -18,8 +18,20 @@ function removeBackdrop(dialog) {
     dialog._promptBox.y_align = Clutter.ActorAlign.FILL;
 }
 
+function disableFadeToBlack(screenShield) {
+    const original = Object.getPrototypeOf(screenShield)._lockScreenShown;
+    screenShield._lockScreenShown = function (params) {
+        original.call(this, {...params, fadeToBlack: false});
+    };
+}
+
+function restoreFadeToBlack(screenShield) {
+    delete screenShield._lockScreenShown;
+}
+
 export default class LockscreenUnblurExtension extends Extension {
     enable() {
+        disableFadeToBlack(Main.screenShield);
         this._original = {
             updateBackgroundEffects: UnlockDialog.prototype._updateBackgroundEffects,
             showClock: UnlockDialog.prototype._showClock,
@@ -43,6 +55,7 @@ export default class LockscreenUnblurExtension extends Extension {
     }
 
     disable() {
+        restoreFadeToBlack(Main.screenShield);
         UnlockDialog.prototype._updateBackgroundEffects = this._original.updateBackgroundEffects;
         UnlockDialog.prototype._showClock = this._original.showClock;
         this._original = null;
