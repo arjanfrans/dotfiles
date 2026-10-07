@@ -62,11 +62,19 @@ cap_resolution() {
     systemctl --user enable --now cap-resolution.service
 }
 
-lockscreen_unblur() {
-    local uuid="lockscreen-unblur@dotfiles"
+install_local_extension() {
+    local uuid=$1
     mkdir -p ~/.local/share/gnome-shell/extensions
     ln -sfn "$(realpath "$(dirname "$0")")/extensions/$uuid" ~/.local/share/gnome-shell/extensions/$uuid
     enable_extension "$uuid"
+}
+
+lockscreen_unblur() {
+    install_local_extension "lockscreen-unblur@dotfiles"
+}
+
+lockscreen_prank() {
+    install_local_extension "lockscreen-prank@dotfiles"
 }
 
 terminal_font() {
@@ -82,4 +90,5 @@ dock
 top_bar_on_all_monitors
 cap_resolution
 lockscreen_unblur
+lockscreen_prank
 terminal_font

@@ -1,0 +1,7 @@
+{
+  "uuid": "lockscreen-prank@dotfiles",
+  "name": "Lock screen prank",
+  "description": "Secret hotkey on the lock screen that shows a fake desktop and greets intruders.",
+  "shell-version": ["50"],
+  "session-modes": ["user", "unlock-dialog"]
+}
