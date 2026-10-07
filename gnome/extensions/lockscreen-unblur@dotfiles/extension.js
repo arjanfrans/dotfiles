@@ -1,27 +1,21 @@
+import Clutter from 'gi://Clutter';
 import {Extension} from 'resource:///org/gnome/shell/extensions/extension.js';
 import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import {UnlockDialog} from 'resource:///org/gnome/shell/ui/unlockDialog.js';
 
 const BRIGHTNESS = 0.65;
-// Album cover width drawn by gnome/player-wallpaper.sh (640px art at 130%)
-const COVER_WIDTH = 832;
-const MIN_MARGIN = 48;
+const BACKDROP_STYLE_CLASS = 'lockscreen-backdrop';
 
-function moveColumnLeftOfCover(dialog) {
-    const column = [dialog._stack, dialog._notificationsBox];
-    const freeWidth = (dialog.width - COVER_WIDTH) / 2;
-    const targetX = Math.max(MIN_MARGIN, (freeWidth - dialog._stack.width) / 2);
-    for (const actor of column)
-        actor.translation_x = targetX - dialog._stack.x;
+function addBackdrop(dialog) {
+    dialog._stack.add_style_class_name(BACKDROP_STYLE_CLASS);
+    dialog._clock.y_align = Clutter.ActorAlign.CENTER;
+    dialog._promptBox.y_align = Clutter.ActorAlign.CENTER;
 }
 
-function resetColumn(dialog) {
-    if (!dialog._moveLeftId)
-        return;
-    dialog._stack.disconnect(dialog._moveLeftId);
-    dialog._moveLeftId = 0;
-    dialog._stack.translation_x = 0;
-    dialog._notificationsBox.translation_x = 0;
+function removeBackdrop(dialog) {
+    dialog._stack.remove_style_class_name(BACKDROP_STYLE_CLASS);
+    dialog._clock.y_align = Clutter.ActorAlign.FILL;
+    dialog._promptBox.y_align = Clutter.ActorAlign.FILL;
 }
 
 export default class LockscreenUnblurExtension extends Extension {
@@ -38,11 +32,14 @@ export default class LockscreenUnblurExtension extends Extension {
         };
         UnlockDialog.prototype._showClock = function () {
             showClock.call(this);
-            if (!this._moveLeftId)
-                this._moveLeftId = this._stack.connect('notify::allocation', () => moveColumnLeftOfCover(this));
+            addBackdrop(this);
         };
 
-        Main.screenShield._dialog?._updateBackgroundEffects();
+        const dialog = Main.screenShield._dialog;
+        if (dialog) {
+            dialog._updateBackgroundEffects();
+            addBackdrop(dialog);
+        }
     }
 
     disable() {
@@ -53,7 +50,7 @@ export default class LockscreenUnblurExtension extends Extension {
         const dialog = Main.screenShield._dialog;
         if (dialog) {
             dialog._updateBackgroundEffects();
-            resetColumn(dialog);
+            removeBackdrop(dialog);
         }
     }
 }

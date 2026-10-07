@@ -18,10 +18,11 @@ natural_scrolling() {
 no_auto_dimming() {
     gsettings set org.gnome.settings-daemon.plugins.power idle-dim false
     gsettings set org.gnome.settings-daemon.plugins.power ambient-enabled false
+    gsettings set org.gnome.desktop.session idle-delay 900
 }
 
 pinned_apps() {
-    gsettings set org.gnome.shell favorite-apps "['google-chrome.desktop', 'brave-browser.desktop', 'org.gnome.Ptyxis.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Settings.desktop', 'screenshot.desktop', 'net.nokyan.Resources.desktop', 'spotify_spotify.desktop']"
+    gsettings set org.gnome.shell favorite-apps "['google-chrome.desktop', 'brave-browser.desktop', 'org.gnome.Ptyxis.desktop', 'jetbrains-phpstorm.desktop', 'org.gnome.Nautilus.desktop', 'org.gnome.Settings.desktop', 'screenshot.desktop', 'net.nokyan.Resources.desktop', 'spotify_spotify.desktop', 'chrome-app-fsnc.desktop', 'chrome-app-teams.desktop', 'fusonic-timetracking.desktop']"
 }
 
 dock() {

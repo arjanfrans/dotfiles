@@ -26,10 +26,6 @@ class AnimatedImage extends St.Widget {
         return this._animation.get_width() / this._animation.get_height();
     }
 
-    get playing() {
-        return this._frameTimeoutId !== 0;
-    }
-
     play() {
         this.stop();
         this._iter = this._animation.get_iter(null);
