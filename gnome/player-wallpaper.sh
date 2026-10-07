@@ -9,6 +9,7 @@ CACHE_DIR="${XDG_CACHE_HOME:-$HOME/.cache}/player-wallpaper"
 mkdir -p "$CACHE_DIR"
 BG="#1e1e1e"
 HISTORY_SIZE=5
+CAPTION_GAP=40
 
 last_track=""
 preferred_player="spotify"
@@ -62,10 +63,14 @@ render_slide() {
         convert -size "${width}x${height}" "xc:$BG" -depth 8 "$out"
         return
     fi
-    convert -size "${width}x$((height - 100))" "xc:$BG" \
-        \( "$CACHE_DIR/album-$slot.png" -resize 130% \) -gravity center -composite \
-        -gravity south -background "$BG" -fill white -pointsize 34 \
-        -splice 0x100 -annotate +0+150 "$(cat "$CACHE_DIR/caption-$slot.txt")" \
+    local cover_size=$((height * 70 / 100))
+    (( cover_size > 832 )) && cover_size=832
+    convert -size "${width}x${height}" "xc:$BG" \
+        \( "$CACHE_DIR/album-$slot.png" -resize "${cover_size}x${cover_size}" \
+           \( -size "1x$CAPTION_GAP" "xc:$BG" \) \
+           \( +size -background "$BG" -fill white -pointsize 34 label:"$(cat "$CACHE_DIR/caption-$slot.txt")" \) \
+           -background "$BG" -gravity center -append \) \
+        -gravity center -composite \
         -depth 8 "$out"
 }
 
