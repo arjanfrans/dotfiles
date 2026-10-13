@@ -20,8 +20,7 @@ def find_mode(modes, prop):
     return next(m for m in modes if m[6].get(prop))
 
 
-def best_fitting_mode(modes):
-    native = find_mode(modes, "is-preferred")
+def largest_fitting_mode(modes, native):
     same_aspect = [m for m in modes if m[1] * native[2] == m[2] * native[1] and m[1] <= MAX_WIDTH]
     return max(same_aspect, key=lambda m: (m[1], m[3]), default=None)
 
@@ -30,10 +29,7 @@ def target_mode_and_scale(modes):
     native = find_mode(modes, "is-preferred")
     if native[1] <= MAX_WIDTH:
         return None
-    integer_scales = [s for s in native[5] if s.is_integer() and native[1] / s <= MAX_WIDTH]
-    if integer_scales:
-        return native, min(integer_scales)
-    fitting = best_fitting_mode(modes)
+    fitting = largest_fitting_mode(modes, native)
     return (fitting, 1.0) if fitting else None
 
 
