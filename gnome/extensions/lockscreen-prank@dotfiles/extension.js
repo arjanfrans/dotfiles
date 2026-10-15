@@ -6,8 +6,8 @@ import * as Main from 'resource:///org/gnome/shell/ui/main.js';
 import {PrankOverlay} from './prankOverlay.js';
 
 const ASSETS_DIR = GLib.build_filenamev([GLib.get_home_dir(), '.dotfiles/private/lockscreen-prank']);
-const FALLBACK_SCREENSHOT = GLib.build_filenamev([ASSETS_DIR, 'desktop.png']);
-const MONITOR_SCREENSHOT_PATTERN = /^desktop-(.+)\.png$/;
+const MAIN_SCREENSHOT = GLib.build_filenamev([ASSETS_DIR, 'desktop.png']);
+const EXTRA_SCREENSHOT_PATTERN = /^desktop-.+\.png$/;
 const MIDDLE_FINGER = GLib.build_filenamev([ASSETS_DIR, 'middle-finger.gif']);
 const HOTKEY_KEYVALS = [Clutter.KEY_p, Clutter.KEY_P];
 const HOTKEY_MODIFIERS = Clutter.ModifierType.CONTROL_MASK | Clutter.ModifierType.MOD1_MASK;
@@ -24,15 +24,22 @@ function isIntruderInput(event) {
     return type === Clutter.EventType.KEY_PRESS || type === Clutter.EventType.MOTION;
 }
 
-function screenshotsByMonitorIndex() {
-    const monitorManager = global.backend.get_monitor_manager();
-    const screenshots = new Map();
+function extraScreenshots() {
     const enumerator = Gio.File.new_for_path(ASSETS_DIR).enumerate_children('standard::name', Gio.FileQueryInfoFlags.NONE, null);
-    for (const info of enumerator) {
-        const connector = info.get_name().match(MONITOR_SCREENSHOT_PATTERN)?.[1];
-        const index = connector ? monitorManager.get_monitor_for_connector(connector) : -1;
-        if (index >= 0)
-            screenshots.set(index, GLib.build_filenamev([ASSETS_DIR, info.get_name()]));
+    return [...enumerator]
+        .map(info => info.get_name())
+        .filter(name => EXTRA_SCREENSHOT_PATTERN.test(name))
+        .sort()
+        .map(name => GLib.build_filenamev([ASSETS_DIR, name]));
+}
+
+function screenshotsByMonitorIndex() {
+    const extras = extraScreenshots();
+    const screenshots = new Map();
+    let next = 0;
+    for (const monitor of Main.layoutManager.monitors) {
+        const isPrimary = monitor.index === Main.layoutManager.primaryIndex;
+        screenshots.set(monitor.index, isPrimary || extras.length === 0 ? MAIN_SCREENSHOT : extras[next++ % extras.length]);
     }
     return screenshots;
 }
@@ -73,7 +80,7 @@ export default class LockscreenPrankExtension extends Extension {
 
     _startPrank() {
         const screenshots = screenshotsByMonitorIndex();
-        this._overlay = new PrankOverlay(index => screenshots.get(index) ?? FALLBACK_SCREENSHOT, MIDDLE_FINGER);
+        this._overlay = new PrankOverlay(index => screenshots.get(index), MIDDLE_FINGER);
         this._overlay.add_constraint(new Clutter.BindConstraint({
             source: this._lockDialogGroup,
             coordinate: Clutter.BindCoordinate.SIZE,
