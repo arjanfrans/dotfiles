@@ -33,6 +33,17 @@ def target_mode_and_scale(modes):
     return (fitting, 1.0) if fitting else None
 
 
+def is_builtin(logical_monitor):
+    return any(entry[0].startswith("eDP") for entry in logical_monitor[5])
+
+
+def preferred_primary(config):
+    if len(config) >= 3:
+        return sorted(config, key=lambda lm: (lm[0], lm[1]))[len(config) // 2]
+    externals = [lm for lm in config if not is_builtin(lm)]
+    return externals[0] if len(config) == 2 and len(externals) == 1 else None
+
+
 def cap_resolution():
     serial, monitors, logical_monitors, _ = proxy.call_sync(
         "GetCurrentState", None, Gio.DBusCallFlags.NONE, -1, None
@@ -58,15 +69,22 @@ def cap_resolution():
             entries.append((spec[0], mode[0], {}))
         config.append([x, y, new_scale, transform, primary, entries])
 
-    if not resized:
-        return
-
     for x0, y0, (old_w, old_h), (new_w, new_h) in resized:
         for lm in config:
             if lm[0] >= x0 + old_w:
                 lm[0] += new_w - old_w
             if lm[1] >= y0 + old_h:
                 lm[1] += new_h - old_h
+
+    primary = preferred_primary(config)
+    primary_changed = primary is not None and not primary[4]
+    if primary_changed:
+        for lm in config:
+            lm[4] = lm is primary
+        print(f"primary: {primary[5][0][0]}", flush=True)
+
+    if not resized and not primary_changed:
+        return
 
     proxy.call_sync(
         "ApplyMonitorsConfig",
