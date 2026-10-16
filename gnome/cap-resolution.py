@@ -25,12 +25,9 @@ def largest_fitting_mode(modes, native):
     return max(same_aspect, key=lambda m: (m[1], m[3]), default=None)
 
 
-def target_mode_and_scale(modes):
+def capped_mode(modes):
     native = find_mode(modes, "is-preferred")
-    if native[1] <= MAX_WIDTH:
-        return None
-    fitting = largest_fitting_mode(modes, native)
-    return (fitting, 1.0) if fitting else None
+    return largest_fitting_mode(modes, native) if native[1] > MAX_WIDTH else None
 
 
 def is_builtin(logical_monitor):
@@ -54,20 +51,18 @@ def cap_resolution():
     resized = []
 
     for x, y, scale, transform, primary, specs, _ in logical_monitors:
-        new_scale = scale
+        mirrored = len(specs) > 1
         entries = []
         for spec in specs:
             modes = modes_by_connector[spec[0]]
-            mode = find_mode(modes, "is-current")
-            target = target_mode_and_scale(modes) if spec[0].startswith("eDP") else None
-            if target and (target[0][0], target[1]) != (mode[0], scale):
-                old_size = (round(mode[1] / scale), round(mode[2] / scale))
-                mode, new_scale = target
-                new_size = (round(mode[1] / new_scale), round(mode[2] / new_scale))
-                resized.append((x, y, old_size, new_size))
-                print(f"{spec[0]}: {mode[0]} @ scale {new_scale:.2f}", flush=True)
+            current = find_mode(modes, "is-current")
+            mode = current if mirrored else capped_mode(modes) or current
             entries.append((spec[0], mode[0], {}))
-        config.append([x, y, new_scale, transform, primary, entries])
+        if mode is not current or scale != 1.0:
+            old_size = (round(current[1] / scale), round(current[2] / scale))
+            resized.append((x, y, old_size, (mode[1], mode[2])))
+            print(f"{', '.join(spec[0] for spec in specs)}: {mode[0]} @ scale 1", flush=True)
+        config.append([x, y, 1.0, transform, primary, entries])
 
     for x0, y0, (old_w, old_h), (new_w, new_h) in resized:
         for lm in config:
