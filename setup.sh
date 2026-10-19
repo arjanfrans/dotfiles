@@ -56,6 +56,7 @@ run ./scripts/nvim.sh
 run ./scripts/mssh.sh
 run ./scripts/docker.sh
 run ./scripts/postgresql-client.sh
+run ./scripts/mysql-client.sh
 run ./scripts/spotify.sh
 run ./scripts/claude.sh
 
