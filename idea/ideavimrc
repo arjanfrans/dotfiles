@@ -31,3 +31,4 @@ sethandler <C-v> a:ide
 sethandler <C-x> a:ide
 sethandler <C-a> a:ide
 sethandler <C-e> a:ide
+sethandler <C-m> a:ide
