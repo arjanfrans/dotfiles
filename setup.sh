@@ -27,9 +27,6 @@ echo "==> git submodule update --init --recursive"
 if git submodule update --init --recursive; then
     link "$DOTFILES/private/CLAUDE.md" ~/.claude/CLAUDE.md
     link "$DOTFILES/private/settings.json" ~/.claude/settings.json
-    for skill in "$DOTFILES"/private/skills/*/; do
-        link "${skill%/}" ~/.claude/skills/"$(basename "$skill")"
-    done
 else
     echo "Could not clone the private repo. Add your SSH key to GitHub, then run:"
     echo "  git -C $DOTFILES submodule update --init --recursive"
