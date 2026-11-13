@@ -25,13 +25,11 @@ run ./scripts/glab.sh
 # Private submodule (needs an SSH key registered with GitHub)
 echo "==> git submodule update --init --recursive"
 if git submodule update --init --recursive; then
-    link "$DOTFILES/private/CLAUDE.md" ~/.claude/CLAUDE.md
-    link "$DOTFILES/private/settings.json" ~/.claude/settings.json
+    run ./private/claude/config.sh
 else
     echo "Could not clone the private repo. Add your SSH key to GitHub, then run:"
     echo "  git -C $DOTFILES submodule update --init --recursive"
-    echo "  ln -sfn $DOTFILES/private/CLAUDE.md ~/.claude/CLAUDE.md"
-    echo "  ln -sfn $DOTFILES/private/settings.json ~/.claude/settings.json"
+    echo "  $DOTFILES/private/claude/config.sh"
     FAILED+=("git submodule update --init --recursive")
 fi
 
@@ -54,8 +52,9 @@ run ./scripts/mssh.sh
 run ./scripts/docker.sh
 run ./scripts/postgresql-client.sh
 run ./scripts/mysql-client.sh
+run ./scripts/htop.sh
 run ./scripts/spotify.sh
-run ./scripts/claude.sh
+[ -x ./private/claude/install.sh ] && run ./private/claude/install.sh
 
 # Copy config files
 GIT_NAME="$(git config --global user.name)"
