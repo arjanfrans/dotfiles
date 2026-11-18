@@ -57,21 +57,16 @@ run ./scripts/spotify.sh
 [ -x ./private/claude/install.sh ] && run ./private/claude/install.sh
 
 # Copy config files
-GIT_NAME="$(git config --global user.name)"
-GIT_EMAIL="$(git config --global user.email)"
-if [ -e ~/.gitconfig ]; then
-    read -rp "Overwrite ~/.gitconfig? [y/N]: " input
-    [[ "$input" =~ ^[Yy] ]] && cp "$DOTFILES/git/gitconfig" ~/.gitconfig
-else
-    cp "$DOTFILES/git/gitconfig" ~/.gitconfig
-fi
-sudo cp "$DOTFILES/sysctl/99-sysctl_idea.conf" /etc/sysctl.d/99-sysctl_idea.conf
-sudo cp "$DOTFILES/sysctl/99-sysctl_elasticsearch.conf" /etc/sysctl.d/99-sysctl_elasticsearch.conf
+GIT_NAME="$(git config --global --includes user.name)"
+GIT_EMAIL="$(git config --global --includes user.email)"
+for conf in "$DOTFILES"/sysctl/*.conf; do
+    run sudo cp "$conf" /etc/sysctl.d/
+done
 run sudo sysctl --system
 
 # Symlinks
 link "$DOTFILES/fonts" ~/.local/share/fonts
-link "$DOTFILES/xorg/xinitrc" ~/.xinitrc
+link "$DOTFILES/git/gitconfig" ~/.gitconfig
 link "$DOTFILES/applications/screenshot.desktop" ~/.local/share/applications/screenshot.desktop
 link "$DOTFILES/zsh/zshrc" ~/.zshrc
 link "$DOTFILES/nvim" ~/.config/nvim
@@ -97,8 +92,8 @@ fi
 # Git identity
 read -rp "Git name [$GIT_NAME]: " input && GIT_NAME="${input:-$GIT_NAME}"
 read -rp "Git email [$GIT_EMAIL]: " input && GIT_EMAIL="${input:-$GIT_EMAIL}"
-git config --global user.name "$GIT_NAME"
-git config --global user.email "$GIT_EMAIL"
+git config --file ~/.gitconfig.local user.name "$GIT_NAME"
+git config --file ~/.gitconfig.local user.email "$GIT_EMAIL"
 
 if [ ${#FAILED[@]} -gt 0 ]; then
     echo

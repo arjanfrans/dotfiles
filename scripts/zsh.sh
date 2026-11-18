@@ -1,4 +1,5 @@
 #!/bin/bash
+set -euo pipefail
 
 # 1. Install zsh
 # Installs the Z shell using apt-get

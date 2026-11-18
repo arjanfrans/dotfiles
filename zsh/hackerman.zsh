@@ -1,3 +1,4 @@
+# Fake "hacking" screen: green theme and random log, hex and IP floods
 hackerman() {
     theme greenscreen.dark  # Set theme to green
 
@@ -42,7 +43,7 @@ hackerman() {
             line=""
             for _ in {1..40}; do
                 index=$((RANDOM % ${#chars}))  # Generate a valid random index
-                line+="${chars:index:1} "     # Correct substring extraction
+                line+="${chars:$index:1} "     # Correct substring extraction
             done
             echo -e "\033[32m$line\033[0m"
             sleep 0.05
@@ -87,7 +88,9 @@ hackerman() {
         end=$((SECONDS + duration))
 
         while [ $SECONDS -lt $end ]; do
-            echo -e "\033[32m$(head /dev/urandom | tr -dc "$chars" | head -c $((RANDOM % 100 + 80)))\033[0m"
+            line=""
+            repeat $((RANDOM % 100 + 80)) line+="${chars:$((RANDOM % ${#chars})):1}"
+            echo -e "\033[32m$line\033[0m"
             sleep 0.03
         done
     }

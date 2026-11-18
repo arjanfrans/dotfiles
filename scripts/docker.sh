@@ -1,4 +1,7 @@
-OLD_PACKAGES=$(dpkg --get-selections docker.io docker-compose docker-compose-v2 docker-doc docker-buildx podman-docker containerd runc 2>/dev/null | cut -f1)
+#!/usr/bin/env bash
+set -euo pipefail
+
+OLD_PACKAGES=$(dpkg --get-selections docker.io docker-compose docker-compose-v2 docker-doc docker-buildx podman-docker containerd runc 2>/dev/null | cut -f1 || true)
 if [ -n "$OLD_PACKAGES" ]; then
     sudo apt remove -y $OLD_PACKAGES
 fi

@@ -1,7 +1,5 @@
 local map = vim.keymap.set
 
-map('n', '<F12>', '<Cmd>set paste!<CR>')
-
 map('n', 'n', "'Nn'[v:searchforward].'zz'", { expr = true })
 map('n', 'N', "'nN'[v:searchforward].'zz'", { expr = true })
 map('n', 'G', 'Gzz')

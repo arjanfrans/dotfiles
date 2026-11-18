@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
 VERSION="2025.3.2.6"
 NAME="panda2"
 ARCHIVE="android-studio-${NAME}-linux.tar.gz"

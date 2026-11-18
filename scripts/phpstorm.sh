@@ -1,3 +1,6 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
 ARCHIVE="phpstorm.tar.gz"
 INSTALL_DIR="$HOME/.local/phpstorm"
 

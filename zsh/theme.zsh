@@ -1,3 +1,4 @@
+# Set the Ptyxis palette for all profiles. Usage: ptyxis_palette <palette> <light|dark>
 # Ptyxis ignores background escape codes, so switch its palette for all windows instead
 ptyxis_palette() {
     local uuid
@@ -7,7 +8,7 @@ ptyxis_palette() {
     gsettings set org.gnome.Ptyxis interface-style "$2"
 }
 
-# Load a specific theme
+# Load a base16 theme. Usage: theme <name.dark|name.light> | theme list | theme current
 theme() {
     if [ "$1" = "list" ]; then
         ls "$HOME/.dotfiles/colorschemes/base16-builder/output/shell"
@@ -48,7 +49,7 @@ theme() {
     fi
 }
 
-# Load a random theme
+# Load a random base16 theme. Usage: theme_random <light|dark>
 theme_random() {
     if [ "$1" != "light" ] && [ "$1" != "dark" ]; then
         echo "Usage: theme_random <light|dark>"

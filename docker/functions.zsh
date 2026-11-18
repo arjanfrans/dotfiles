@@ -1,21 +1,14 @@
+# Open a bash shell in a Node LTS container with the current dir mounted. Usage: docker_node <port>
 docker_node() {
     docker run --rm -it \
         -p "${1}:${1}" \
         --workdir /usr/app \
         --volume "${PWD}":"/usr/app" \
-        node:16 \
+        node:lts \
         /bin/bash
 }
 
-docker_php() {
-    docker run --rm -it \
-        -p "${1}:${1}" \
-        --workdir /usr/app \
-        --volume "${PWD}":"/usr/app" \
-        php:8.0-cli \
-        /bin/bash
-}
-
+# Build the PHP CLI image with Xdebug (for PhpStorm) and open a bash shell in it with the current dir mounted
 docker_php() {
     PHP_VERSION=8
     IP_ADDRESS=`ip -o route get to 8.8.8.8 | sed -n 's/.*src \([0-9.]\+\).*/\1/p'`
@@ -31,6 +24,7 @@ docker_php() {
         /bin/bash arjan-php-cli
 }
 
+# Take ownership of everything in the current dir (fixes root-owned files created by containers)
 i_own_this() {
     sudo chown -R `whoami`:`whoami` .
 }
