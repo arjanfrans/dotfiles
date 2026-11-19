@@ -1,11 +1,16 @@
 #!/usr/bin/python3
+import json
 import sys
+from pathlib import Path
 
 from gi.repository import Gio, GLib
 
 MAX_WIDTH = 2000
 PERSISTENT = 2
 SETTLE_MS = 1000
+LAYOUTS_FILE = Path(GLib.get_user_state_dir()) / "cap-resolution" / "layouts.json"
+
+last_layout_key = None
 
 proxy = Gio.DBusProxy.new_for_bus_sync(
     Gio.BusType.SESSION, Gio.DBusProxyFlags.NONE, None,
@@ -41,12 +46,55 @@ def preferred_primary(config):
     return externals[0] if len(config) == 2 and len(externals) == 1 else None
 
 
+def load_layouts():
+    try:
+        return json.loads(LAYOUTS_FILE.read_text())
+    except (OSError, ValueError):
+        return {}
+
+
+def save_layout(key, layout):
+    layouts = load_layouts()
+    if layouts.get(key) == layout:
+        return
+    layouts[key] = layout
+    LAYOUTS_FILE.parent.mkdir(parents=True, exist_ok=True)
+    LAYOUTS_FILE.write_text(json.dumps(layouts, indent=2))
+
+
+def logical_monitor_id(lm, ids_by_connector):
+    return ",".join(sorted(ids_by_connector[entry[0]] for entry in lm[5]))
+
+
+def effective_primary(config):
+    primaries = [lm for lm in config if lm[4]]
+    return next((lm for lm in primaries if not is_builtin(lm)), primaries[0] if primaries else None)
+
+
+def current_layout(config, ids_by_connector):
+    primary = effective_primary(config)
+    return {logical_monitor_id(lm, ids_by_connector): [lm[0], lm[1], lm is primary] for lm in config}
+
+
+def restore_layout(config, saved, ids_by_connector):
+    changed = False
+    for lm in config:
+        x, y, primary = saved[logical_monitor_id(lm, ids_by_connector)]
+        if [lm[0], lm[1]] != [x, y] or (primary and not lm[4]):
+            changed = True
+        lm[0], lm[1], lm[4] = x, y, primary
+    if changed:
+        print("restored saved layout", flush=True)
+    return changed
+
+
 def cap_resolution():
     serial, monitors, logical_monitors, _ = proxy.call_sync(
         "GetCurrentState", None, Gio.DBusCallFlags.NONE, -1, None
     ).unpack()
 
     modes_by_connector = {spec[0]: modes for spec, modes, _ in monitors}
+    ids_by_connector = {spec[0]: ":".join(spec[1:4]) for spec, _, _ in monitors}
     config = []
     resized = []
 
@@ -71,14 +119,26 @@ def cap_resolution():
             if lm[1] >= y0 + old_h:
                 lm[1] += new_h - old_h
 
-    primary = preferred_primary(config)
-    primary_changed = primary is not None and not primary[4]
-    if primary_changed:
-        for lm in config:
-            lm[4] = lm is primary
-        print(f"primary: {primary[5][0][0]}", flush=True)
+    global last_layout_key
+    key = "|".join(sorted(logical_monitor_id(lm, ids_by_connector) for lm in config))
+    monitors_changed = key != last_layout_key
+    last_layout_key = key
+    saved = load_layouts().get(key)
+    layout_changed = False
 
-    if not resized and not primary_changed:
+    if monitors_changed and saved and set(saved) == set(current_layout(config, ids_by_connector)):
+        layout_changed = restore_layout(config, saved, ids_by_connector)
+    elif monitors_changed:
+        primary = preferred_primary(config)
+        layout_changed = primary is not None and not primary[4]
+        if layout_changed:
+            for lm in config:
+                lm[4] = lm is primary
+            print(f"primary: {primary[5][0][0]}", flush=True)
+
+    save_layout(key, current_layout(config, ids_by_connector))
+
+    if not resized and not layout_changed:
         return
 
     proxy.call_sync(
